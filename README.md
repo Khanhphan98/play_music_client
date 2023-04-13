@@ -1,2 +1,2 @@
-# play_music-client
+# play-music-client
  Play Music Client + Vue + TS
