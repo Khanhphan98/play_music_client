@@ -45,14 +45,14 @@ axiosInstance.interceptors.response.use(
         });
         const responseData = response.data as IDataResponse;
         const { access_token } = responseData.data;
-        localStorage.setItem('accessToken', access_token);
+        localStorage.setItem('access_token', access_token);
         onRefreshed(access_token);
 
         return axiosInstance(originalRequest);
       } catch (error) {
         // Refresh token has expired or invalid
-        localStorage.removeItem('accessToken');
-        localStorage.removeItem('refreshToken');
+        localStorage.removeItem('access_token');
+        localStorage.removeItem('refresh_token');
         location.reload();
       } finally {
         isRefreshing = false;

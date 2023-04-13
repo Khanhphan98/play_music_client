@@ -61,5 +61,7 @@
       "regex_database_name": "Trường tên Cơ sở dữ liệu chỉ chứa các ký tự chữ và số, độ dài từ 6 đến 20 ký tự, không chứa khoảng trắng"
     }
   },
-  "page_login_footer": "© 2023 Play music"
+  "page_login_footer": "© 2023 Play music",
+  "routemetatitle": "Chưa có Page title",
+  "list_profession": "Danh sách nghề nghiệp"
 }

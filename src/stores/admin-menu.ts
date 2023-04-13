@@ -26,81 +26,21 @@ export const useAdminMenuStore = defineStore('adminMenu', {
       },
       {
         icon: 'User',
-        pageName: 'admin-menu-users',
+        pageName: 'admin-menu-profession',
         title: 'User Account',
         i18nkey: 'users',
         subMenu: [
           {
             icon: 'UserPlus',
-            pageName: 'admin-menu-users-new-account',
+            pageName: 'admin-menu-users-new-profession',
             title: 'New Account',
             i18nkey: 'newaccount',
           },
           {
             icon: 'Users',
-            pageName: 'admin-menu-users-list-account',
+            pageName: 'admin-menu-users-list-profession',
             title: 'List Account',
             i18nkey: 'listaccount',
-          },
-          {
-            icon: 'ListChecks',
-            pageName: 'admin-menu-users-list-acl',
-            title: 'List ACL',
-            i18nkey: 'listacl',
-          },
-        ],
-      },
-      {
-        icon: 'Package',
-        pageName: 'admin-menu-packages',
-        title: 'Packages',
-        i18nkey: 'packages',
-        subMenu: [
-          {
-            icon: 'Boxes',
-            pageName: 'admin-menu-packages-list',
-            title: 'packages_list',
-            i18nkey: 'packagelist',
-          },
-          {
-            icon: 'LayoutTemplate',
-            pageName: 'admin-menu-packages-template',
-            title: 'packages_template',
-            i18nkey: 'packagetemplate',
-          },
-        ],
-      },
-      {
-        icon: 'Database',
-        pageName: 'admin-menu-database',
-        title: 'SQL Services',
-        i18nkey: 'sqlservices',
-        subMenu: [
-          {
-            icon: 'ChevronRight',
-            pageName: 'admin-menu-mysql-manager',
-            title: 'MySQL Manager',
-            i18nkey: 'mysqlmanager',
-          },
-        ],
-      },
-      {
-        icon: 'Wrench',
-        pageName: 'admin-menu-cwp-settings',
-        title: 'CWP Settings',
-        i18nkey: 'cwpsettings',
-        subMenu: [
-          {
-            icon: 'Minus',
-            pageName: 'admin-menu-ip-manager',
-            title: 'IP Manager',
-            i18nkey: 'ipmanager',
-          },
-          {
-            icon: 'Minus',
-            pageName: 'admin-menu-ip-group-manager',
-            title: 'IP Group Manager',
-            i18nkey: 'ipgroupmanager',
           },
         ],
       },

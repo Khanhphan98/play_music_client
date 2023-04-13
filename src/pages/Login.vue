@@ -14,6 +14,7 @@
   import AlertCustom from '@/base-components/iCustom/AlertCustom.vue';
   import LoadingIcon from '@/base-components/LoadingIcon/LoadingIcon.vue';
   import { UserStore } from '@/stores/user-store';
+  import { IUser } from '@/model/interface/IUser';
   //Store
   const userStore = UserStore();
   //Variables
@@ -40,7 +41,11 @@
   const submitLogin = handleSubmit(async (values) => {
     await new Promise((resolve) => setTimeout(resolve, defaultTimeoutSubmit));
     await tryCallRequest(async () => {
-      await userStore.login(values);
+      // init vlue
+      const request = { username: values.username, password: values.password } as IUser;
+      // call api
+      await userStore.login(request);
+      // reset form
       handleReset();
     });
   });
