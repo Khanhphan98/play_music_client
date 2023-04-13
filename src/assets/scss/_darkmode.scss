@@ -1,0 +1,21 @@
+@import "colors";
+.i-panel.dark {
+  ::-webkit-scrollbar-track {
+    background-color: get-color(slate, 700);
+  }
+  ::-webkit-scrollbar-thumb {
+    background-color: rgba(white, .25);
+    &:hover {
+      background-color: rgba(white, .3);
+    }
+  }
+  input {
+    &.focus\:ring-4:focus {
+      box-shadow: 0 0 0 3px rgba(get-color(primary), .5);
+      border-color: rgba(get-color(primary), .89);
+    }
+  }
+  select {
+    @extend input;
+  }
+}

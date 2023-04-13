@@ -1,0 +1,93 @@
+@use "sass:map";
+//TigerBui custom color
+$grey: #989898;
+$white: #FFF;
+$black: #212529;
+
+//TigerBui - Sử dụng mã mầu schemecolor.com/blue-with-red.php tại thời điểm Ngày 6/4/2022
+$primary-color: #0B9ED9;
+$primary-color-two: #BF4124;
+$primary-color-three: #D90D58;
+$primary-color-four: #F2138E;
+$primary-color-five: #05DBF2;
+$primary-color-dark: #000000;
+$red-primary-color: #FF4949;
+$red-primary-color-dark: #DD1717;
+
+$lighten: 8;
+$darken: 25;
+$colors: (
+        primary: (
+                base: $primary-color,
+                two: $primary-color-two,
+                three: $primary-color-three,
+                four: $primary-color-four,
+                five: $primary-color-five,
+                red-light: $red-primary-color,
+                dark: $primary-color-dark,
+                red-dark: $red-primary-color-dark,
+                grey: $grey
+        ),
+        purple: (
+                900: rgb(88 28 135),
+                800: rgb(107 33 168),
+                700: rgb(126 34 206),
+                600: rgb(147 51 234),
+                500: rgb(168 85 247),
+                400: rgb(192 132 252)
+        ),
+        blue: (
+                900: rgb(30 58 138),
+                800: rgb(30 64 175),
+                700: rgb(29 78 216),
+                600: rgb(37 99 235),
+                500: rgb(59 130 246),
+                400: rgb(96 165 250),
+                100: rgb(219 234 254)
+        ),
+        violet: (
+                500: #a855f7,
+                600: #7c3aed
+        ),
+        green: (
+                300: #86efac,
+                500: #22c55e,
+                600: #16a34a,
+                700: #15803d,
+                800: #166534,
+                900: #14532d
+        ),
+        gray: (
+                100: #f3f4f6,
+                200: #e5e7eb,
+                300: #d1d5db,
+                400: #9ca3af,
+                500: #6b7280,
+                600: #4b5563,
+                700: #374151
+        ),
+        slate: (
+                100: #f1f5f9,
+                200: #e2e8f0,
+                300: #cbd5e1,
+                400: #94a3b8,
+                500: #64748b,
+                600: #475569,
+                700: #334155,
+                800: #1e293b,
+                900: #0f172a
+        ),
+        darkmode: (
+                300: rgb(53, 69, 103),
+                600: rgb(40, 51, 78)
+        ),
+        onemail: (
+                green: #42c98b,
+                orange: #f9ae16
+        )
+);
+
+@function get-color($base: primary, $shade: base) {
+  $color: map.get(map.get($colors, $base), $shade);
+  @return $color;
+}
