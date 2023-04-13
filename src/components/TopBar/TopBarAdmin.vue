@@ -9,15 +9,11 @@
   import _ from 'lodash';
   import { TransitionRoot, PopoverButton } from '@headlessui/vue';
   import Button from '@/base-components/Button';
-  import { AccountStore } from '@/stores/account-store';
   import router from '@/router';
-  import { IAccount } from '@/model/interface/IAccount';
   import { LocaleStore } from '@/stores/locale-store';
   const languageMode = ref(localStorage.getItem('locale'));
   const searchDropdown = ref(false);
-  const accountStore = AccountStore();
   const localeStore = LocaleStore();
-  const myAccount = computed(() => accountStore.myAccount as IAccount);
   const showSearchDropdown = () => {
     searchDropdown.value = true;
   };
@@ -38,10 +34,7 @@
     return brPath;
   }
 
-  async function actionLogout() {
-    accountStore.actionRemoveToken();
-    await router.push('/login');
-  }
+  async function actionLogout() {}
 </script>
 
 <template>
@@ -121,8 +114,7 @@
                   <div class="ml-3">Mail Settings</div>
                 </a>
                 <a href="" class="flex items-center mt-2">
-                  <div
-                    class="flex items-center justify-center w-8 h-8 rounded-full bg-pending/10 text-pending">
+                  <div class="flex items-center justify-center w-8 h-8 rounded-full bg-pending/10 text-pending">
                     <Lucide icon="Users" class="w-4 h-4" />
                   </div>
                   <div class="ml-3">Users & Permissions</div>
@@ -143,10 +135,7 @@
                   href=""
                   class="flex items-center mt-2">
                   <div class="w-8 h-8 image-fit">
-                    <img
-                      alt="Midone Tailwind HTML Admin Template"
-                      class="rounded-full"
-                      :src="faker.photos[0]" />
+                    <img alt="Midone Tailwind HTML Admin Template" class="rounded-full" :src="faker.photos[0]" />
                   </div>
                   <div class="ml-3">{{ faker.users[0].name }}</div>
                   <div class="w-48 ml-auto text-xs text-right truncate text-slate-500">
@@ -161,10 +150,7 @@
                 href=""
                 class="flex items-center mt-2">
                 <div class="w-8 h-8 image-fit">
-                  <img
-                    alt="Midone Tailwind HTML Admin Template"
-                    class="rounded-full"
-                    :src="faker.images[0]" />
+                  <img alt="Midone Tailwind HTML Admin Template" class="rounded-full" :src="faker.images[0]" />
                 </div>
                 <div class="ml-3">{{ faker.products[0].name }}</div>
                 <div class="w-48 ml-auto text-xs text-right truncate text-slate-500">
@@ -233,24 +219,14 @@
         </Menu.Button>
         <Menu.Items class="w-56 mt-px text-white bg-primary">
           <Menu.Header class="font-normal">
-            <div class="font-medium">{{ myAccount.email }}</div>
-            <div class="text-xs text-white/70 mt-0.5 dark:text-slate-500">
-              {{ myAccount.username }}
-            </div>
+            <div class="font-medium">Khanh Phan</div>
+            <div class="text-xs text-white/70 mt-0.5 dark:text-slate-500">Khanh Phan</div>
           </Menu.Header>
           <Menu.Divider class="bg-white/[0.08]" />
-          <Menu.Item class="hover:bg-white/5">
-            <Lucide icon="User" class="w-4 h-4 mr-2" /> Profile
-          </Menu.Item>
-          <Menu.Item class="hover:bg-white/5">
-            <Lucide icon="Edit" class="w-4 h-4 mr-2" /> Add Account
-          </Menu.Item>
-          <Menu.Item class="hover:bg-white/5">
-            <Lucide icon="Lock" class="w-4 h-4 mr-2" /> Reset Password
-          </Menu.Item>
-          <Menu.Item class="hover:bg-white/5">
-            <Lucide icon="HelpCircle" class="w-4 h-4 mr-2" /> Help
-          </Menu.Item>
+          <Menu.Item class="hover:bg-white/5"> <Lucide icon="User" class="w-4 h-4 mr-2" /> Profile </Menu.Item>
+          <Menu.Item class="hover:bg-white/5"> <Lucide icon="Edit" class="w-4 h-4 mr-2" /> Add Account </Menu.Item>
+          <Menu.Item class="hover:bg-white/5"> <Lucide icon="Lock" class="w-4 h-4 mr-2" /> Reset Password </Menu.Item>
+          <Menu.Item class="hover:bg-white/5"> <Lucide icon="HelpCircle" class="w-4 h-4 mr-2" /> Help </Menu.Item>
           <Menu.Divider class="bg-white/[0.08]" />
           <Menu.Item class="hover:bg-white/5" @click="actionLogout">
             <Lucide icon="ToggleRight" class="w-4 h-4 mr-2" />
@@ -261,9 +237,7 @@
     </div>
   </div>
   <!-- END: Top Bar -->
-  <div
-    class="p-3.5 bg-gradient-to-b from-slate-200 dark:from-darkmode-800 rounded-b-md"
-    v-if="$route.fullPath !== '/'">
+  <div class="p-3.5 bg-gradient-to-b from-slate-200 dark:from-darkmode-800 rounded-b-md" v-if="$route.fullPath !== '/'">
     <!-- BEGIN: Breadcrumb -->
     <Breadcrumb class="hidden mr-auto -intro-x sm:flex">
       <Breadcrumb.Link to="/">

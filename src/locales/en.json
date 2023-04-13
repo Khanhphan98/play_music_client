@@ -4,5 +4,62 @@
   "language": "en",
   "email": "Email",
   "username": "Username",
-  "password": "Password"
+  "password": "Password",
+  "button": {
+    "login": "Đăng nhập",
+    "logout": "Đăng xuất",
+    "create": "Tạo",
+    "save": "Lưu",
+    "delete": "Xóa {name}",
+    "change": "Thay đổi {name}",
+    "cancel": "Bỏ qua",
+    "close": "Đóng",
+    "more": "Thêm",
+    "confirm": "Đồng ý"
+  },
+  "alert": {
+    "title": {
+      "error": "Failed!",
+      "success": "Success!",
+      "warning": "Warning"
+    },
+    "content": {
+      "error": "Data failed",
+      "success": "Data success",
+      "warning": "Data Warning",
+      "loading": "Data loading"
+    },
+    "messages": {
+      "alpha": "The {field} field may only contain alphabetic characters",
+      "alpha_num": "The {field} field may only contain alpha-numeric characters",
+      "alpha_dash": "The {field} field may contain alpha-numeric characters as well as dashes and underscores",
+      "alpha_spaces": "The {field} field may only contain alphabetic characters as well as spaces",
+      "between": "The {field} field must be between {min} and {max}",
+      "confirmed": "The {field} field confirmation does not match {target}",
+      "digits": "The {field} field must be numeric and exactly contain {length} digits",
+      "dimensions": "The {field} field must be {width} pixels by {height} pixels",
+      "email": "The {field} field must be a valid email",
+      "not_one_of": "The {field} field is not a valid value",
+      "ext": "The {field} field is not a valid file",
+      "image": "The {field} field must be an image",
+      "integer": "The {field} field must be an integer",
+      "length": "The {field} field must be {length} long",
+      "max_value": "The {field} field must be {max} or less",
+      "max": "The {field} field may not be greater than {length} characters",
+      "mimes": "The {field} field must have a valid file type",
+      "min_value": "The {field} field must be {min} or more",
+      "min": "The {field} field must be at least {length} characters",
+      "numeric": "The {field} field may only contain numeric characters",
+      "one_of": "The {field} field is not a valid value",
+      "regex": "The {field} field format is invalid",
+      "required_if": "The {field} field is required",
+      "required": "The {field} field is required",
+      "size": "The {field} field size must be less than {size}KB",
+      "url": "The {field} field is not a valid URL",
+      "regex_password": "Password field at least 8 - 32 characters, 1 uppercase, 1 number, 1 special",
+      "regex_username": "Username field contains only alphanumeric characters and \"_\" or \"-\", length from 1 to 16 characters, no spaces",
+      "regex_database_name": "The Database name field contains only alphanumeric characters and \"_\", between 6 and 20 characters in length, with no spaces"
+    }
+  },
+  "page_login_footer": "© 2023 Play music"
 }

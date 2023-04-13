@@ -1,6 +1,6 @@
 html {
   scroll-behavior: smooth;
-  background-color: theme("colors.primary");
+  background-image: linear-gradient(to right, rgb(18, 194, 233), rgb(158, 36, 218), rgb(236, 51, 62));
   &.dark {
     background-color: theme("colors.darkmode.800");
     body {

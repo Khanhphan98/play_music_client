@@ -4,5 +4,62 @@
   "language": "vi",
   "email": "Địa chỉ email",
   "username": "Tài khoản",
-  "password": "Mật khẩu"
+  "password": "Mật khẩu",
+  "button": {
+    "login": "Đăng nhập",
+    "logout": "Đăng xuất",
+    "create": "Tạo",
+    "save": "Lưu",
+    "delete": "Xóa {name}",
+    "change": "Thay đổi {name}",
+    "cancel": "Bỏ qua",
+    "close": "Đóng",
+    "more": "Thêm",
+    "confirm": "Đồng ý"
+  },
+  "alert": {
+    "title": {
+      "error": "Tải thất bại!",
+      "success": "Tải thành công!",
+      "warning": "Cảnh báo"
+    },
+    "content": {
+      "error": "Kiểm tra lại dữ liệu",
+      "success": "Dữ liệu đã được tải",
+      "warning": "Cảnh báo",
+      "loading": "Dữ liệu đang được tải"
+    },
+    "messages": {
+      "alpha": "{field} chỉ có thể chứa các kí tự chữ",
+      "alpha_dash": "{field} có thể chứa các kí tự chữ (A-Z a-z), số (0-9), gạch ngang (-) và gạch dưới (_)",
+      "alpha_num": "{field} chỉ có thể chứa các kí tự chữ và số",
+      "alpha_spaces": "{field} chỉ có thế chứa các kí tự và khoảng trắng",
+      "between": "{field} phải có giá trị nằm trong khoảng giữa {min} và {max}",
+      "confirmed": "{field} khác với {target}",
+      "digits": "Trường {field} chỉ có thể chứa các kí tự số và bắt buộc phải có độ dài là {length}",
+      "dimensions": "{field} phải có chiều rộng 0:{width} pixels và chiều cao {height} pixels",
+      "email": "{field} phải là một địa chỉ email hợp lệ",
+      "not_one_of": "{field} phải chứa một giá trị hợp lệ",
+      "ext": "{field} phải là một tệp",
+      "image": "Trường {field} phải là một ảnh",
+      "integer": "{field} phải là kiểu số nguyên",
+      "length": "{field} phải có {length} kí tự",
+      "one_of": "{field} phải là một giá trị",
+      "max": "{field} không thể có nhiều hơn {length} kí tự",
+      "max_value": "{field} phải nhỏ hơn hoặc bằng {max}",
+      "mimes": "{field} phải chứa kiểu tệp phù hợp",
+      "min": "{field} phải chứa ít nhất {length} kí tự",
+      "min_value": "{field} phải lớn hơn hoặc bằng {min}",
+      "numeric": "{field} chỉ có thể có các kí tự số",
+      "regex": "{field} có định dạng không đúng",
+      "required": "{field} là bắt buộc",
+      "required_if": "{field} là bắt buộc",
+      "size": "{field} chỉ có thể chứa tệp nhỏ hơn {size}KB",
+      "url": "{field} không phải là URL",
+      "regex_password": "Trường mật khẩu ít nhất 8 - 32 ký tự, 1 viết hoa , 1 số, 1 đặc biệt",
+      "regex_username": "Trường tên tài khoản chỉ chứa các ký tự chữ và số và dấu \"_\" hoặc \"-\", độ dài từ 1 đến 16 ký tự, không chứa khoảng trắng",
+      "regex_database_name": "Trường tên Cơ sở dữ liệu chỉ chứa các ký tự chữ và số, độ dài từ 6 đến 20 ký tự, không chứa khoảng trắng"
+    }
+  },
+  "page_login_footer": "© 2023 Play music"
 }

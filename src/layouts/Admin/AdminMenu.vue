@@ -15,12 +15,8 @@
   import Tippy from '@/base-components/Tippy/Tippy.vue';
   import NotificationToastify from '@/base-components/iCustom/NotificationCustom/Main.vue';
   import { FormSelect } from '@/base-components/Form';
-  import { AccountStore } from '@/stores/account-store';
-  import { IAccount } from '@/model/interface/IAccount';
 
   const route = useRoute();
-  const accountStore = AccountStore();
-  const myAccount = computed(() => accountStore.myAccount as IAccount);
   const formattedMenu = reactive<Array<FormattedMenu | 'divider'>>([]);
   const setFormattedMenu = (computedFormattedMenu: Array<FormattedMenu | 'divider'>) => {
     Object.assign(formattedMenu, computedFormattedMenu);
