@@ -67,5 +67,10 @@
   "list_profession": "Danh sách nghề nghiệp",
   "profession": "Nghề nghiệp",
   "action": "Hành động",
-  "enter": "Nhập {name}"
+  "enter": "Nhập {name}",
+  "are_you_sure": "Bạn chắc chắn muốn {action} không?",
+  "are_you_sure_1": "Bạn có thực sự muốn {action} này?",
+  "are_you_sure_2": "Quá trình này không thể hoàn tác.",
+  "delete": "Xoá {name}",
+  "change": "Thay đổi {name}"
 }

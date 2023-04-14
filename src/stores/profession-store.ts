@@ -26,11 +26,27 @@ export const ProfessionStore = defineStore('professionStore', () => {
     await professionService.save(request);
   }
 
+  async function update(profession: IProfession) {
+    // init value
+    const request = { id: profession.id, name: profession.name } as IProfession;
+    // call request
+    await professionService.update(request);
+  }
+
+  async function remove(profession: IProfession) {
+    // init value
+    const request = { id: profession.id } as IProfession;
+    // call request
+    await professionService.remove(request);
+  }
+
 
 
   return {
     professions,
     list,
-    save
+    save,
+    update,
+    remove
   };
 });

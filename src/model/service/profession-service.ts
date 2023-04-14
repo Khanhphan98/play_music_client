@@ -11,11 +11,11 @@ class ProfessionService {
   }
 
   update(profession: IProfession): Promise<any> {
-    return axiosInstance.put('/api/profession/' + profession.id, profession);
+    return axiosInstance.put(`/api/profession/${profession.id}/`, profession);
   }
 
-  delete(profession: IProfession): Promise<any> {
-    return axiosInstance.delete('/api/profession/' + profession.id);
+  remove(profession: IProfession): Promise<any> {
+    return axiosInstance.delete(`/api/profession/${profession.id}/`);
   }
 }
 

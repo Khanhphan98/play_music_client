@@ -7,16 +7,16 @@
   "password": "Password",
   "name": "Name",
   "button": {
-    "login": "Đăng nhập",
-    "logout": "Đăng xuất",
-    "create": "Tạo",
-    "save": "Lưu",
-    "delete": "Xóa {name}",
-    "change": "Thay đổi {name}",
-    "cancel": "Bỏ qua",
-    "close": "Đóng",
-    "more": "Thêm",
-    "confirm": "Đồng ý"
+    "login": "Login",
+    "logout": "Logout",
+    "create": "Create",
+    "save": "Save",
+    "delete": "Delete {name}",
+    "change": "Change {name}",
+    "cancel": "Cancel",
+    "close": "Close",
+    "more": "More",
+    "confirm": "Confirm"
   },
   "alert": {
     "title": {
@@ -67,5 +67,10 @@
   "list_profession": "List Profession",
   "profession": "Profession",
   "action": "Action",
-  "enter": "Enter {name}"
+  "enter": "Enter {name}",
+  "are_you_sure": "Are you sure {action}?",
+  "are_you_sure_1": "Do you really want to {action}?",
+  "are_you_sure_2": "This process cannot be undone.",
+  "delete": "Delete {name}",
+  "change": "Change {name}"
 }
