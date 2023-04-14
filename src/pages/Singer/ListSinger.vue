@@ -14,6 +14,7 @@
   import { ModalConfig } from '@/model/dto/ModalConfig';
   import { tryCallRequest } from '@/utils/my-function';
   import router from '@/router';
+  import { env } from '@/utils/my-variables';
 
 
   // init value global
@@ -128,7 +129,9 @@
               {{ singer.description ? String(singer.description).slice(0, 50) : '' }}...
             </Table.Td>
             <Table.Td>
-              {{ singer.avatar }}
+              <div class="w-10 h-10 intro-x image-fit">
+                <img :alt="singer.name" :src="env.backendServer + singer.avatar" class="rounded-full shadow-[0px_0px_0px_2px_#fff,_1px_1px_5px_rgba(0,0,0,0.32)] dark:shadow-[0px_0px_0px_2px_#3f4865,_1px_1px_5px_rgba(0,0,0,0.32)]" >
+              </div>
             </Table.Td>
             <Table.Td>
               {{ professions.find((p) => Number(singer.professions) === Number(p.id)).name }}

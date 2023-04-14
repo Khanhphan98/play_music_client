@@ -16,6 +16,7 @@
   import { ISinger } from '@/model/interface/ISinger';
   import { IProfession } from '@/model/interface/IProfession';
   import { useRoute } from 'vue-router';
+  import Dropzone from '@/base-components/Dropzone/Dropzone.vue';
 
   // init value global
   const route = useRoute();
@@ -168,7 +169,22 @@
               <InputGroup.Text id="icon-avatar">
                 <Lucide icon="Image" class="w-4 h-4" />
               </InputGroup.Text>
-              <FormInput v-model="formData.avatar" name="avatar" id="avatar" type="file" aria-describedby="icon-avatar" />
+<!--              <FormInput v-model="formData.avatar" name="avatar" id="avatar" type="file" aria-describedby="icon-avatar" />-->
+              <Dropzone refKey="dropzoneSingleRef" :options="{
+                  url: '',
+                  thumbnailWidth: 150,
+                  maxFilesize: 0.5,
+                  maxFiles: 1,
+                  headers: { 'My-Awesome-Header': 'header value' },
+                }" class="dropzone w-full">
+                <div class="text-lg font-medium">
+                  Drop files here or click to upload.
+                </div>
+                <div class="text-gray-600">
+                  This is just a demo dropzone. Selected files are
+                  <span class="font-medium">not</span> actually uploaded.
+                </div>
+              </Dropzone>
             </InputGroup>
           </div>
         </FormInline>
