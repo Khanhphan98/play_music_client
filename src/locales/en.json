@@ -5,6 +5,7 @@
   "email": "Email",
   "username": "Username",
   "password": "Password",
+  "name": "Name",
   "button": {
     "login": "Đăng nhập",
     "logout": "Đăng xuất",

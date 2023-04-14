@@ -11,6 +11,10 @@
   import Button from '@/base-components/Button';
   import router from '@/router';
   import { LocaleStore } from '@/stores/locale-store';
+  import { UserStore } from '@/stores/user-store';
+
+  // init value
+  const userStore = UserStore();
   const languageMode = ref(localStorage.getItem('locale'));
   const searchDropdown = ref(false);
   const localeStore = LocaleStore();
@@ -34,46 +38,16 @@
     return brPath;
   }
 
-  async function actionLogout() {}
+  async function actionLogout() {
+    userStore.actionRemoveToken();
+    await router.push('/login');
+  }
 </script>
 
 <template>
   <!-- BEGIN: Top Bar -->
   <div class="md:h-[67px] z-[51] flex items-center relative">
-    <div class="flex my-3 mr-auto">
-      <div class="text-center mr-3">
-        <Menu>
-          <Menu.Button :as="Button" variant="secondary">
-            <Lucide icon="Terminal" class="w-4 h-4 mr-2" />
-            Terminal
-            <Lucide icon="ChevronDown" class="w-4 h-4 ml-2" />
-          </Menu.Button>
-          <Menu.Items class="w-48">
-            <Menu.Item
-              as="a"
-              href="https://103.75.185.207:2031/cwp_cb96ec624c985fe729d198fd6e586ae3/admin/index.php?module=new_account#"
-              target="_blank">
-              <Lucide icon="TerminalSquare" class="w-4 h-4 mr-2" /> Simple Terminal
-            </Menu.Item>
-            <Menu.Item
-              as="a"
-              href="https://103.75.185.207:2031/cwp_6adeb1195bfbdd85bd8e9b0729131a82/admin/terminal.php"
-              target="_blank">
-              <Lucide icon="TerminalSquare" class="w-4 h-4 mr-2" /> CWPpro Terminal
-            </Menu.Item>
-          </Menu.Items>
-        </Menu>
-      </div>
-      <Button
-        as="a"
-        href="https://103.75.185.207:2031/cwp_cb96ec624c985fe729d198fd6e586ae3/admin/index.php?module=new_account#"
-        target="_blank"
-        variant="secondary"
-        class="flex items-center">
-        <Lucide icon="Files" class="w-4 h-4 mr-2" />
-        FileManager
-      </Button>
-    </div>
+    <div class="flex my-3 mr-auto"></div>
     <div class="flex items-center">
       <!-- BEGIN: Search -->
       <div class="relative mr-3 intro-x sm:mr-6">

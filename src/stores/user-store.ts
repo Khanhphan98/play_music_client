@@ -39,8 +39,8 @@ export const UserStore = defineStore('userStore', () => {
   }
 
   function actionRemoveToken() {
-    localStorage.removeItem('accessToken');
-    localStorage.removeItem('refreshToken');
+    localStorage.removeItem('access_token');
+    localStorage.removeItem('refresh_token');
     myUser.value.access_token = '';
     myUser.value.refresh_token = '';
     hasLogged.value = false;

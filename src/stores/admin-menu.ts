@@ -53,7 +53,7 @@ export const useAdminMenuStore = defineStore('adminMenu', {
         subMenu: [
           {
             icon: 'Newspaper',
-            pageName: 'admin-menu-users-new-profession',
+            pageName: 'admin-menu-users-new-singer',
             title: 'New Singer',
             i18nkey: 'newsinger',
           },
@@ -93,7 +93,7 @@ export const useAdminMenuStore = defineStore('adminMenu', {
         subMenu: [
           {
             icon: 'Newspaper',
-            pageName: 'admin-menu-users-new-profession',
+            pageName: 'admin-menu-users-new-category',
             title: 'New Category',
             i18nkey: 'newcategory',
           },
