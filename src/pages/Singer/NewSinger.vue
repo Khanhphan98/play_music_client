@@ -171,7 +171,7 @@
               </InputGroup.Text>
 <!--              <FormInput v-model="formData.avatar" name="avatar" id="avatar" type="file" aria-describedby="icon-avatar" />-->
               <Dropzone refKey="dropzoneSingleRef" :options="{
-                  url: '',
+                  url: 'https://httpbin.org/post',
                   thumbnailWidth: 150,
                   maxFilesize: 0.5,
                   maxFiles: 1,
