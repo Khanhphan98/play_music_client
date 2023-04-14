@@ -21,7 +21,7 @@ export const SingerStore = defineStore('singerStore', () => {
 
   async function save(singer: ISinger) {
     // init value
-    const request = { name: singer.name } as ISinger;
+    const request = { name: singer.name, birthday: singer.birthday, address: singer.address, description: singer.description, avatar: singer.avatar, professions: singer.professions } as ISinger;
     // call request
     await SingerService.save(request);
   }

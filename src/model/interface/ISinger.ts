@@ -5,5 +5,5 @@ export interface ISinger {
   address: string;
   description: string;
   avatar: string;
-  professions: string;
+  professions: number[];
 }

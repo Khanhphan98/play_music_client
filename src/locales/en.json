@@ -67,6 +67,7 @@
   "list_profession": "List Profession",
   "list_singer": "List singer",
   "profession": "Profession",
+  "new_singer": "New Singer",
   "singer": "Singer",
   "action": "Action",
   "enter": "Enter {name}",
@@ -79,5 +80,6 @@
   "address": "Address",
   "description": "Description",
   "avatar": "Avatar",
-  "find": "Find {name}"
+  "find": "Find {name}",
+  "choose": "Choose"
 }

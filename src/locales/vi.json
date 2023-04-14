@@ -67,6 +67,7 @@
   "list_profession": "Danh sách nghề nghiệp",
   "list_singer": "Danh sách nghệ sĩ",
   "profession": "Nghề nghiệp",
+  "new_singer": "Ca sĩ mới",
   "singer": "Ca sĩ",
   "action": "Hành động",
   "enter": "Nhập {name}",
@@ -79,5 +80,7 @@
   "address": "Địa chỉ",
   "description": "Mô tả",
   "avatar": "Avatar",
-  "find": "Tìm {name}"
+  "find": "Tìm {name}",
+  "choose": "Chọn"
+
 }
