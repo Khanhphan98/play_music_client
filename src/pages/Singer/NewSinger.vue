@@ -161,6 +161,17 @@
             </InputGroup>
           </div>
         </FormInline>
+        <FormInline class="items-start mt-5">
+          <FormLabel htmlFor="avatar" class="sm:w-28"> {{ t('avatar') }}:</FormLabel>
+          <div class="w-full flex-1">
+            <InputGroup class="w-full">
+              <InputGroup.Text id="icon-avatar">
+                <Lucide icon="Image" class="w-4 h-4" />
+              </InputGroup.Text>
+              <FormInput v-model="formData.avatar" name="avatar" id="avatar" type="file" aria-describedby="icon-avatar" />
+            </InputGroup>
+          </div>
+        </FormInline>
         <AlertCustom :errors="errors"></AlertCustom>
         <div class="mt-5 sm:ml-28 sm:pl-5 text-right">
           <Button variant="primary" class="min-w-[7rem]" type="submit" :disabled="isSubmitting">
