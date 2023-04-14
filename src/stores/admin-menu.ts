@@ -28,7 +28,7 @@ export const useAdminMenuStore = defineStore('adminMenu', {
       {
         icon: 'Music',
         pageName: 'admin-menu-song',
-        title: 'List Song',
+        title: 'Song',
         i18nkey: 'song',
         subMenu: [
           {
@@ -48,7 +48,7 @@ export const useAdminMenuStore = defineStore('adminMenu', {
       {
         icon: 'User',
         pageName: 'admin-menu-singer',
-        title: 'List Singer',
+        title: 'Singer',
         i18nkey: 'singer',
         subMenu: [
           {
@@ -68,15 +68,9 @@ export const useAdminMenuStore = defineStore('adminMenu', {
       {
         icon: 'Box',
         pageName: 'admin-menu-profession',
-        title: 'List Profession',
+        title: 'Profession',
         i18nkey: 'users',
         subMenu: [
-          {
-            icon: 'Newspaper',
-            pageName: 'admin-menu-users-new-profession',
-            title: 'New Profession',
-            i18nkey: 'newprofession',
-          },
           {
             icon: 'Newspaper',
             pageName: 'admin-menu-users-list-profession',
@@ -88,7 +82,7 @@ export const useAdminMenuStore = defineStore('adminMenu', {
       {
         icon: 'Banknote',
         pageName: 'admin-menu-category',
-        title: 'List Category',
+        title: 'Category',
         i18nkey: 'category',
         subMenu: [
           {
@@ -108,7 +102,7 @@ export const useAdminMenuStore = defineStore('adminMenu', {
       {
         icon: 'MapPin',
         pageName: 'admin-menu-country',
-        title: 'List Country',
+        title: 'Country',
         i18nkey: 'country',
         subMenu: [
           {

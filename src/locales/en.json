@@ -65,12 +65,19 @@
   "page_login_footer": "© 2023 Play music",
   "routemetatitle": "No Page title",
   "list_profession": "List Profession",
+  "list_singer": "List singer",
   "profession": "Profession",
+  "singer": "Singer",
   "action": "Action",
   "enter": "Enter {name}",
   "are_you_sure": "Are you sure {action}?",
   "are_you_sure_1": "Do you really want to {action}?",
   "are_you_sure_2": "This process cannot be undone.",
   "delete": "Delete {name}",
-  "change": "Change {name}"
+  "change": "Change {name}",
+  "birthday": "Birthday",
+  "address": "Address",
+  "description": "Description",
+  "avatar": "Avatar",
+  "find": "Find {name}"
 }

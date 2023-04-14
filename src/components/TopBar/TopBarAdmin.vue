@@ -149,10 +149,6 @@
       <!-- BEGIN: DarkMode, LightMode-->
       <DarkModeSwitcher class="mr-5 h-5 w-5" />
       <!-- END: DarkMode, LightMode-->
-      <a class="mr-5" href="https://helpdesk.inet.vn" target="_blank">
-        <Lucide icon="HelpCircle" class="h-5 w-5" />
-      </a>
-      <!-- BEGIN: Notifications -->
       <Popover class="intro-x">
         <Popover.Button
           class="relative text-slate-600 outline-none block before:content-[''] before:w-[8px] before:h-[8px] before:rounded-full before:absolute before:top-[-2px] before:right-0 before:bg-danger">

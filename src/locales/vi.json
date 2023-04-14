@@ -65,12 +65,19 @@
   "page_login_footer": "© 2023 Play music",
   "routemetatitle": "Chưa có Page title",
   "list_profession": "Danh sách nghề nghiệp",
+  "list_singer": "Danh sách nghệ sĩ",
   "profession": "Nghề nghiệp",
+  "singer": "Ca sĩ",
   "action": "Hành động",
   "enter": "Nhập {name}",
   "are_you_sure": "Bạn chắc chắn muốn {action} không?",
   "are_you_sure_1": "Bạn có thực sự muốn {action} này?",
   "are_you_sure_2": "Quá trình này không thể hoàn tác.",
   "delete": "Xoá {name}",
-  "change": "Thay đổi {name}"
+  "change": "Thay đổi {name}",
+  "birthday": "Ngày sinh",
+  "address": "Địa chỉ",
+  "description": "Mô tả",
+  "avatar": "Avatar",
+  "find": "Tìm {name}"
 }

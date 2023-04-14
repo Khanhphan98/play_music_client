@@ -21,26 +21,43 @@ const routes = [
     ],
   },
   {
-    path: '/user-profession',
-    redirect: '/user-account/list-profession',
-    name: 'admin-menu-users',
+    path: '/profession',
+    redirect: '/list-profession/list-profession',
+    name: 'admin-menu-users-profession',
     component: AdminMenu,
     meta: { requiresAuth: true },
     children: [
-      {
-        path: 'new-profession',
-        name: 'admin-menu-users-new-profession',
-        component: () => import('@/pages/Profession/NewProfession.vue'),
-        meta: {
-          title: 'create_profession',
-        },
-      },
       {
         path: 'list-profession',
         name: 'admin-menu-users-list-profession',
         component: () => import('@/pages/Profession/ListProfession.vue'),
         meta: {
           title: 'list_profession',
+        },
+      },
+    ],
+  },
+  {
+    path: '/singer',
+    redirect: '/list-singer/list-singer',
+    name: 'admin-menu-users-singer',
+    component: AdminMenu,
+    meta: { requiresAuth: true },
+    children: [
+      {
+        path: 'new-singer',
+        name: 'admin-menu-users-new-singer',
+        component: () => import('@/pages/Singer/NewSinger.vue'),
+        meta: {
+          title: 'new_singer',
+        },
+      },
+      {
+        path: 'list-singer',
+        name: 'admin-menu-users-list-singer',
+        component: () => import('@/pages/Singer/ListSinger.vue'),
+        meta: {
+          title: 'list_singer',
         },
       },
     ],
