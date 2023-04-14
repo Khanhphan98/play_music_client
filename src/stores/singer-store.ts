@@ -3,9 +3,12 @@ import { handleExceptionError } from '@/utils/my-function';
 import { ref } from 'vue';
 import { ISinger } from '@/model/interface/ISinger';
 import SingerService from '@/model/service/singer-service';
+import { MyStore } from '@/stores/my-store';
 
 export const SingerStore = defineStore('singerStore', () => {
+  const myStore = MyStore()
   const singers = ref<ISinger[]>([]);
+  const singerSeleted = ref<ISinger>();
 
   async function list() {
     try {
@@ -24,13 +27,17 @@ export const SingerStore = defineStore('singerStore', () => {
     const request = { name: singer.name, birthday: singer.birthday, address: singer.address, description: singer.description, avatar: singer.avatar, professions: singer.professions } as ISinger;
     // call request
     await SingerService.save(request);
+    // show toasti
+    myStore.showToastMessage();
   }
 
   async function update(singer: ISinger) {
     // init value
-    const request = { id: singer.id, name: singer.name } as ISinger;
+    const request = { id: singer.id, name: singer.name, birthday: singer.birthday, address: singer.address, description: singer.description, avatar: singer.avatar, professions: singer.professions } as ISinger;
     // call request
     await SingerService.update(request);
+    // show toasti
+    myStore.showToastMessage();
   }
 
   async function remove(singer: ISinger) {
@@ -40,12 +47,28 @@ export const SingerStore = defineStore('singerStore', () => {
     await SingerService.remove(request);
   }
 
+  async function search(singer: ISinger) {
+    // init value
+    const request = { id: singer.id } as ISinger;
+    // call request
+    return await SingerService.search(request);
+  }
+
+  function setSingerStore (singer: ISinger) {
+    if (singer) {
+      singerSeleted.value = singer;
+    }
+  }
+
 
   return {
     singers,
+    singerSeleted,
     list,
     save,
     update,
-    remove
+    remove,
+    search,
+    setSingerStore
   };
 });

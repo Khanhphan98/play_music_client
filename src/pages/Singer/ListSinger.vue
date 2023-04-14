@@ -13,6 +13,7 @@
   import HeadlessUiDialogModal from '@/base-components/iCustom/HeadlessUiDialogModal.vue';
   import { ModalConfig } from '@/model/dto/ModalConfig';
   import { tryCallRequest } from '@/utils/my-function';
+  import router from '@/router';
 
 
   // init value global
@@ -134,7 +135,7 @@
             </Table.Td>
             <Table.Td>
               <div class='flex items-center'>
-                <Button size="sm" variant="secondary" class="mr-3">
+                <Button size="sm" variant="secondary" class="mr-3" @click="router.push(`/singer/save-singer/${singer.id}`)">
                   <Lucide icon="FileSignature" class="w-4 h-4" />
                 </Button>
                 <Button size="sm" variant="outline-danger" class="mr-3" @click='showModalDelete = true; singerDelete = singer'>

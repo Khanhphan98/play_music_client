@@ -81,5 +81,6 @@
   "description": "Description",
   "avatar": "Avatar",
   "find": "Find {name}",
-  "choose": "Choose"
+  "choose": "Choose",
+  "save_singer": "Save Singer"
 }

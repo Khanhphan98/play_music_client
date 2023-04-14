@@ -2,7 +2,7 @@
   import Button from '@/base-components/Button';
   import Lucide from '@/base-components/Lucide';
   import { FormSelect, FormInput, FormLabel, FormInline, InputGroup, FormTextarea } from '@/base-components/Form';
-  import { computed, onMounted, reactive } from 'vue';
+  import { computed, onMounted, reactive, ref } from 'vue';
   import { useForm } from 'vee-validate';
   import AlertCustom from '@/base-components/iCustom/AlertCustom.vue';
   import { toFieldValidator } from '@vee-validate/zod';
@@ -15,8 +15,10 @@
   import { ProfessionStore } from '@/stores/profession-store';
   import { ISinger } from '@/model/interface/ISinger';
   import { IProfession } from '@/model/interface/IProfession';
+  import { useRoute } from 'vue-router';
 
   // init value global
+  const route = useRoute();
   const singerStore = SingerStore();
   const professionStore = ProfessionStore();
   const professions = computed(() => professionStore.professions as IProfession[]);
@@ -29,6 +31,7 @@
     address: '',
     professions: [0],
     description: '',
+    avatar: ''
   });
   //Schema validate
   const schema = toFieldValidator(
@@ -47,25 +50,51 @@
     validationSchema: schema,
   });
 
+  // init value scope
+  const showEdit = ref(false);
+
   //Action method
   const submitForm = handleSubmit(async (values) => {
     await new Promise((resolve) => setTimeout(resolve, defaultTimeoutSubmit));
     await tryCallRequest(async () => {
       // init request
-      const request = { name: values.name, birthday: values.birthday, address: values.address, professions: values.professions, description: formData.description } as ISinger;
+      const request = { id: formData.id, name: values.name, birthday: values.birthday, address: values.address, professions: values.professions, description: formData.description } as ISinger;
       // call request save
-      await singerStore.save(request);
-      // reset
-      reset();
+      if (showEdit.value) {
+        await singerStore.update(request)
+      } else {
+        await singerStore.save(request);
+        handleReset();
+      }
     });
   });
 
-  function reset() {
-    handleReset();
+
+  async function searchSinger (id: string) {
+    await tryCallRequest(async () => {
+      // init request
+      const request = { id: id } as ISinger;
+      // call request
+      const response = await singerStore.search(request);
+      if (response) {
+        const singerSearch = response.data as ISinger;
+        formData.id = singerSearch.id;
+        formData.name = singerSearch.name;
+        formData.birthday = singerSearch.birthday;
+        formData.address = singerSearch.address;
+        formData.description = singerSearch.description;
+        formData.professions = singerSearch.professions;
+        formData.avatar = singerSearch.avatar;
+        showEdit.value = true;
+      }
+    })
   }
 
-  onMounted(() => {
-    professionStore.list();
+  onMounted(async () => {
+    await professionStore.list();
+    if (route.params.id) {
+      await searchSinger(String(route.params.id));
+    }
   })
 
 </script>
@@ -114,7 +143,7 @@
               <InputGroup.Text id="icon-description">
                 <Lucide icon="StickyNote" class="w-4 h-4" />
               </InputGroup.Text>
-              <FormTextarea v-model="formData.description" name="description" class='rounded' id="description" type="text" :placeholder="t('enter', { name: t('description') })" aria-describedby="icon-description" />
+              <FormTextarea v-model="formData.description" :rows="5" name="description" class='rounded' id="description" type="text" :placeholder="t('enter', { name: t('description') })" aria-describedby="icon-description" />
             </InputGroup>
           </div>
         </FormInline>
@@ -135,7 +164,7 @@
         <AlertCustom :errors="errors"></AlertCustom>
         <div class="mt-5 sm:ml-28 sm:pl-5 text-right">
           <Button variant="primary" class="min-w-[7rem]" type="submit" :disabled="isSubmitting">
-            {{ $t('button.create') }}
+            {{ showEdit ? $t('button.save') : $t('button.create') }}
             <LoadingIcon icon="oval" color="white" class="w-4 h-4 ml-2" v-show="isSubmitting" />
           </Button>
         </div>

@@ -45,7 +45,15 @@ const routes = [
     meta: { requiresAuth: true },
     children: [
       {
-        path: 'new-singer',
+        path: '',
+        name: 'admin-menu-users-list-singer',
+        component: () => import('@/pages/Singer/ListSinger.vue'),
+        meta: {
+          title: 'list_singer',
+        },
+      },
+      {
+        path: 'save-singer',
         name: 'admin-menu-users-new-singer',
         component: () => import('@/pages/Singer/NewSinger.vue'),
         meta: {
@@ -53,11 +61,11 @@ const routes = [
         },
       },
       {
-        path: 'list-singer',
-        name: 'admin-menu-users-list-singer',
-        component: () => import('@/pages/Singer/ListSinger.vue'),
+        path: 'save-singer/:id',
+        name: 'admin-menu-users-save-singer',
+        component: () => import('@/pages/Singer/NewSinger.vue'),
         meta: {
-          title: 'list_singer',
+          title: 'save_singer',
         },
       },
     ],

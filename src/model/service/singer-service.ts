@@ -18,6 +18,10 @@ class SingerService {
   remove(singer: ISinger): Promise<any> {
     return axiosInstance.delete(`/api/singer/${singer.id}/`);
   }
+
+  search(singer: ISinger): Promise<any> {
+    return axiosInstance.get(`/api/singer/${singer.id}/`);
+  }
 }
 
 export default new SingerService();

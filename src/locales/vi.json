@@ -81,6 +81,7 @@
   "description": "Mô tả",
   "avatar": "Avatar",
   "find": "Tìm {name}",
-  "choose": "Chọn"
+  "choose": "Chọn",
+  "save_singer": "Lưu Ca sĩ"
 
 }
