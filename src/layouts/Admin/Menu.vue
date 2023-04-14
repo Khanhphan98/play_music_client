@@ -41,7 +41,7 @@
       'h-[50px] flex items-center pl-5 text-white mb-1 relative rounded-xl',
       {
         'dark:text-slate-300': props.menu.active && props.level != 'first',
-        'text-white/70 dark:text-slate-400': !props.menu.active && props.level != 'first',
+        'text-white/70 dark:text-white': !props.menu.active && props.level != 'first',
         'bg-primary dark:bg-transparent': props.menu.active && props.level == 'first',
         'before:content-[\'\'] before:block before:inset-0 before:bg-white/[0.08] before:rounded-xl before:absolute before:border-b-[3px] before:border-solid before:border-black/10 before:dark:border-black/10 before:dark:bg-darkmode-700':
           props.menu.active && props.level == 'first',
@@ -58,7 +58,7 @@
     <div
       :class="{
         'z-10 dark:text-slate-300': props.menu.active && props.level == 'first',
-        'dark:text-slate-400': !props.menu.active && props.level == 'first',
+        'dark:text-white': !props.menu.active && props.level == 'first',
       }">
       <Lucide :icon="props.menu.icon" />
     </div>
@@ -70,7 +70,7 @@
           'font-medium z-10 dark:text-slate-300': props.menu.active && props.level == 'first',
         },
         {
-          'dark:text-slate-400': !props.menu.active && props.level == 'first',
+          'dark:text-white': !props.menu.active && props.level == 'first',
         },
       ]">
       {{ props.menu.title }}
