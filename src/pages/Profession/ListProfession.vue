@@ -1,34 +1,56 @@
 <script setup lang="ts">
-  import { computed, onMounted, ref } from 'vue';
+  import { computed, onMounted, reactive, ref } from 'vue';
   import { ProfessionStore } from '@/stores/profession-store';
   import { UserStore } from '@/stores/user-store';
   import { IProfession } from '@/model/interface/IProfession';
   import Lucide from '@/base-components/Lucide/Lucide.vue';
   import Table from '@/base-components/Table';
   import Button from '@/base-components/Button';
-  import { FormInput } from '@/base-components/Form';
+  import { FormInput, FormLabel } from '@/base-components/Form';
   import { t } from '@/config/i18n';
+  import { z } from 'zod';
+  import { toFieldValidator } from '@vee-validate/zod';
+  import { useForm } from 'vee-validate';
+  import { tryCallRequest } from '@/utils/my-function';
+  import AlertCustom from '@/base-components/iCustom/AlertCustom.vue';
+
 
   // init value
   const professionStore = ProfessionStore();
   const userStore = UserStore();
 
-
-  const headers = ref<any>({
-    table: {
-      thead: [
-        {
-          title: computed(() => t('name')),
-          val: 'name',
-          show: true,
-        }
-      ],
-    },
-    sortField: {
-      selected: '',
-    },
-  });
   const professions = computed(() => professionStore.professions as IProfession[]);
+
+  const formData = reactive({
+    id: "",
+    name: ""
+  })
+
+  //Schema validate
+  const schema = toFieldValidator(
+    z.object({
+      name: z
+        .string()
+        .nonempty(t('alert.messages.required', { field: t('profession') }))
+    }),
+  );
+
+  //Form action
+  const { handleSubmit, errors, isSubmitting, resetForm } = useForm({
+    initialValues: formData,
+    validationSchema: schema,
+  });
+
+  const submitForm = handleSubmit(async (values) => {
+    await tryCallRequest(async () => {
+      //init request
+      const request = { name: values.name } as IProfession;
+      // call request
+      await professionStore.save(userStore.myUser.access_token, request);
+      // call lai list profession
+      await professionStore.list(userStore.myUser.access_token)
+    });
+  });
 
   onMounted(() => {
     professionStore.list(userStore.myUser.access_token)
@@ -37,39 +59,64 @@
 </script>
 
 <template>
-  <div class="bg-white dark:bg-darkmode-900 shadow rounded p-3 mt-5">
-    <div class="grid grid-cols-12 gap-6 mb-5 -intro-y">
-      <div class="col-span-6 sm:col-span-12 lg:col-span-12">
-        <div class="relative w-full md:w-64 md:ml-auto">
-          <FormInput
-            type="search"
-            class="pr-10 dark:border-slate-600"
-            name="find-package"
-          />
-          <Button class="border-none shadow-none absolute inset-y-0 right-0 text-gray-400 hover:text-gray-600">
-            <Lucide icon="Search" class="w-5 h-5" />
-          </Button>
+  <div>
+    <div class="grid grid-cols-12 gap-6 mt-5">
+      <div class="col-span-12 md:col-span-6">
+        <form class="bg-white dark:bg-darkmode-600 rounded p-3 shadow-sm h-full" @submit='submitForm'>
+          <FormLabel htmlFor="ip_address">
+            <span class="font-medium text-base">{{ t('profession') }}</span>
+          </FormLabel>
+          <div class="flex mt-3">
+            <FormInput class="dark:border-slate-600" v-model='formData.name' name="name" id="name" type="text" :placeholder="t('enter', { name: t('profession').toLowerCase() })" />
+            <div class="text-right shrink-0 pl-5">
+              <Button variant="primary" type="submit" :disabled='isSubmitting'>
+                <Lucide icon="Plus" class="h-5 w-5 mr-2" />
+                {{ t('button.save') }}
+              </Button>
+            </div>
+          </div>
+          <AlertCustom :errors="errors"></AlertCustom>
+        </form>
+      </div>
+      <div class="col-span-12 md:col-span-6">
+        <div class="bg-white dark:bg-darkmode-600 rounded p-3 shadow-sm">
+          <div class="max-h-[55vh] overflow-y-auto border border-slate-200">
+            <Table sm hover>
+              <Table.Thead class="sticky top-0 bg-white dark:bg-darkmode-400 shadow-sm">
+                <Table.Tr>
+                  <Table.Th>
+                    {{ t('profession') }}
+                    <span class="text-xs text-slate-400">({{ professions.length || 0 }})</span>
+                  </Table.Th>
+                  <Table.Th class="w-32 text-center">
+                    {{ t('action') }}
+                  </Table.Th>
+                </Table.Tr>
+              </Table.Thead>
+              <Table.Tbody>
+                <Table.Tr v-for="profession in professions" :key="profession.name">
+                  <Table.Td>
+                    <div class="flex items-center">
+                      <Lucide icon="Box" class="w-4 h-4 text-slate-400 mr-2" />
+                      {{ profession.name }}
+                    </div>
+                  </Table.Td>
+                  <Table.Td class="text-right">
+                    <div class="-mx-1.5">
+                      <Button variant="soft-primary" size="sm" class="m-1.5">
+                        <Lucide icon="Edit" class="h-4 w-4" />
+                      </Button>
+                      <Button variant="soft-danger" size="sm" class="m-1.5">
+                        <Lucide icon="Trash" class="h-4 w-4" />
+                      </Button>
+                    </div>
+                  </Table.Td>
+                </Table.Tr>
+              </Table.Tbody>
+            </Table>
+          </div>
         </div>
       </div>
-    </div>
-    <div class="col-span-12 md:col-span-6" ref="tableScrollH">
-      <Table sm bordered hover>
-        <Table.Thead>
-          <Table.Tr>
-            <Table.Th class="whitespace-nowrap" v-for="th in headers.table.thead" :key="th.val">
-              <Button class="border-none shadow-none">
-                {{ th.title }}
-                <Lucide icon="ChevronUp" class="w-4 h-4 ml-2" />
-              </Button>
-            </Table.Th>
-          </Table.Tr>
-        </Table.Thead>
-        <Table.Tbody>
-          <Table.Tr v-for="item in professions" :key="item.name">
-            <Table.Td>{{ item.name }}</Table.Td>
-          </Table.Tr>
-        </Table.Tbody>
-      </Table>
     </div>
   </div>
 </template>

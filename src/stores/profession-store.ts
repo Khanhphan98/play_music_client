@@ -19,10 +19,18 @@ export const ProfessionStore = defineStore('professionStore', () => {
     }
   }
 
+  async function save(token: string, profession: IProfession) {
+    // init value
+    const request = { name: profession.name } as IProfession;
+    // call request
+    await professionService.save(token, request);
+  }
+
 
 
   return {
     professions,
-    list
+    list,
+    save
   };
 });

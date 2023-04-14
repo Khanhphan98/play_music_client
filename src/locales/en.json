@@ -64,6 +64,8 @@
   },
   "page_login_footer": "© 2023 Play music",
   "routemetatitle": "No Page title",
-  "list_profession": "List Profession"
-
+  "list_profession": "List Profession",
+  "profession": "Profession",
+  "action": "Action",
+  "enter": "Enter {name}"
 }

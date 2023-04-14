@@ -64,5 +64,8 @@
   },
   "page_login_footer": "© 2023 Play music",
   "routemetatitle": "Chưa có Page title",
-  "list_profession": "Danh sách nghề nghiệp"
+  "list_profession": "Danh sách nghề nghiệp",
+  "profession": "Nghề nghiệp",
+  "action": "Hành động",
+  "enter": "Nhập {name}"
 }
