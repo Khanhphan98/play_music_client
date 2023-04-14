@@ -7,10 +7,10 @@ import { IProfession } from '@/model/interface/IProfession';
 export const ProfessionStore = defineStore('professionStore', () => {
   const professions = ref<IProfession[]>([]);
 
-  async function list(token: string) {
+  async function list() {
     try {
       // call request
-      const response = await professionService.list(token);
+      const response = await professionService.list();
       if (response.data) {
         professions.value = response.data;
       }
@@ -19,11 +19,11 @@ export const ProfessionStore = defineStore('professionStore', () => {
     }
   }
 
-  async function save(token: string, profession: IProfession) {
+  async function save(profession: IProfession) {
     // init value
     const request = { name: profession.name } as IProfession;
     // call request
-    await professionService.save(token, request);
+    await professionService.save(request);
   }
 
 

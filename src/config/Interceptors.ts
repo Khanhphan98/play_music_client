@@ -16,7 +16,7 @@ function onRefreshed(token: any) {
 // Add a request interceptor
 axiosInstance.interceptors.request.use((config) => {
   // Add authorization header to the request
-  config.headers.Authorization = `Bearer ${localStorage.getItem('accessToken')}`;
+  config.headers.Authorization = `Bearer ${localStorage.getItem('access_token')}`;
   return config;
 });
 // Add a response interceptor
@@ -40,11 +40,10 @@ axiosInstance.interceptors.response.use(
       isRefreshing = true;
 
       try {
-        const response = await axios.post(`${env.backendServer}/api/user/access_token`, {
-          refresh_token: localStorage.getItem('refreshToken'),
+        const response = await axios.post(`${env.backendServer}/api/token/refresh/`, {
+          refresh: localStorage.getItem('refresh-token'),
         });
-        const responseData = response.data as IDataResponse;
-        const { access_token } = responseData.data;
+        const { access_token } = response.data.access;
         localStorage.setItem('access_token', access_token);
         onRefreshed(access_token);
 

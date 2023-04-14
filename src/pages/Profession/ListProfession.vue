@@ -46,14 +46,14 @@
       //init request
       const request = { name: values.name } as IProfession;
       // call request
-      await professionStore.save(userStore.myUser.access_token, request);
+      await professionStore.save(request);
       // call lai list profession
-      await professionStore.list(userStore.myUser.access_token)
+      await professionStore.list()
     });
   });
 
   onMounted(() => {
-    professionStore.list(userStore.myUser.access_token)
+    professionStore.list()
   })
 
 </script>

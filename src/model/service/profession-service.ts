@@ -1,13 +1,21 @@
-import { apiClient } from '@/http-common';
 import { IProfession } from '@/model/interface/IProfession';
+import axiosInstance from '@/config/Interceptors';
 
 class ProfessionService {
-  list(token: string): Promise<any> {
-    return apiClient(token).get('/api/profession/');
+  list(): Promise<any> {
+    return axiosInstance.get('/api/profession/');
   }
 
-  save(token: string, profession: IProfession): Promise<any> {
-    return apiClient(token).post('/api/profession/', profession);
+  save(profession: IProfession): Promise<any> {
+    return axiosInstance.post('/api/profession/', profession);
+  }
+
+  update(profession: IProfession): Promise<any> {
+    return axiosInstance.put('/api/profession/' + profession.id, profession);
+  }
+
+  delete(profession: IProfession): Promise<any> {
+    return axiosInstance.delete('/api/profession/' + profession.id);
   }
 }
 
