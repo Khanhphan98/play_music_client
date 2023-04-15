@@ -82,6 +82,9 @@
   "avatar": "Avatar",
   "find": "Tìm {name}",
   "choose": "Chọn",
-  "save_singer": "Lưu Ca sĩ"
-
+  "save_singer": "Lưu Ca sĩ",
+  "category": "Thương hiệu",
+  "list_caregories": "Danh sách Thương hiệu",
+  "countries": "Quốc gia",
+  "list_countries": "Danh sách Quốc gia"
 }

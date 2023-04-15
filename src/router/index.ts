@@ -28,7 +28,7 @@ const routes = [
     meta: { requiresAuth: true },
     children: [
       {
-        path: 'list-profession',
+        path: '',
         name: 'admin-menu-users-list-profession',
         component: () => import('@/pages/Profession/ListProfession.vue'),
         meta: {
@@ -66,6 +66,40 @@ const routes = [
         component: () => import('@/pages/Singer/NewSinger.vue'),
         meta: {
           title: 'save_singer',
+        },
+      },
+    ],
+  },
+  {
+    path: '/categories',
+    redirect: '/list-caregories/list-categories',
+    name: 'admin-menu-users-categories',
+    component: AdminMenu,
+    meta: { requiresAuth: true },
+    children: [
+      {
+        path: '',
+        name: 'admin-menu-users-list-categories',
+        component: () => import('@/pages/Categories/ListCategories.vue'),
+        meta: {
+          title: 'list_caregories',
+        },
+      },
+    ],
+  },
+  {
+    path: '/countries',
+    redirect: '/list-countries/list-countries',
+    name: 'admin-menu-users-countries',
+    component: AdminMenu,
+    meta: { requiresAuth: true },
+    children: [
+      {
+        path: '',
+        name: 'admin-menu-users-list-countries',
+        component: () => import('@/pages/Country/ListCountry.vue'),
+        meta: {
+          title: 'countries',
         },
       },
     ],

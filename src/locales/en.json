@@ -82,5 +82,9 @@
   "avatar": "Avatar",
   "find": "Find {name}",
   "choose": "Choose",
-  "save_singer": "Save Singer"
+  "save_singer": "Save Singer",
+  "category": "Category",
+  "list_caregories": "List Categories",
+  "countries": "Countries",
+  "list_countries": "List Countries"
 }
