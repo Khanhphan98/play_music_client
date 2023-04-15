@@ -21,6 +21,39 @@ const routes = [
     ],
   },
   {
+    path: '/songs',
+    redirect: '/list-singer/list-songs',
+    name: 'admin-menu-users-songs',
+    component: AdminMenu,
+    meta: { requiresAuth: true },
+    children: [
+      {
+        path: '',
+        name: 'admin-menu-users-list-songs',
+        component: () => import('@/pages/Songs/ListSong.vue'),
+        meta: {
+          title: 'list_songs',
+        },
+      },
+      {
+        path: 'save-songs',
+        name: 'admin-menu-users-new-songs',
+        component: () => import('@/pages/Songs/NewSong.vue'),
+        meta: {
+          title: 'new_songs',
+        },
+      },
+      {
+        path: 'save-songs/:id',
+        name: 'admin-menu-users-save-songs',
+        component: () => import('@/pages/Songs/NewSong.vue'),
+        meta: {
+          title: 'save_songs',
+        },
+      },
+    ],
+  },
+  {
     path: '/profession',
     redirect: '/list-profession/list-profession',
     name: 'admin-menu-users-profession',

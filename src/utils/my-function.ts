@@ -1,5 +1,9 @@
 import { getCurrentInstance } from 'vue';
 import { MyStore } from '@/stores/my-store';
+import { env } from '@/utils/my-variables';
+import { UserStore } from '@/stores/user-store';
+import axios from 'axios';
+import MediaService from '@/model/service/media-service';
 
 export function useEmitter() {
   const internalInstance = getCurrentInstance();
@@ -72,4 +76,14 @@ export async function tryCallRequest(fn: () => Promise<void>) {
   } catch (e: any) {
     console.log(e.response);
   }
+}
+
+export function handleUploadFile(file: any) {
+  const userStore = UserStore();
+  const access_token = userStore.myUser.access_token;
+
+  const formData = new FormData();
+  formData.append('file', file);
+
+  return MediaService.upload(access_token, formData);
 }

@@ -1,7 +1,7 @@
 import { defineStore } from 'pinia';
 import { handleExceptionError } from '@/utils/my-function';
 import { ref } from 'vue';
-import countryService from '@/model/service/country-service';
+import CountryService from '@/model/service/country-service';
 import { ICountry } from '@/model/interface/ICountry';
 
 export const CountryStore = defineStore('countryStore', () => {
@@ -10,7 +10,7 @@ export const CountryStore = defineStore('countryStore', () => {
   async function list() {
     try {
       // call request
-      const response = await countryService.list();
+      const response = await CountryService.list();
       if (response.data) {
         countries.value = response.data;
       }
@@ -23,21 +23,21 @@ export const CountryStore = defineStore('countryStore', () => {
     // init value
     const request = { name: country.name } as ICountry;
     // call request
-    await countryService.save(request);
+    await CountryService.save(request);
   }
 
   async function update(country: ICountry) {
     // init value
     const request = { id: country.id, name: country.name } as ICountry;
     // call request
-    await countryService.update(request);
+    await CountryService.update(request);
   }
 
   async function remove(country: ICountry) {
     // init value
     const request = { id: country.id } as ICountry;
     // call request
-    await countryService.remove(request);
+    await CountryService.remove(request);
   }
 
 

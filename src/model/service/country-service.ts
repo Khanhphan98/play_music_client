@@ -1,7 +1,7 @@
 import { ICountry } from '@/model/interface/ICountry';
 import axiosInstance from '@/config/Interceptors';
 
-class countryService {
+class CountryService {
   list(): Promise<any> {
     return axiosInstance.get('/api/country/');
   }
@@ -19,4 +19,4 @@ class countryService {
   }
 }
 
-export default new countryService();
+export default new CountryService();

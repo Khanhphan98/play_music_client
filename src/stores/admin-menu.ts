@@ -27,19 +27,19 @@ export const useAdminMenuStore = defineStore('adminMenu', {
       },
       {
         icon: 'Music',
-        pageName: 'admin-menu-song',
+        pageName: 'admin-menu-songs',
         title: 'Song',
         i18nkey: 'song',
         subMenu: [
           {
             icon: 'Newspaper',
-            pageName: 'admin-menu-users-new-song',
+            pageName: 'admin-menu-users-new-songs',
             title: 'New Song',
             i18nkey: 'newsong',
           },
           {
             icon: 'Newspaper',
-            pageName: 'admin-menu-users-list-song',
+            pageName: 'admin-menu-users-list-songs',
             title: 'List Song',
             i18nkey: 'listsong',
           },

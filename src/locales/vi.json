@@ -86,5 +86,12 @@
   "category": "Thương hiệu",
   "list_caregories": "Danh sách Thương hiệu",
   "countries": "Quốc gia",
-  "list_countries": "Danh sách Quốc gia"
+  "list_countries": "Danh sách Quốc gia",
+  "select_your_job": "Chọn {job} của bạn",
+  "release": "Ra mắt",
+  "time": "Thời lương",
+  "lyric": "Lời bài hát",
+  "file_mp3": "File Mp3",
+  "list_songs": "Danh sách bài hát",
+  "new_songs": "Tạo bài hát"
 }

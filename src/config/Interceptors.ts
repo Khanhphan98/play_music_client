@@ -1,6 +1,5 @@
 import axios from 'axios';
 import { env } from '@/utils/my-variables';
-import { IDataResponse } from '@/model/interface/IDataResponse';
 import { handleExceptionError } from '@/utils/my-function';
 const axiosInstance = axios.create({
   baseURL: env.backendServer,

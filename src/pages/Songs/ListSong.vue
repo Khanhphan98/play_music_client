@@ -5,8 +5,7 @@
   import Button from '@/base-components/Button';
   import { FormInput } from '@/base-components/Form';
   import { t } from '@/config/i18n';
-  import { SingerStore } from '@/stores/singer-store';
-  import { ISinger } from '@/model/interface/ISinger';
+  import { ISong } from '@/model/interface/ISong';
   import { formatDate } from '@/utils/helper';
   import HeadlessUiDialogModal from '@/base-components/iCustom/HeadlessUiDialogModal.vue';
   import { ModalConfig } from '@/model/dto/ModalConfig';
@@ -14,38 +13,44 @@
   import router from '@/router';
   import { env } from '@/utils/my-variables';
   import ImageZoom from '@/base-components/ImageZoom/ImageZoom.vue';
+  import { SongStore } from '@/stores/song-store';
 
 
   // init value global
-  const singerStore = SingerStore();
-  const singers = computed(() => singerStore.singers as ISinger[]);
+  const songStore = SongStore();
+  const songs = computed(() => songStore.songs as ISong[]);
+
 
   const listHeader = ref<any>({
     table: {
       thead: [
         {
-          title: computed(() => t('avatar')),
-          val: 'avatar'
-        },
-        {
           title: computed(() => t('name')),
           val: 'name'
         },
         {
-          title: computed(() => t('birthday')),
-          val: 'birthday'
+          title: computed(() => t('release')),
+          val: 'release'
         },
         {
-          title: computed(() => t('address')),
-          val: 'address'
+          title: computed(() => t('time')),
+          val: 'time'
         },
         {
-          title: computed(() => t('description')),
-          val: 'description'
+          title: computed(() => t('file_mp3')),
+          val: 'file_mp3'
         },
         {
-          title: computed(() => t('profession')),
-          val: 'profession'
+          title: computed(() => t('category')),
+          val: 'category'
+        },
+        {
+          title: computed(() => t('countries')),
+          val: 'countries'
+        },
+        {
+          title: computed(() => t('singer')),
+          val: 'singer'
         },
         {
           title: computed(() => t('action')),
@@ -61,23 +66,23 @@
   // init value scope
   const showModalDelete = ref(false);
   const modalOptionDelete = { template: 'del' } as ModalConfig;
-  const singerDelete = ref<ISinger>({ name: '' } as ISinger);
+  const songDelete = ref<ISong>({ name: '' } as ISong);
 
-  async function actionDeleteProfession () {
+  async function actionDeleteSong () {
     await tryCallRequest(async () => {
       //init request
-      const request = { id: singerDelete.value.id } as ISinger;
+      const request = { id: songDelete.value.id } as ISong;
       // call request
-      await singerStore.remove(request);
+      await songStore.remove(request);
       // call lai list profession
-      await singerStore.list()
+      await songStore.list()
       // hide modal
       showModalDelete.value = false;
     });
   }
 
   onMounted(() => {
-    singerStore.list();
+    songStore.list();
   })
 
 </script>
@@ -111,39 +116,34 @@
           </Table.Tr>
         </Table.Thead>
         <Table.Tbody>
-          <Table.Tr v-for="singer in singers" :key="singer.name">
+          <Table.Tr v-for="song in songs" :key="song.name">
             <Table.Td>
-              <div class="w-10 h-10 image-fit">
-                <ImageZoom
-                  :alt="singer.name"
-                  :src="env.backendServer + singer.avatar"
-                  class='rounded'
-                />
-              </div>
+              {{ song.name }}
             </Table.Td>
             <Table.Td>
-              {{ singer.name }}
+              {{ song.release }}
             </Table.Td>
             <Table.Td>
-              {{ formatDate(singer.birthday, 'DD/MM/YYYY') }}
+              {{ song.time }}
             </Table.Td>
             <Table.Td>
-              {{ singer.address }}
+              {{ song.file_mp3 }}
             </Table.Td>
             <Table.Td>
-              {{ singer.description ? String(singer.description).slice(0, 50) : '' }}...
+              <span v-for='category in song.categories' :key='category.name'>{{ category.name }}</span>
             </Table.Td>
             <Table.Td>
-              <span v-for='(profession, index) in singer.professions'>
-                {{ profession.name }}<span v-if='index !== singer.professions.length - 1'>, </span>
-              </span>
+              <span v-for='country in song.countries' :key='country.name'>{{ country.name }}</span>
+            </Table.Td>
+            <Table.Td>
+              <span v-for='singer in song.singers' :key='singer.name'>{{ singer.name }}</span>
             </Table.Td>
             <Table.Td>
               <div class='flex items-center'>
-                <Button size="sm" variant="secondary" class="mr-3" @click="router.push(`/singer/save-singer/${singer.id}`)">
+                <Button size="sm" variant="secondary" class="mr-3" @click="router.push(`/singer/save-singer/${song.id}`)">
                   <Lucide icon="FileSignature" class="w-4 h-4" />
                 </Button>
-                <Button size="sm" variant="outline-danger" class="mr-3" @click='showModalDelete = true; singerDelete = singer'>
+                <Button size="sm" variant="outline-danger" class="mr-3" @click='showModalDelete = true; songDelete = song'>
                   <Lucide icon="Trash" class="w-4 h-4" />
                 </Button>
               </div>
@@ -153,14 +153,14 @@
       </Table>
     </div>
     <!-- BEGIN: Modal Delete IP Manager -->
-    <HeadlessUiDialogModal :open-modal="showModalDelete" @closeModal="showModalDelete = false" :modal-options="modalOptionDelete" @call-back-action="actionDeleteProfession">
+    <HeadlessUiDialogModal :open-modal="showModalDelete" @closeModal="showModalDelete = false" :modal-options="modalOptionDelete" @call-back-action="actionDeleteSong">
       <template #title>
         {{ t('are_you_sure', { action: t('delete').toLowerCase() }) }}
       </template>
       <template #modalbody>
-        <p class="text-base text-danger py-2 px-3 rounded bg-light mt-1">{{ singerDelete.name }}</p>
+        <p class="text-base text-danger py-2 px-3 rounded bg-light mt-1">{{ songDelete.name }}</p>
         <div class="mt-2 text-slate-500">
-          <p>{{ t('are_you_sure_1', { action: t('delete', { name: singerDelete.name }) }) }}</p>
+          <p>{{ t('are_you_sure_1', { action: t('delete', { name: songDelete.name }) }) }}</p>
           <p>{{ t('are_you_sure_2') }}</p>
         </div>
       </template>

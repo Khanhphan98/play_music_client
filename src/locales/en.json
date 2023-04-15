@@ -86,5 +86,12 @@
   "category": "Category",
   "list_caregories": "List Categories",
   "countries": "Countries",
-  "list_countries": "List Countries"
+  "list_countries": "List Countries",
+  "select_your_job": "Select your {job}",
+  "release": "Release",
+  "time": "Time",
+  "lyric": "Lyric",
+  "file_mp3": "File Mp3",
+  "list_songs": "List Songs",
+  "new_songs": "New Song"
 }

@@ -10,7 +10,7 @@
   import { t } from '@/config/i18n';
   import { defaultTimeoutSubmit, env } from '@/utils/my-variables';
   import LoadingIcon from '@/base-components/LoadingIcon/LoadingIcon.vue';
-  import { handleUploadFile, tryCallRequest } from '@/utils/my-function';
+  import { tryCallRequest } from '@/utils/my-function';
   import { SingerStore } from '@/stores/singer-store';
   import { ProfessionStore } from '@/stores/profession-store';
   import { ISinger } from '@/model/interface/ISinger';
@@ -19,8 +19,6 @@
   import Dropzone from '@/base-components/Dropzone/Dropzone.vue';
   import TomSelect from '@/base-components/TomSelect';
   import { UserStore } from '@/stores/user-store';
-  import Tippy from '@/base-components/Tippy/Tippy.vue';
-  import { IFileUpload } from '@/model/interface/IFileUpload';
 
   // init value global
   const route = useRoute();
@@ -63,15 +61,7 @@
     await new Promise((resolve) => setTimeout(resolve, defaultTimeoutSubmit));
     await tryCallRequest(async () => {
       // init request
-      const request = {
-        id: formData.id,
-        name: values.name,
-        birthday: values.birthday,
-        address: values.address,
-        professions: formData.professions.map(p => p),
-        description: formData.description,
-        avatar: formData.avatar
-      } as ISinger;
+      const request = { id: formData.id, name: values.name, birthday: values.birthday, address: values.address, professions: formData.professions.map(p => p), description: formData.description } as ISinger;
       // call request save
       if (showEdit.value) {
         await singerStore.update(request)
@@ -103,17 +93,6 @@
     })
   }
 
-  async function chooseFiles(event: any) {
-    // Create a cancel token source
-    const fileUpload = event.target as HTMLInputElement;
-    if (fileUpload && fileUpload.files && fileUpload.files.length > 0) {
-      const response = await handleUploadFile(fileUpload.files[0])
-      if (response.data) {
-        const fileUpload = response.data as IFileUpload;
-        formData.avatar = fileUpload.path;
-      }
-    }
-  }
 
   onMounted(async () => {
     await professionStore.list();
@@ -190,33 +169,32 @@
         </FormInline>
         <FormInline class="items-start mt-5">
           <FormLabel htmlFor="avatar" class="sm:w-28"> {{ t('avatar') }}:</FormLabel>
-          <input id="file-upload" type="file" ref="fileInput" @change="chooseFiles($event)" />
-<!--          <div class="w-full flex-1">-->
-<!--            <InputGroup class="w-full">-->
-<!--              <InputGroup.Text id="icon-avatar">-->
-<!--                <Lucide icon="Image" class="w-4 h-4" />-->
-<!--              </InputGroup.Text>-->
-<!--              <Dropzone ref='dropzone' :options="{-->
-<!--                  url:  env.backendServer + '/api/upload_file/',-->
-<!--                  thumbnailWidth: 150,-->
-<!--                  headers: {-->
-<!--                    'Authorization': `Bearer ${userStore.myUser.access_token}`,-->
-<!--                    'X-CSRF-TOKEN': ('meta[name='+ userStore.myUser.access_token +']')-->
-<!--                  },-->
-<!--                  maxFilesize: 0.5,-->
-<!--                  maxFiles: 1,-->
-<!--                  method: 'POST'-->
-<!--                }" class="dropzone w-full">-->
-<!--                <div class="text-lg font-medium">-->
-<!--                  Drop files here or click to upload.-->
-<!--                </div>-->
-<!--                <div class="text-gray-600">-->
-<!--                  This is just a demo dropzone. Selected files are-->
-<!--                  <span class="font-medium">not</span> actually uploaded.-->
-<!--                </div>-->
-<!--              </Dropzone>-->
-<!--            </InputGroup>-->
-<!--          </div>-->
+          <div class="w-full flex-1">
+            <InputGroup class="w-full">
+              <InputGroup.Text id="icon-avatar">
+                <Lucide icon="Image" class="w-4 h-4" />
+              </InputGroup.Text>
+              <Dropzone ref='dropzone' :options="{
+                  url:  env.backendServer + '/api/upload_file/',
+                  thumbnailWidth: 150,
+                  headers: {
+                    'Authorization': `Bearer ${userStore.myUser.access_token}`,
+                    'X-CSRF-TOKEN': ('meta[name='+ userStore.myUser.access_token +']')
+                  },
+                  maxFilesize: 0.5,
+                  maxFiles: 1,
+                  method: 'POST'
+                }" class="dropzone w-full">
+                <div class="text-lg font-medium">
+                  Drop files here or click to upload.
+                </div>
+                <div class="text-gray-600">
+                  This is just a demo dropzone. Selected files are
+                  <span class="font-medium">not</span> actually uploaded.
+                </div>
+              </Dropzone>
+            </InputGroup>
+          </div>
         </FormInline>
         <AlertCustom :errors="errors"></AlertCustom>
         <div class="mt-5 sm:ml-28 sm:pl-5 text-right">
