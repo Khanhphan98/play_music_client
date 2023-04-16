@@ -349,7 +349,7 @@
     </div>
     <div class="col-span-2 md:col-span-4 lg:col-span-3 relative text-right">
       <div class="p-5 rounded bg-gray-200 dark:bg-darkmode-900 dark:text-slate-400 text-left md:block">
-        <img class="w-full h-full" src="@/assets/images/banners/_%20(1).png"  alt='banner'/>
+        <img class="w-full h-full" src="@/assets/images/songs/5.jpeg"  alt='banner'/>\
       </div>
     </div>
   </div>
