@@ -53,9 +53,9 @@
         name: z.string().nonempty(t('alert.messages.required', { field: t('name') })),
         release: z.string().datetime(),
         time: z.number({ required_error: t('time'), invalid_type_error: t('time')}),
-        lyric: z.string().nonempty(t('alert.messages.required', { field: t('lyric') })),
-        description: z.string().nonempty(t('alert.messages.required', { field: t('description') })),
-        file_mp3: z.string().nonempty(t('alert.messages.required', { field: t('file_mp3') })),
+        lyric: z.string(),
+        description: z.string(),
+        file_mp3: z.string(),
         categories: z.array(z.number({ required_error: t('category'), invalid_type_error: t('category')})),
         countries: z.array(z.number({ required_error: t('countries'), invalid_type_error: t('countries')})),
         singers: z.array(z.number({ required_error: t('singer'), invalid_type_error: t('singer')})),
@@ -180,17 +180,6 @@
           </div>
         </FormInline>
         <FormInline class="items-start mt-4" >
-          <FormLabel htmlFor="picture" class="sm:w-28"> {{ t('picture') }}:</FormLabel>
-          <div class="w-full flex-1">
-            <InputGroup class="w-full">
-              <InputGroup.Text id="icon-picture">
-                <Lucide icon="FileImage" class="w-4 h-4" />
-              </InputGroup.Text>
-              <FormInput v-model="formData.picture" name="picture" id="picture" type="text" :placeholder="t('enter', { name: t('picture') })" aria-describedby="icon-picture" />
-            </InputGroup>
-          </div>
-        </FormInline>
-        <FormInline class="items-start mt-4" >
           <FormLabel htmlFor="category" class="sm:w-28"> {{ t('category') }}:</FormLabel>
           <div class="w-full flex-1">
             <InputGroup class="w-full">
@@ -240,13 +229,25 @@
         </FormInline>
         <FormInline class="items-start mt-4" >
           <FormLabel htmlFor="file_mp3" class="sm:w-28"> {{ t('file_mp3') }}:</FormLabel>
-<!--          <input id="file-upload" type="file" ref="fileInput" />-->
           <div class="w-full flex-1">
             <InputGroup class="w-full">
               <InputGroup.Text id="icon-file_mp3">
                 <Lucide icon="FileAudio" class="w-4 h-4" />
               </InputGroup.Text>
-              <FormInput v-model="formData.file_mp3" name="file_mp3" id="file_mp3" type="text" :placeholder="t('enter', { name: t('file_mp3') })" aria-describedby="icon-file_mp3" />
+              <input id="file-upload" type="file" ref="fileInput" />
+<!--              <FormInput v-model="formData.file_mp3" name="file_mp3" id="file_mp3" type="text" :placeholder="t('enter', { name: t('file_mp3') })" aria-describedby="icon-file_mp3" />-->
+            </InputGroup>
+          </div>
+        </FormInline>
+        <FormInline class="items-start mt-4" >
+          <FormLabel htmlFor="picture" class="sm:w-28"> {{ t('picture') }}:</FormLabel>
+          <div class="w-full flex-1">
+            <InputGroup class="w-full">
+              <InputGroup.Text id="icon-picture">
+                <Lucide icon="FileImage" class="w-4 h-4" />
+              </InputGroup.Text>
+              <input id="file-upload" type="file" ref="fileInput" />
+<!--              <FormInput v-model="formData.picture" name="picture" id="picture" type="text" :placeholder="t('enter', { name: t('picture') })" aria-describedby="icon-picture" />-->
             </InputGroup>
           </div>
         </FormInline>

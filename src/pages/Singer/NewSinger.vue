@@ -1,7 +1,7 @@
 <script setup lang="ts">
   import Button from '@/base-components/Button';
   import Lucide from '@/base-components/Lucide';
-  import { FormSelect, FormInput, FormLabel, FormInline, InputGroup, FormTextarea } from '@/base-components/Form';
+  import { FormInput, FormLabel, FormInline, InputGroup, FormTextarea } from '@/base-components/Form';
   import { computed, onMounted, reactive, ref } from 'vue';
   import { useForm } from 'vee-validate';
   import AlertCustom from '@/base-components/iCustom/AlertCustom.vue';
@@ -16,9 +16,7 @@
   import { ISinger } from '@/model/interface/ISinger';
   import { IProfession } from '@/model/interface/IProfession';
   import { useRoute } from 'vue-router';
-  import Dropzone from '@/base-components/Dropzone/Dropzone.vue';
   import TomSelect from '@/base-components/TomSelect';
-  import { UserStore } from '@/stores/user-store';
   import Tippy from '@/base-components/Tippy/Tippy.vue';
   import { IFileUpload } from '@/model/interface/IFileUpload';
 
@@ -27,7 +25,6 @@
   const singerStore = SingerStore();
   const professionStore = ProfessionStore();
   const professions = computed(() => professionStore.professions as IProfession[]);
-  const userStore = UserStore();
   //form data
   const formData = reactive({
     id: '',
@@ -57,6 +54,7 @@
 
   // init value scope
   const showEdit = ref(false);
+  const fileUpload = ref<IFileUpload>({ path: '', filename: '', duration: '', size: '', type: '' });
 
   //Action method
   const submitForm = handleSubmit(async (values) => {
@@ -104,15 +102,30 @@
   }
 
   async function chooseFiles(event: any) {
-    // Create a cancel token source
-    const fileUpload = event.target as HTMLInputElement;
-    if (fileUpload && fileUpload.files && fileUpload.files.length > 0) {
-      const response = await handleUploadFile(fileUpload.files[0])
-      if (response.data) {
-        const fileUpload = response.data as IFileUpload;
-        formData.avatar = fileUpload.path;
+    await tryCallRequest(async () => {
+      // Create a cancel token source
+      const file = event.target as HTMLInputElement;
+      if (file && file.files && file.files.length > 0) {
+        const response = await handleUploadFile(file.files[0])
+        if (response.data) {
+          fileUpload.value = response.data as IFileUpload;
+          formData.avatar = fileUpload.value.path;
+        }
       }
-    }
+    })
+  }
+
+  async function deleteFile() {
+    await tryCallRequest(async () => {
+      if (fileUpload.value.filename) {
+        // init value
+        const filename = fileUpload.value.filename;
+        // call request
+        await singerStore.removeFileUpload(filename);
+        // clean file upload
+        fileUpload.value = {} as IFileUpload;
+      }
+    })
   }
 
   onMounted(async () => {
@@ -190,33 +203,28 @@
         </FormInline>
         <FormInline class="items-start mt-5">
           <FormLabel htmlFor="avatar" class="sm:w-28"> {{ t('avatar') }}:</FormLabel>
-          <input id="file-upload" type="file" ref="fileInput" @change="chooseFiles($event)" />
-<!--          <div class="w-full flex-1">-->
-<!--            <InputGroup class="w-full">-->
-<!--              <InputGroup.Text id="icon-avatar">-->
-<!--                <Lucide icon="Image" class="w-4 h-4" />-->
-<!--              </InputGroup.Text>-->
-<!--              <Dropzone ref='dropzone' :options="{-->
-<!--                  url:  env.backendServer + '/api/upload_file/',-->
-<!--                  thumbnailWidth: 150,-->
-<!--                  headers: {-->
-<!--                    'Authorization': `Bearer ${userStore.myUser.access_token}`,-->
-<!--                    'X-CSRF-TOKEN': ('meta[name='+ userStore.myUser.access_token +']')-->
-<!--                  },-->
-<!--                  maxFilesize: 0.5,-->
-<!--                  maxFiles: 1,-->
-<!--                  method: 'POST'-->
-<!--                }" class="dropzone w-full">-->
-<!--                <div class="text-lg font-medium">-->
-<!--                  Drop files here or click to upload.-->
-<!--                </div>-->
-<!--                <div class="text-gray-600">-->
-<!--                  This is just a demo dropzone. Selected files are-->
-<!--                  <span class="font-medium">not</span> actually uploaded.-->
-<!--                </div>-->
-<!--              </Dropzone>-->
-<!--            </InputGroup>-->
-<!--          </div>-->
+          <div class="w-full flex-1">
+            <InputGroup class="w-full">
+              <InputGroup.Text id="icon-avatar">
+                <Lucide icon="FileImage" class="w-4 h-4" />
+              </InputGroup.Text>
+              <div class="pt-4 w-full border-2 border-dashed rounded-md dark:border-darkmode-400 grid justify-center items-center">
+                <div v-if='fileUpload.path' class="grid grid-row-reverse px-4 justify-center mb-3">
+                  <div class="relative w-24 h-24 mb-2 cursor-pointer image-fit zoom-in">
+                    <img class="rounded-md" :alt="fileUpload.filename" :src="env.backendServer + fileUpload.path" />
+                    <Tippy as="div" @click='deleteFile' :content="t('delete_file')" class="absolute top-0 right-0 flex items-center justify-center w-5 h-5 -mt-2 -mr-2 text-white rounded-full bg-danger">
+                      <Lucide icon="X" class="w-4 h-4" />
+                    </Tippy>
+                  </div>
+                </div>
+                <div v-else class="relative flex items-center px-4 pb-4 cursor-pointer">
+                  <Lucide icon="Image" class="w-4 h-4 mr-2" />
+                  <span class="mr-1 text-primary">{{ t('upload_a_file') }}</span> {{ t('or_drag_and_drop') }}
+                  <FormInput type="file" @change="chooseFiles($event)" id="file-upload" ref="fileInput" class="absolute top-0 left-0 w-full h-full opacity-0" name=''/>
+                </div>
+              </div>
+            </InputGroup>
+          </div>
         </FormInline>
         <AlertCustom :errors="errors"></AlertCustom>
         <div class="mt-5 sm:ml-28 sm:pl-5 text-right">

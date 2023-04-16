@@ -94,5 +94,8 @@
   "file_mp3": "File Mp3",
   "list_songs": "Danh sách bài hát",
   "new_songs": "Tạo bài hát",
-  "picture": "Hình ảnh"
+  "picture": "Hình ảnh",
+  "upload_a_file": "Tải lên tệp",
+  "or_drag_and_drop": "hoặc kéo thả vào",
+  "delete_file": "Xoá tệp"
 }

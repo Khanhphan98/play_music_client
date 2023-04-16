@@ -94,5 +94,8 @@
   "file_mp3": "File Mp3",
   "list_songs": "List Songs",
   "new_songs": "New Song",
-  "picture": "Picture"
+  "picture": "Picture",
+  "upload_a_file": "Upload a file",
+  "or_drag_and_drop": "or drag and drop",
+  "delete_file": "Delete file"
 }

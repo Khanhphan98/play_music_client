@@ -4,6 +4,8 @@ import { ref } from 'vue';
 import { ISinger } from '@/model/interface/ISinger';
 import SingerService from '@/model/service/singer-service';
 import { MyStore } from '@/stores/my-store';
+import MediaService from '@/model/service/media-service';
+import { IFileUpload } from '@/model/interface/IFileUpload';
 
 export const SingerStore = defineStore('singerStore', () => {
   const myStore = MyStore()
@@ -54,6 +56,13 @@ export const SingerStore = defineStore('singerStore', () => {
     return await SingerService.search(request);
   }
 
+  async function removeFileUpload(filename: string) {
+    // init value file in directory image
+    const fileRemove = { path: 'image/' + filename } as IFileUpload;
+    // call request
+    await MediaService.delete(fileRemove);
+  }
+
   function setSingerStore (singer: ISinger) {
     if (singer) {
       singerSeleted.value = singer;
@@ -69,6 +78,7 @@ export const SingerStore = defineStore('singerStore', () => {
     update,
     remove,
     search,
-    setSingerStore
+    setSingerStore,
+    removeFileUpload
   };
 });
