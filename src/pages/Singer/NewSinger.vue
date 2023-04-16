@@ -19,11 +19,13 @@
   import TomSelect from '@/base-components/TomSelect';
   import Tippy from '@/base-components/Tippy/Tippy.vue';
   import { IFileUpload } from '@/model/interface/IFileUpload';
+  import { MediaStore } from '@/stores/media-store';
 
   // init value global
   const route = useRoute();
   const singerStore = SingerStore();
   const professionStore = ProfessionStore();
+  const mediaStore = MediaStore();
   const professions = computed(() => professionStore.professions as IProfession[]);
   //form data
   const formData = reactive({
@@ -68,7 +70,7 @@
         address: values.address,
         professions: formData.professions.map(p => p),
         description: formData.description,
-        avatar: formData.avatar
+        avatar: fileUpload.value.path
       } as ISinger;
       // call request save
       if (showEdit.value) {
@@ -109,7 +111,6 @@
         const response = await handleUploadFile(file.files[0])
         if (response.data) {
           fileUpload.value = response.data as IFileUpload;
-          formData.avatar = fileUpload.value.path;
         }
       }
     })
@@ -121,7 +122,7 @@
         // init value
         const filename = fileUpload.value.filename;
         // call request
-        await singerStore.removeFileUpload(filename);
+        await mediaStore.removeFileImage(filename);
         // clean file upload
         fileUpload.value = {} as IFileUpload;
       }

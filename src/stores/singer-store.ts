@@ -56,20 +56,6 @@ export const SingerStore = defineStore('singerStore', () => {
     return await SingerService.search(request);
   }
 
-  async function removeFileUpload(filename: string) {
-    // init value file in directory image
-    const fileRemove = { path: 'image/' + filename } as IFileUpload;
-    // call request
-    await MediaService.delete(fileRemove);
-  }
-
-  function setSingerStore (singer: ISinger) {
-    if (singer) {
-      singerSeleted.value = singer;
-    }
-  }
-
-
   return {
     singers,
     singerSeleted,
@@ -77,8 +63,6 @@ export const SingerStore = defineStore('singerStore', () => {
     save,
     update,
     remove,
-    search,
-    setSingerStore,
-    removeFileUpload
+    search
   };
 });

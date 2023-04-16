@@ -10,7 +10,7 @@
   import { t } from '@/config/i18n';
   import { defaultTimeoutSubmit, env } from '@/utils/my-variables';
   import LoadingIcon from '@/base-components/LoadingIcon/LoadingIcon.vue';
-  import { tryCallRequest } from '@/utils/my-function';
+  import { handleUploadFile, tryCallRequest } from '@/utils/my-function';
   import { ISinger } from '@/model/interface/ISinger';
   import { useRoute } from 'vue-router';
   import { ISong } from '@/model/interface/ISong';
@@ -21,6 +21,9 @@
   import { CategoryStore } from '@/stores/category-menu';
   import { ICountry } from '@/model/interface/ICountry';
   import { ICategory } from '@/model/interface/ICategory';
+  import Tippy from '@/base-components/Tippy/Tippy.vue';
+  import { IFileUpload } from '@/model/interface/IFileUpload';
+  import { MediaStore } from '@/stores/media-store';
 
   // init value global
   const route = useRoute();
@@ -28,6 +31,7 @@
   const singerStore = SingerStore();
   const countryStore = CountryStore();
   const categoryStore = CategoryStore();
+  const mediaStore = MediaStore();
   const singers = computed(() => singerStore.singers as ISinger[]);
   const countries = computed(() => countryStore.countries as ICountry[]);
   const categories = computed(() => categoryStore.categories as ICategory[]);
@@ -52,7 +56,7 @@
       .object({
         name: z.string().nonempty(t('alert.messages.required', { field: t('name') })),
         release: z.string().datetime(),
-        time: z.number({ required_error: t('time'), invalid_type_error: t('time')}),
+        time: z.number(),
         lyric: z.string(),
         description: z.string(),
         file_mp3: z.string(),
@@ -70,20 +74,22 @@
 
   // init value scope
   const showEdit = ref(false);
-
+  const filePicture = ref<IFileUpload>({ path: '', filename: '', duration: '', size: '', type: '' });
+  const fileMp3 = ref<IFileUpload>({ path: '', filename: '', duration: '', size: '', type: '' });
   //Action method
   const submitForm = handleSubmit(async (values) => {
     await new Promise((resolve) => setTimeout(resolve, defaultTimeoutSubmit));
     await tryCallRequest(async () => {
-      // init request
-      const request = {  } as ISong;
-      // call request save
-      if (showEdit.value) {
-        await songStore.update(request)
-      } else {
-        await songStore.save(request);
-        handleReset();
-      }
+      console.log(values);
+      // // init request
+      // const request = {  } as ISong;
+      // // call request save
+      // if (showEdit.value) {
+      //   await songStore.update(request)
+      // } else {
+      //   await songStore.save(request);
+      //   handleReset();
+      // }
     });
   });
 
@@ -108,6 +114,51 @@
     })
   }
 
+  async function uploadFileMp3(event: any) {
+    await tryCallRequest(async () => {
+      // Create a cancel token source
+      const file = event.target as HTMLInputElement;
+      if (file && file.files && file.files.length > 0) {
+        const response = await handleUploadFile(file.files[0])
+        if (response.data) {
+          fileMp3.value = response.data as IFileUpload;
+        }
+      }
+    })
+  }
+
+  async function uploadFilePicture(event: any) {
+    await tryCallRequest(async () => {
+      // Create a cancel token source
+      const file = event.target as HTMLInputElement;
+      if (file && file.files && file.files.length > 0) {
+        const response = await handleUploadFile(file.files[0])
+        if (response.data) {
+          filePicture.value = response.data as IFileUpload;
+        }
+      }
+    })
+  }
+
+  async function deleteFile(isMp3: boolean) {
+    await tryCallRequest(async () => {
+      if (isMp3) {
+        // init value
+        const filename = fileMp3.value.filename;
+        // call request
+        await mediaStore.removeFileMp3(filename);
+        // clean file upload
+        fileMp3.value = {} as IFileUpload;
+      } else {
+        // init value
+        const filename = filePicture.value.filename;
+        // call request
+        await mediaStore.removeFileImage(filename);
+        // clean file upload
+        filePicture.value = {} as IFileUpload;
+      }
+    })
+  }
 
   onMounted(async () => {
     await categoryStore.list();
@@ -231,11 +282,30 @@
           <FormLabel htmlFor="file_mp3" class="sm:w-28"> {{ t('file_mp3') }}:</FormLabel>
           <div class="w-full flex-1">
             <InputGroup class="w-full">
-              <InputGroup.Text id="icon-file_mp3">
-                <Lucide icon="FileAudio" class="w-4 h-4" />
-              </InputGroup.Text>
-              <input id="file-upload" type="file" ref="fileInput" />
-<!--              <FormInput v-model="formData.file_mp3" name="file_mp3" id="file_mp3" type="text" :placeholder="t('enter', { name: t('file_mp3') })" aria-describedby="icon-file_mp3" />-->
+              <InputGroup class="w-full">
+                <div class="w-full flex-1">
+                  <InputGroup class="w-full">
+                    <InputGroup.Text id="icon-file_mp3">
+                      <Lucide icon="FileAudio" class="w-4 h-4" />
+                    </InputGroup.Text>
+                    <div class="pt-4 w-full border-2 border-dashed rounded-md dark:border-darkmode-400 grid justify-center items-center">
+                      <div v-if='fileMp3.filename' class="grid grid-row-reverse px-4 justify-center mb-3">
+                        <div class="relative w-24 h-24 mb-2 cursor-pointer image-fit zoom-in">
+                          {{ fileMp3.filename }}
+                          <Tippy as="div" @click='deleteFile(true)' :content="t('delete_file')" class="absolute top-0 right-0 flex items-center justify-center w-5 h-5 -mt-2 -mr-2 text-white rounded-full bg-danger">
+                            <Lucide icon="X" class="w-4 h-4" />
+                          </Tippy>
+                        </div>
+                      </div>
+                      <div v-else class="relative flex items-center px-4 pb-4 cursor-pointer">
+                        <Lucide icon="FileAudio" class="w-4 h-4 mr-2" />
+                        <span class="mr-1 text-primary">{{ t('upload_a_file') }}</span> {{ t('or_drag_and_drop') }}
+                        <FormInput type="file" @change="uploadFileMp3($event)" id="file_mp3" ref="fileInputMp3" class="absolute top-0 left-0 w-full h-full opacity-0" name='file_mp3' accept="audio/mp3" />
+                      </div>
+                    </div>
+                  </InputGroup>
+                </div>
+              </InputGroup>
             </InputGroup>
           </div>
         </FormInline>
@@ -243,11 +313,28 @@
           <FormLabel htmlFor="picture" class="sm:w-28"> {{ t('picture') }}:</FormLabel>
           <div class="w-full flex-1">
             <InputGroup class="w-full">
-              <InputGroup.Text id="icon-picture">
-                <Lucide icon="FileImage" class="w-4 h-4" />
-              </InputGroup.Text>
-              <input id="file-upload" type="file" ref="fileInput" />
-<!--              <FormInput v-model="formData.picture" name="picture" id="picture" type="text" :placeholder="t('enter', { name: t('picture') })" aria-describedby="icon-picture" />-->
+              <div class="w-full flex-1">
+                <InputGroup class="w-full">
+                  <InputGroup.Text id="icon-picture">
+                    <Lucide icon="FileImage" class="w-4 h-4" />
+                  </InputGroup.Text>
+                  <div class="pt-4 w-full border-2 border-dashed rounded-md dark:border-darkmode-400 grid justify-center items-center">
+                    <div v-if='filePicture.path' class="grid grid-row-reverse px-4 justify-center mb-3">
+                      <div class="relative w-24 h-24 mb-2 cursor-pointer image-fit zoom-in">
+                        <img class="rounded-md" :alt="filePicture.filename" :src="env.backendServer + filePicture.path" />
+                        <Tippy as="div" @click='deleteFile(false)' :content="t('delete_file')" class="absolute top-0 right-0 flex items-center justify-center w-5 h-5 -mt-2 -mr-2 text-white rounded-full bg-danger">
+                          <Lucide icon="X" class="w-4 h-4" />
+                        </Tippy>
+                      </div>
+                    </div>
+                    <div v-else class="relative flex items-center px-4 pb-4 cursor-pointer">
+                      <Lucide icon="Image" class="w-4 h-4 mr-2" />
+                      <span class="mr-1 text-primary">{{ t('upload_a_file') }}</span> {{ t('or_drag_and_drop') }}
+                      <FormInput type="file" @change="uploadFilePicture($event)" id="file-upload" ref="fileInputPicture" class="absolute top-0 left-0 w-full h-full opacity-0" name='file_picture' accept="image/png, image/jpeg, image/jpg, image/gif" />
+                    </div>
+                  </div>
+                </InputGroup>
+              </div>
             </InputGroup>
           </div>
         </FormInline>
