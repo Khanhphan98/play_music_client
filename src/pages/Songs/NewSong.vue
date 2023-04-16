@@ -1,7 +1,7 @@
 <script setup lang="ts">
   import Button from '@/base-components/Button';
   import Lucide from '@/base-components/Lucide';
-  import { FormSelect, FormInput, FormLabel, FormInline, InputGroup, FormTextarea } from '@/base-components/Form';
+  import { FormInput, FormLabel, FormInline, InputGroup, FormTextarea } from '@/base-components/Form';
   import { computed, onMounted, reactive, ref } from 'vue';
   import { useForm } from 'vee-validate';
   import AlertCustom from '@/base-components/iCustom/AlertCustom.vue';
@@ -11,40 +11,55 @@
   import { defaultTimeoutSubmit, env } from '@/utils/my-variables';
   import LoadingIcon from '@/base-components/LoadingIcon/LoadingIcon.vue';
   import { tryCallRequest } from '@/utils/my-function';
-  import { SingerStore } from '@/stores/singer-store';
-  import { ProfessionStore } from '@/stores/profession-store';
   import { ISinger } from '@/model/interface/ISinger';
-  import { IProfession } from '@/model/interface/IProfession';
   import { useRoute } from 'vue-router';
-  import Dropzone from '@/base-components/Dropzone/Dropzone.vue';
+  import { ISong } from '@/model/interface/ISong';
+  import { SongStore } from '@/stores/song-store';
   import TomSelect from '@/base-components/TomSelect';
-  import { UserStore } from '@/stores/user-store';
+  import { SingerStore } from '@/stores/singer-store';
+  import { CountryStore } from '@/stores/country-menu';
+  import { CategoryStore } from '@/stores/category-menu';
+  import { ICountry } from '@/model/interface/ICountry';
+  import { ICategory } from '@/model/interface/ICategory';
 
   // init value global
   const route = useRoute();
+  const songStore = SongStore();
   const singerStore = SingerStore();
-  const professionStore = ProfessionStore();
-  const professions = computed(() => professionStore.professions as IProfession[]);
-  const userStore = UserStore();
+  const countryStore = CountryStore();
+  const categoryStore = CategoryStore();
+  const singers = computed(() => singerStore.singers as ISinger[]);
+  const countries = computed(() => countryStore.countries as ICountry[]);
+  const categories = computed(() => categoryStore.categories as ICategory[]);
+
   //form data
   const formData = reactive({
     id: '',
     name: '',
-    birthday: '',
-    address: '',
-    professions: [],
+    release: '',
+    time: 0,
+    lyric: '',
     description: '',
-    avatar: ''
+    file_mp3: '',
+    picture: '',
+    categories: [],
+    countries: [],
+    singers: [],
   });
   //Schema validate
   const schema = toFieldValidator(
     z
       .object({
         name: z.string().nonempty(t('alert.messages.required', { field: t('name') })),
-        birthday: z.string().nonempty(t('alert.messages.required', { field: t('birthday') })),
-        address: z.string().nonempty(t('alert.messages.required', { field: t('address') })),
-        professions: z.array(z.number({ required_error: t('profession'), invalid_type_error: t('profession')})),
-        description: z.string(),
+        release: z.string().datetime(),
+        time: z.number({ required_error: t('time'), invalid_type_error: t('time')}),
+        lyric: z.string().nonempty(t('alert.messages.required', { field: t('lyric') })),
+        description: z.string().nonempty(t('alert.messages.required', { field: t('description') })),
+        file_mp3: z.string().nonempty(t('alert.messages.required', { field: t('file_mp3') })),
+        categories: z.array(z.number({ required_error: t('category'), invalid_type_error: t('category')})),
+        countries: z.array(z.number({ required_error: t('countries'), invalid_type_error: t('countries')})),
+        singers: z.array(z.number({ required_error: t('singer'), invalid_type_error: t('singer')})),
+        picture: z.string(),
       })
   );
   //Form action
@@ -61,12 +76,12 @@
     await new Promise((resolve) => setTimeout(resolve, defaultTimeoutSubmit));
     await tryCallRequest(async () => {
       // init request
-      const request = { id: formData.id, name: values.name, birthday: values.birthday, address: values.address, professions: formData.professions.map(p => p), description: formData.description } as ISinger;
+      const request = {  } as ISong;
       // call request save
       if (showEdit.value) {
-        await singerStore.update(request)
+        await songStore.update(request)
       } else {
-        await singerStore.save(request);
+        await songStore.save(request);
         handleReset();
       }
     });
@@ -76,26 +91,28 @@
   async function searchSinger (id: string) {
     await tryCallRequest(async () => {
       // init request
-      const request = { id: id } as ISinger;
-      // call request
-      const response = await singerStore.search(request);
-      if (response) {
-        const singerSearch = response.data as ISinger;
-        formData.id = singerSearch.id;
-        formData.name = singerSearch.name;
-        formData.birthday = singerSearch.birthday;
-        formData.address = singerSearch.address;
-        formData.description = singerSearch.description;
-        formData.professions = singerSearch.professions.map(p => p.id) as [];
-        formData.avatar = singerSearch.avatar;
-        showEdit.value = true;
-      }
+      // const request = { id: id } as ISinger;
+      // // call request
+      // const response = await songStore.search(request);
+      // if (response) {
+      //   // const singerSearch = response.data as ISinger;
+      //   // formData.id = singerSearch.id;
+      //   // formData.name = singerSearch.name;
+      //   // formData.birthday = singerSearch.birthday;
+      //   // formData.address = singerSearch.address;
+      //   // formData.description = singerSearch.description;
+      //   // formData.professions = singerSearch.professions.map(p => p.id) as [];
+      //   // formData.avatar = singerSearch.avatar;
+      //   // showEdit.value = true;
+      // }
     })
   }
 
 
   onMounted(async () => {
-    await professionStore.list();
+    await categoryStore.list();
+    await countryStore.list();
+    await singerStore.list();
     if (route.params.id) {
       await searchSinger(String(route.params.id));
     }
@@ -112,35 +129,46 @@
           <div class="w-full flex-1">
             <InputGroup class="w-full">
               <InputGroup.Text id="icon-name">
-                <Lucide icon="User" class="w-4 h-4" />
+                <Lucide icon="Music2" class="w-4 h-4" />
               </InputGroup.Text>
               <FormInput v-model="formData.name" name="name" id="name" type="text" :placeholder="t('enter', { name: t('name') })" aria-describedby="icon-name" />
             </InputGroup>
           </div>
         </FormInline>
-        <FormInline class="items-start mt-5" >
-          <FormLabel htmlFor="birthday" class="sm:w-28"> {{ t('birthday') }}:</FormLabel>
+        <FormInline class="items-start mt-4" >
+          <FormLabel htmlFor="release" class="sm:w-28"> {{ t('release') }}:</FormLabel>
           <div class="w-full flex-1">
             <InputGroup class="w-full">
-              <InputGroup.Text id="icon-birthday">
+              <InputGroup.Text id="icon-release">
                 <Lucide icon="CalendarDays" class="w-4 h-4" />
               </InputGroup.Text>
-              <FormInput v-model="formData.birthday" name="birthday" id="birthday" type="date" :placeholder="t('enter', { name: t('birthday') })" aria-describedby="icon-birthday" />
+              <FormInput v-model="formData.release" name="release" id="release" type="date" :placeholder="t('release', { name: t('release') })" aria-describedby="icon-release" />
             </InputGroup>
           </div>
         </FormInline>
-        <FormInline class="items-start mt-5" >
-          <FormLabel htmlFor="address" class="sm:w-28"> {{ t('address') }}:</FormLabel>
+        <FormInline class="items-start mt-4" >
+          <FormLabel htmlFor="time" class="sm:w-28"> {{ t('time') }}:</FormLabel>
           <div class="w-full flex-1">
             <InputGroup class="w-full">
-              <InputGroup.Text id="icon-address">
-                <Lucide icon="MapPin" class="w-4 h-4" />
+              <InputGroup.Text id="icon-time">
+                <Lucide icon="Timer" class="w-4 h-4" />
               </InputGroup.Text>
-              <FormInput v-model="formData.address" name="address" id="address" type="text" :placeholder="t('enter', { name: t('address') })" aria-describedby="icon-address" />
+              <FormInput v-model="formData.time" name="time" id="time" type="text" :placeholder="t('enter', { name: t('time') })" aria-describedby="icon-time" />
             </InputGroup>
           </div>
         </FormInline>
-        <FormInline class="items-start mt-5" >
+        <FormInline class="items-start mt-4" >
+          <FormLabel htmlFor="lyric" class="sm:w-28"> {{ t('lyric') }}:</FormLabel>
+          <div class="w-full flex-1">
+            <InputGroup class="w-full">
+              <InputGroup.Text id="icon-lyric">
+                <Lucide icon="Music" class="w-4 h-4" />
+              </InputGroup.Text>
+              <FormTextarea v-model="formData.lyric" :rows="5" name="lyric" class='rounded' id="lyric" type="text" :placeholder="t('enter', { name: t('lyric') })" aria-describedby="icon-lyric" />
+            </InputGroup>
+          </div>
+        </FormInline>
+        <FormInline class="items-start mt-4" >
           <FormLabel htmlFor="description" class="sm:w-28"> {{ t('description') }}:</FormLabel>
           <div class="w-full flex-1">
             <InputGroup class="w-full">
@@ -151,48 +179,74 @@
             </InputGroup>
           </div>
         </FormInline>
-        <FormInline class="items-start mt-5">
-          <FormLabel htmlFor="professions" class="sm:w-28"> {{ t('profession') }}:</FormLabel>
+        <FormInline class="items-start mt-4" >
+          <FormLabel htmlFor="picture" class="sm:w-28"> {{ t('picture') }}:</FormLabel>
           <div class="w-full flex-1">
             <InputGroup class="w-full">
-              <InputGroup.Text id="icon-professions">
-                <Lucide icon="Box" class="w-4 h-4" />
+              <InputGroup.Text id="icon-picture">
+                <Lucide icon="FileImage" class="w-4 h-4" />
               </InputGroup.Text>
-              <TomSelect id="professions" name="professions" v-model="formData.professions" :options="{
-                  placeholder: t('select_your_job', { job: t('profession').toLowerCase() }),
+              <FormInput v-model="formData.picture" name="picture" id="picture" type="text" :placeholder="t('enter', { name: t('picture') })" aria-describedby="icon-picture" />
+            </InputGroup>
+          </div>
+        </FormInline>
+        <FormInline class="items-start mt-4" >
+          <FormLabel htmlFor="category" class="sm:w-28"> {{ t('category') }}:</FormLabel>
+          <div class="w-full flex-1">
+            <InputGroup class="w-full">
+              <InputGroup.Text id="icon-category">
+                <Lucide icon="Banknote" class="w-4 h-4" />
+              </InputGroup.Text>
+              <TomSelect id="categories" name="categories" v-model="formData.categories" :options="{
+                  placeholder: t('select_your_job', { job: t('category').toLowerCase() }),
                   plugins: { dropdown_header: { title: 'Select' } },
                 }" class="w-full" multiple>
-                <option v-for='profession in professions' :value="profession.id" :key='profession.id'>{{ profession.name }}</option>
+                <option v-for='category in categories' :value="category.id" :key='category.id'>{{ category.name }}</option>
               </TomSelect>
             </InputGroup>
           </div>
         </FormInline>
-        <FormInline class="items-start mt-5">
-          <FormLabel htmlFor="avatar" class="sm:w-28"> {{ t('avatar') }}:</FormLabel>
+        <FormInline class="items-start mt-4" >
+          <FormLabel htmlFor="countries" class="sm:w-28"> {{ t('countries') }}:</FormLabel>
           <div class="w-full flex-1">
             <InputGroup class="w-full">
-              <InputGroup.Text id="icon-avatar">
-                <Lucide icon="Image" class="w-4 h-4" />
+              <InputGroup.Text id="icon-countries">
+                <Lucide icon="MapPin" class="w-4 h-4" />
               </InputGroup.Text>
-              <Dropzone ref='dropzone' :options="{
-                  url:  env.backendServer + '/api/upload_file/',
-                  thumbnailWidth: 150,
-                  headers: {
-                    'Authorization': `Bearer ${userStore.myUser.access_token}`,
-                    'X-CSRF-TOKEN': ('meta[name='+ userStore.myUser.access_token +']')
-                  },
-                  maxFilesize: 0.5,
-                  maxFiles: 1,
-                  method: 'POST'
-                }" class="dropzone w-full">
-                <div class="text-lg font-medium">
-                  Drop files here or click to upload.
-                </div>
-                <div class="text-gray-600">
-                  This is just a demo dropzone. Selected files are
-                  <span class="font-medium">not</span> actually uploaded.
-                </div>
-              </Dropzone>
+              <TomSelect id="countries" name="countries" v-model="formData.countries" :options="{
+                  placeholder: t('select_your_job', { job: t('countries').toLowerCase() }),
+                  plugins: { dropdown_header: { title: 'Select' } },
+                }" class="w-full" multiple>
+                <option v-for='country in countries' :value="country.id" :key='country.id'>{{ country.name }}</option>
+              </TomSelect>
+            </InputGroup>
+          </div>
+        </FormInline>
+        <FormInline class="items-start mt-4" >
+          <FormLabel htmlFor="singers" class="sm:w-28"> {{ t('singer') }}:</FormLabel>
+          <div class="w-full flex-1">
+            <InputGroup class="w-full">
+              <InputGroup.Text id="icon-singers">
+                <Lucide icon="User" class="w-4 h-4" />
+              </InputGroup.Text>
+              <TomSelect id="singers" name="singers" v-model="formData.singers" :options="{
+                  placeholder: t('select_your_job', { job: t('singer').toLowerCase() }),
+                  plugins: { dropdown_header: { title: 'Select' } },
+                }" class="w-full" multiple>
+                <option v-for='singer in singers' :value="singer.id" :key='singer.id'>{{ singer.name }}</option>
+              </TomSelect>
+            </InputGroup>
+          </div>
+        </FormInline>
+        <FormInline class="items-start mt-4" >
+          <FormLabel htmlFor="file_mp3" class="sm:w-28"> {{ t('file_mp3') }}:</FormLabel>
+<!--          <input id="file-upload" type="file" ref="fileInput" />-->
+          <div class="w-full flex-1">
+            <InputGroup class="w-full">
+              <InputGroup.Text id="icon-file_mp3">
+                <Lucide icon="FileAudio" class="w-4 h-4" />
+              </InputGroup.Text>
+              <FormInput v-model="formData.file_mp3" name="file_mp3" id="file_mp3" type="text" :placeholder="t('enter', { name: t('file_mp3') })" aria-describedby="icon-file_mp3" />
             </InputGroup>
           </div>
         </FormInline>
