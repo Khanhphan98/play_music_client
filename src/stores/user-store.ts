@@ -1,6 +1,6 @@
 import { defineStore } from 'pinia';
 import { IUser } from '@/model/interface/IUser';
-import userService from '@/model/service/user-service';
+import UserService from '@/model/service/user-service';
 import { ref } from 'vue';
 import { handleExceptionError } from '@/utils/my-function';
 import router from '@/router';
@@ -15,7 +15,7 @@ export const UserStore = defineStore('userStore', () => {
       // init request
       const request = { username: user.username, password: user.password } as IUser;
       // call request
-      const response = await userService.login(request);
+      const response = await UserService.login(request);
       if (response.data) {
         // set user
         myUser.value.username = user.username;
@@ -46,11 +46,24 @@ export const UserStore = defineStore('userStore', () => {
     hasLogged.value = false;
   }
 
+  async function actionGetInfoUser() {
+      try {
+        const response = await UserService.getInfoUser();
+        if (response.data) {
+          myUser.value.username = response.data[0].username;
+        }
+      } catch (e) {
+        actionRemoveToken();
+        handleExceptionError(e);
+      }
+  }
+
   return {
     myUser,
     hasLogged,
     login,
     actionGetToken,
-    actionRemoveToken
+    actionRemoveToken,
+    actionGetInfoUser
   };
 });

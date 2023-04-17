@@ -74,6 +74,8 @@
   const showEdit = ref(false);
   const filePicture = ref<IFileUpload>({ path: '', filename: '', duration: '', size: '', type: '' });
   const fileMp3 = ref<IFileUpload>({ path: '', filename: '', duration: '', size: '', type: '' });
+  const fileMp3Deleted = ref('');
+  const filePictureDeleted = ref('');
   //Action method
   const submitForm = handleSubmit(async (values) => {
     await new Promise((resolve) => setTimeout(resolve, defaultTimeoutSubmit));
@@ -98,7 +100,11 @@
       } else {
         await songStore.save(request);
       }
+      // redirect
       await router.push('/songs')
+    }).then(async () => {
+      // check nếu có file đang xoá tạm thì call api xoá trên server
+      await handleDeletedFileTemporary();
     });
   });
 
@@ -160,9 +166,25 @@
     })
   }
 
+  async function handleDeletedFileTemporary() {
+    if (fileMp3Deleted.value) {
+      await mediaStore.removeFileMp3(fileMp3Deleted.value);
+    }
+    if (filePictureDeleted.value) {
+      await mediaStore.removeFileImage(filePictureDeleted.value);
+    }
+  }
+
   async function deleteFile(isMp3: boolean) {
     await tryCallRequest(async () => {
       if (isMp3) {
+        // Nếu là edit thì chỉ xoá tạm file
+        if (showEdit.value) {
+          // clean file upload
+          fileMp3Deleted.value = fileMp3.value.filename;
+          fileMp3.value = {} as IFileUpload;
+          return;
+        }
         // init value
         const filename = fileMp3.value.filename;
         // call request
@@ -170,6 +192,13 @@
         // clean file upload
         fileMp3.value = {} as IFileUpload;
       } else {
+        // Nếu là edit thì chỉ xoá tạm file
+        if (showEdit.value) {
+          // clean file upload
+          filePictureDeleted.value = filePicture.value.filename;
+          filePicture.value = {} as IFileUpload;
+          return;
+        }
         // init value
         const filename = filePicture.value.filename;
         // call request

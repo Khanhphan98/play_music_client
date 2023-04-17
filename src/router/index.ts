@@ -169,6 +169,18 @@ router.beforeEach(async (to, _from, next) => {
   localeStore.actionSetDefaultLocale();
   //get token
   userStore.actionGetToken();
+  //check 1 lan gui request ve server xem jwt hop le ko
+  if (!userStore.hasLogged) {
+    try {
+      //require token
+      if (userStore.myUser.access_token) {
+        await userStore.actionGetInfoUser();
+      }
+    } catch (e) {
+      userStore.actionRemoveToken();
+      handleExceptionError(e);
+    }
+  }
   //nếu giá trị rỗng thì chuyển route về login
   if (to.matched.some((record) => record.meta.requiresAuth) && !userStore.myUser.access_token) {
     next('/login');
