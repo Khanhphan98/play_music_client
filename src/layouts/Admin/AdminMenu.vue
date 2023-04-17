@@ -45,7 +45,7 @@
       _title += '_' + _params;
     }
     if (!_title) {
-      _title = 'routemetatitle';
+      _title = '';
     }
     return _title;
   }
