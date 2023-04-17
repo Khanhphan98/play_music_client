@@ -130,13 +130,19 @@
               {{ toHHMMSS(String(song.time)) }}
             </Table.Td>
             <Table.Td>
-              <span v-for='category in song.categories' :key='category.name'>{{ category.name }}</span>
+              <span v-for='(category, idx) in song.categories' :key='category.name'>
+                {{ category.name }}<span v-if='idx !== song.categories.length - 1'>, </span>
+              </span>
             </Table.Td>
             <Table.Td>
-              <span v-for='country in song.countries' :key='country.name'>{{ country.name }}</span>
+              <span v-for='(country, idx) in song.countries' :key='country.name'>
+                {{ country.name }}<span v-if='idx !== song.countries.length - 1'>, </span>
+              </span>
             </Table.Td>
             <Table.Td>
-              <span v-for='singer in song.singers' :key='singer.name'>{{ singer.name }}</span>
+              <span v-for='(singer, idx) in song.singers' :key='singer.name'>
+                {{ singer.name }}<span v-if='idx !== song.singers.length - 1'>, </span>
+              </span>
             </Table.Td>
             <Table.Td>
               <div class='flex items-center'>
