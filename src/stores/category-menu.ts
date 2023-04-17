@@ -40,8 +40,6 @@ export const CategoryStore = defineStore('categoryStore', () => {
     await categoryService.remove(request);
   }
 
-
-
   return {
     categories,
     list,

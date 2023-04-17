@@ -6,26 +6,28 @@
   import { FormInput } from '@/base-components/Form';
   import { t } from '@/config/i18n';
   import { ISong } from '@/model/interface/ISong';
-  import { formatDate } from '@/utils/helper';
   import HeadlessUiDialogModal from '@/base-components/iCustom/HeadlessUiDialogModal.vue';
   import { ModalConfig } from '@/model/dto/ModalConfig';
-  import { tryCallRequest } from '@/utils/my-function';
+  import { toHHMMSS, tryCallRequest } from '@/utils/my-function';
   import router from '@/router';
+  import { SongStore } from '@/stores/song-store';
   import { env } from '@/utils/my-variables';
   import ImageZoom from '@/base-components/ImageZoom/ImageZoom.vue';
-  import { SongStore } from '@/stores/song-store';
 
 
   // init value global
   const songStore = SongStore();
   const songs = computed(() => songStore.songs as ISong[]);
 
-
   const listHeader = ref<any>({
     table: {
       thead: [
         {
-          title: computed(() => t('name')),
+          title: computed(() => t('picture')),
+          val: 'picture'
+        },
+        {
+          title: computed(() => t('name', { field: t("song") })),
           val: 'name'
         },
         {
@@ -35,10 +37,6 @@
         {
           title: computed(() => t('time')),
           val: 'time'
-        },
-        {
-          title: computed(() => t('file_mp3')),
-          val: 'file_mp3'
         },
         {
           title: computed(() => t('category')),
@@ -118,16 +116,18 @@
         <Table.Tbody>
           <Table.Tr v-for="song in songs" :key="song.name">
             <Table.Td>
+              <div class="w-10 h-10 image-fit">
+                <ImageZoom :alt="song.name" :src="env.backendServer + song.picture" class='rounded' />
+              </div>
+            </Table.Td>
+            <Table.Td>
               {{ song.name }}
             </Table.Td>
             <Table.Td>
               {{ song.release }}
             </Table.Td>
             <Table.Td>
-              {{ song.time }}
-            </Table.Td>
-            <Table.Td>
-              {{ song.file_mp3 }}
+              {{ toHHMMSS(String(song.time)) }}
             </Table.Td>
             <Table.Td>
               <span v-for='category in song.categories' :key='category.name'>{{ category.name }}</span>
@@ -140,7 +140,7 @@
             </Table.Td>
             <Table.Td>
               <div class='flex items-center'>
-                <Button size="sm" variant="secondary" class="mr-3" @click="router.push(`/singer/save-singer/${song.id}`)">
+                <Button size="sm" variant="secondary" class="mr-3" @click="router.push(`/songs/save-songs/${song.id}`)">
                   <Lucide icon="FileSignature" class="w-4 h-4" />
                 </Button>
                 <Button size="sm" variant="outline-danger" class="mr-3" @click='showModalDelete = true; songDelete = song'>

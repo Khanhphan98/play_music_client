@@ -55,7 +55,7 @@ const routes = [
   },
   {
     path: '/profession',
-    redirect: '/list-profession/list-profession',
+    redirect: '/list-profession',
     name: 'admin-menu-users-profession',
     component: AdminMenu,
     meta: { requiresAuth: true },
@@ -105,7 +105,7 @@ const routes = [
   },
   {
     path: '/categories',
-    redirect: '/list-caregories/list-categories',
+    redirect: '/list-categories',
     name: 'admin-menu-users-categories',
     component: AdminMenu,
     meta: { requiresAuth: true },
@@ -122,7 +122,7 @@ const routes = [
   },
   {
     path: '/countries',
-    redirect: '/list-countries/list-countries',
+    redirect: '/list-countries',
     name: 'admin-menu-users-countries',
     component: AdminMenu,
     meta: { requiresAuth: true },
@@ -162,9 +162,6 @@ const router = createRouter({
 });
 
 router.beforeEach(async (to, _from, next) => {
-  //Check nếu đang truy cập route admin
-  const arrays = to.path.split('/');
-  const pathAdmin = arrays.some((value) => value === 'admin');
   //init value
   const userStore = UserStore();
   const localeStore = LocaleStore();
@@ -172,19 +169,6 @@ router.beforeEach(async (to, _from, next) => {
   localeStore.actionSetDefaultLocale();
   //get token
   userStore.actionGetToken();
-  //check 1 lan gui request ve server xem jwt hop le ko
-  if (!userStore.hasLogged) {
-    try {
-      //require token
-      if (userStore.myUser.access_token) {
-        //get user
-        next();
-      }
-    } catch (e) {
-      userStore.actionRemoveToken();
-      handleExceptionError(e);
-    }
-  }
   //nếu giá trị rỗng thì chuyển route về login
   if (to.matched.some((record) => record.meta.requiresAuth) && !userStore.myUser.access_token) {
     next('/login');

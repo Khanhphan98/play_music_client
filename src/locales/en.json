@@ -5,7 +5,7 @@
   "email": "Email",
   "username": "Username",
   "password": "Password",
-  "name": "Name",
+  "name": "Name {field}",
   "button": {
     "login": "Login",
     "logout": "Logout",
@@ -94,8 +94,10 @@
   "file_mp3": "File Mp3",
   "list_songs": "List Songs",
   "new_songs": "New Song",
+  "save_songs": "Save Song",
+  "song": "Song",
   "picture": "Picture",
   "upload_a_file": "Upload a file",
   "or_drag_and_drop": "or drag and drop",
-  "delete_file": "Delete file"
+  "delete_file": "Delete file",
 }

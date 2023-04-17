@@ -25,6 +25,7 @@
   import { IFileUpload } from '@/model/interface/IFileUpload';
   import { MediaStore } from '@/stores/media-store';
   import FileIcon from '@/base-components/FileIcon/FileIcon.vue';
+  import router from '@/router';
 
   // init value global
   const route = useRoute();
@@ -96,29 +97,40 @@
         await songStore.update(request)
       } else {
         await songStore.save(request);
-        handleReset();
       }
+      await router.push('/songs')
     });
   });
 
 
-  async function searchSinger (id: string) {
+  async function searchSong (id: string) {
     await tryCallRequest(async () => {
       // init request
-      // const request = { id: id } as ISinger;
-      // // call request
-      // const response = await songStore.search(request);
-      // if (response) {
-      //   // const singerSearch = response.data as ISinger;
-      //   // formData.id = singerSearch.id;
-      //   // formData.name = singerSearch.name;
-      //   // formData.birthday = singerSearch.birthday;
-      //   // formData.address = singerSearch.address;
-      //   // formData.description = singerSearch.description;
-      //   // formData.professions = singerSearch.professions.map(p => p.id) as [];
-      //   // formData.avatar = singerSearch.avatar;
-      //   // showEdit.value = true;
-      // }
+      const request = { id: id } as ISong;
+      // call request
+      const response = await songStore.search(request);
+      if (response) {
+        const songSearch = response.data as ISong;
+        formData.id = songSearch.id;
+        formData.name = songSearch.name;
+        formData.release = songSearch.release;
+        formData.time = songSearch.time;
+        formData.lyric = songSearch.lyric;
+        formData.description = songSearch.description;
+        formData.categories = songSearch.categories.map(p => p.id) as [];
+        formData.singers = songSearch.singers.map(p => p.id) as [];
+        formData.countries = songSearch.countries.map(p => p.id) as [];
+        formData.file_mp3 = songSearch.file_mp3;
+        formData.picture = songSearch.picture;
+        // init value file
+        fileMp3.value.path = songSearch.file_mp3;
+        fileMp3.value.duration = String(songSearch.time);
+        fileMp3.value.filename = String(songSearch.file_mp3.split('/').at(-1));
+        filePicture.value.path = songSearch.picture;
+        filePicture.value.filename = String(songSearch.picture.split('/').at(-1));
+        // show edit view
+        showEdit.value = true;
+      }
     })
   }
 
@@ -173,7 +185,7 @@
     await countryStore.list();
     await singerStore.list();
     if (route.params.id) {
-      await searchSinger(String(route.params.id));
+      await searchSong(String(route.params.id));
     }
   })
 

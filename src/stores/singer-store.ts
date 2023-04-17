@@ -4,8 +4,6 @@ import { ref } from 'vue';
 import { ISinger } from '@/model/interface/ISinger';
 import SingerService from '@/model/service/singer-service';
 import { MyStore } from '@/stores/my-store';
-import MediaService from '@/model/service/media-service';
-import { IFileUpload } from '@/model/interface/IFileUpload';
 
 export const SingerStore = defineStore('singerStore', () => {
   const myStore = MyStore()
@@ -47,6 +45,8 @@ export const SingerStore = defineStore('singerStore', () => {
     const request = { id: singer.id } as ISinger;
     // call request
     await SingerService.remove(request);
+    // show toasti
+    myStore.showToastMessage();
   }
 
   async function search(singer: ISinger) {

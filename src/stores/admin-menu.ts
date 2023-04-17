@@ -67,45 +67,21 @@ export const useAdminMenuStore = defineStore('adminMenu', {
       },
       {
         icon: 'Box',
-        pageName: 'admin-menu-profession',
+        pageName: 'admin-menu-users-list-profession',
         title: 'Profession',
         i18nkey: 'users',
-        subMenu: [
-          {
-            icon: 'Newspaper',
-            pageName: 'admin-menu-users-list-profession',
-            title: 'List Profession',
-            i18nkey: 'listprofession',
-          },
-        ],
       },
       {
         icon: 'Banknote',
-        pageName: 'admin-menu-categories',
+        pageName: 'admin-menu-users-list-categories',
         title: 'Category',
-        i18nkey: 'category',
-        subMenu: [
-          {
-            icon: 'Banknote',
-            pageName: 'admin-menu-users-list-categories',
-            title: 'List Category',
-            i18nkey: 'listcategory',
-          },
-        ],
+        i18nkey: 'category'
       },
       {
         icon: 'MapPin',
-        pageName: 'admin-menu-countries',
+        pageName: 'admin-menu-users-list-countries',
         title: 'Country',
-        i18nkey: 'country',
-        subMenu: [
-          {
-            icon: 'MapPin',
-            pageName: 'admin-menu-users-list-countries',
-            title: 'List Country',
-            i18nkey: 'listcountry',
-          },
-        ],
+        i18nkey: 'country'
       },
     ],
   }),

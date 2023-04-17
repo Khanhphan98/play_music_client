@@ -5,7 +5,7 @@
   "email": "Địa chỉ email",
   "username": "Tài khoản",
   "password": "Mật khẩu",
-  "name": "Tên",
+  "name": "Tên {field}",
   "button": {
     "login": "Đăng nhập",
     "logout": "Đăng xuất",
@@ -94,6 +94,8 @@
   "file_mp3": "File Mp3",
   "list_songs": "Danh sách bài hát",
   "new_songs": "Tạo bài hát",
+  "save_songs": "Lưu bài hát",
+  "song": "Bài hát",
   "picture": "Hình ảnh",
   "upload_a_file": "Tải lên tệp",
   "or_drag_and_drop": "hoặc kéo thả vào",

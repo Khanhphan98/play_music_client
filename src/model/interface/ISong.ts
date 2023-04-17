@@ -11,7 +11,7 @@ export interface ISong {
   description: string;
   file_mp3: string;
   picture: string;
-  categories: [];
-  countries: [];
-  singers: [];
+  categories: ICategory[];
+  countries: ICountry[];
+  singers: ISinger[];
 }

@@ -20,6 +20,7 @@
   import Tippy from '@/base-components/Tippy/Tippy.vue';
   import { IFileUpload } from '@/model/interface/IFileUpload';
   import { MediaStore } from '@/stores/media-store';
+  import router from '@/router';
 
   // init value global
   const route = useRoute();
@@ -77,8 +78,8 @@
         await singerStore.update(request)
       } else {
         await singerStore.save(request);
-        handleReset();
       }
+      await router.push('/singer')
     });
   });
 
@@ -98,6 +99,8 @@
         formData.description = singerSearch.description;
         formData.professions = singerSearch.professions.map(p => p.id) as [];
         formData.avatar = singerSearch.avatar;
+        fileUpload.value.path = singerSearch.avatar;
+        fileUpload.value.filename = String(singerSearch.avatar.split('/').at(-1));
         showEdit.value = true;
       }
     })
