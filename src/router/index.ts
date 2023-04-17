@@ -1,5 +1,6 @@
 import { createRouter, createWebHistory } from 'vue-router';
 import AdminMenu from '../layouts/Admin/AdminMenu.vue';
+import ClientMenu from '../layouts/Client/ClientMenu.vue';
 import DashboardOverview1 from '../pages/DashboardOverview1.vue';
 import Login from '../pages/Login.vue';
 import ErrorPage from '../pages/ErrorPage.vue';
@@ -123,14 +124,26 @@ const routes = [
   {
     path: '/countries',
     redirect: '/list-countries',
-    name: 'admin-menu-users-countries',
+    name: 'client-menu',
     component: AdminMenu,
     meta: { requiresAuth: true },
     children: [
       {
+        path: '/',
+        name: 'client-menu-dashboard-overview-1',
+        component: DashboardOverview1,
+      },
+    ],
+  },
+  {
+    path: '/listen',
+    name: 'listen',
+    component: ClientMenu,
+    children: [
+      {
         path: '',
-        name: 'admin-menu-users-list-countries',
-        component: () => import('@/pages/Country/ListCountry.vue'),
+        name: 'client-menu-users-list-countries',
+        component: DashboardOverview1,
         meta: {
           title: 'countries',
         },
