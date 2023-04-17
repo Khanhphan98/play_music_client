@@ -21,7 +21,9 @@ export const SongStore = defineStore('songStore', () => {
 
   async function save(song: ISong) {
     // init value
-    const request = { name: song.name } as ISong;
+    const request = { id: song.id, name: song.name, release: song.release, time: song.time, lyric: song.lyric, description: song.description,
+      file_mp3: song.file_mp3, picture: song.picture, categories: song.categories, countries: song.countries, singers: song.singers,
+    } as ISong;
     // call request
     await SongService.save(request);
   }

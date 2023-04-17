@@ -24,6 +24,7 @@
   import Tippy from '@/base-components/Tippy/Tippy.vue';
   import { IFileUpload } from '@/model/interface/IFileUpload';
   import { MediaStore } from '@/stores/media-store';
+  import FileIcon from '@/base-components/FileIcon/FileIcon.vue';
 
   // init value global
   const route = useRoute();
@@ -55,15 +56,11 @@
     z
       .object({
         name: z.string().nonempty(t('alert.messages.required', { field: t('name') })),
-        release: z.string().datetime(),
-        time: z.number(),
         lyric: z.string(),
         description: z.string(),
-        file_mp3: z.string(),
         categories: z.array(z.number({ required_error: t('category'), invalid_type_error: t('category')})),
         countries: z.array(z.number({ required_error: t('countries'), invalid_type_error: t('countries')})),
         singers: z.array(z.number({ required_error: t('singer'), invalid_type_error: t('singer')})),
-        picture: z.string(),
       })
   );
   //Form action
@@ -80,16 +77,27 @@
   const submitForm = handleSubmit(async (values) => {
     await new Promise((resolve) => setTimeout(resolve, defaultTimeoutSubmit));
     await tryCallRequest(async () => {
-      console.log(values);
-      // // init request
-      // const request = {  } as ISong;
-      // // call request save
-      // if (showEdit.value) {
-      //   await songStore.update(request)
-      // } else {
-      //   await songStore.save(request);
-      //   handleReset();
-      // }
+      // init request
+      const request = {
+        id: formData.id,
+        name: formData.name,
+        release: formData.release,
+        time: parseInt(fileMp3.value.duration),
+        lyric: formData.lyric,
+        description: formData.description,
+        file_mp3: fileMp3.value.path,
+        picture: filePicture.value.path,
+        categories: formData.categories.map(c => c),
+        countries: formData.countries.map(c => c),
+        singers: formData.singers.map(s => s),
+      } as ISong;
+      // call request save
+      if (showEdit.value) {
+        await songStore.update(request)
+      } else {
+        await songStore.save(request);
+        handleReset();
+      }
     });
   });
 
@@ -198,17 +206,6 @@
           </div>
         </FormInline>
         <FormInline class="items-start mt-4" >
-          <FormLabel htmlFor="time" class="sm:w-28"> {{ t('time') }}:</FormLabel>
-          <div class="w-full flex-1">
-            <InputGroup class="w-full">
-              <InputGroup.Text id="icon-time">
-                <Lucide icon="Timer" class="w-4 h-4" />
-              </InputGroup.Text>
-              <FormInput v-model="formData.time" name="time" id="time" type="text" :placeholder="t('enter', { name: t('time') })" aria-describedby="icon-time" />
-            </InputGroup>
-          </div>
-        </FormInline>
-        <FormInline class="items-start mt-4" >
           <FormLabel htmlFor="lyric" class="sm:w-28"> {{ t('lyric') }}:</FormLabel>
           <div class="w-full flex-1">
             <InputGroup class="w-full">
@@ -291,7 +288,7 @@
                     <div class="pt-4 w-full border-2 border-dashed rounded-md dark:border-darkmode-400 grid justify-center items-center">
                       <div v-if='fileMp3.filename' class="grid grid-row-reverse px-4 justify-center mb-3">
                         <div class="relative w-24 h-24 mb-2 cursor-pointer image-fit zoom-in">
-                          {{ fileMp3.filename }}
+                          <FileIcon class="w-full text-xl file" variant="file" type="MP3" />
                           <Tippy as="div" @click='deleteFile(true)' :content="t('delete_file')" class="absolute top-0 right-0 flex items-center justify-center w-5 h-5 -mt-2 -mr-2 text-white rounded-full bg-danger">
                             <Lucide icon="X" class="w-4 h-4" />
                           </Tippy>
@@ -349,7 +346,7 @@
     </div>
     <div class="col-span-2 md:col-span-4 lg:col-span-3 relative text-right">
       <div class="p-5 rounded bg-gray-200 dark:bg-darkmode-900 dark:text-slate-400 text-left md:block">
-        <img class="w-full h-full" src="@/assets/images/songs/5.jpeg"  alt='banner'/>\
+        <img class="w-full h-full" src="@/assets/images/songs/5.jpeg"  alt='banner'/>
       </div>
     </div>
   </div>

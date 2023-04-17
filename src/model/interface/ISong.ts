@@ -5,13 +5,13 @@ import { ISinger } from '@/model/interface/ISinger';
 export interface ISong {
   id: string;
   name: string;
-  release: Date;
+  release: string;
   time: number;
   lyric: string;
   description: string;
   file_mp3: string;
   picture: string;
-  categories: ICategory[];
-  countries: ICountry[];
-  singers: ISinger[];
+  categories: [];
+  countries: [];
+  singers: [];
 }
