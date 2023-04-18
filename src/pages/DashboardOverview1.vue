@@ -75,8 +75,9 @@
             <div class="mt-5">
               <div v-for='song in songs' :key='song.id' class="intro-x">
                 <div class="flex items-center px-5 py-3 mb-3 box zoom-in">
-                  <div class="flex-none w-10 h-10 overflow-hidden rounded-full image-fit">
-                    <img alt="Midone Tailwind HTML Admin Template" :src="env.backendServer + song.picture" />
+                  <Lucide icon="Music" class="w-5 h-5 mr-4 text-slate-500" />
+                  <div class="flex-none w-10 h-10 overflow-hidden rounded-md image-fit">
+                    <img :alt="song.name" :src="env.backendServer + song.picture" />
                   </div>
                   <div class="ml-4 mr-auto">
                     <div class="font-medium">{{ song.name }}</div>
@@ -103,11 +104,9 @@
             <div class="mt-5">
               <div v-for='song in songs' :key='song.id' class="intro-x">
                 <div class="flex items-center px-5 py-3 mb-3 box zoom-in">
-                  <div
-                    class="flex-none w-10 h-10 overflow-hidden rounded-full image-fit"
-                  >
-                    <img alt="Midone Tailwind HTML Admin Template" :src="env.backendServer + song.picture"
-                    />
+                  <Lucide icon="Music" class="w-5 h-5 mr-4 text-slate-500" />
+                  <div class="flex-none w-10 h-10 overflow-hidden rounded-md image-fit">
+                    <img :alt="song.name" :src="env.backendServer + song.picture" />
                   </div>
                   <div class="ml-4 mr-auto">
                     <div class="font-medium">{{ song.name }}</div>
