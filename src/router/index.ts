@@ -10,142 +10,170 @@ import { LocaleStore } from '@/stores/locale-store';
 
 const routes = [
   {
-    path: '/',
+    path: '/admin',
     component: AdminMenu,
     meta: { requiresAuth: true },
     children: [
       {
-        path: '/',
+        path: '',
         name: 'side-menu-dashboard-overview-1',
         component: DashboardOverview1,
       },
-    ],
-  },
-  {
-    path: '/songs',
-    redirect: '/list-singer/list-songs',
-    name: 'admin-menu-users-songs',
-    component: AdminMenu,
-    meta: { requiresAuth: true },
-    children: [
       {
-        path: '',
-        name: 'admin-menu-users-list-songs',
-        component: () => import('@/pages/Songs/ListSong.vue'),
-        meta: {
-          title: 'list_songs',
-        },
+        path: 'songs',
+        redirect: '/list-singer/list-songs',
+        name: 'admin-menu-users-songs',
+        meta: { requiresAuth: true },
+        children: [
+          {
+            path: '',
+            name: 'admin-menu-users-list-songs',
+            component: () => import('@/pages/Songs/ListSong.vue'),
+            meta: {
+              title: 'list_songs',
+            },
+          },
+          {
+            path: 'save-songs',
+            name: 'admin-menu-users-new-songs',
+            component: () => import('@/pages/Songs/NewSong.vue'),
+            meta: {
+              title: 'new_songs',
+            },
+          },
+          {
+            path: 'save-songs/:id',
+            name: 'admin-menu-users-save-songs',
+            component: () => import('@/pages/Songs/NewSong.vue'),
+            meta: {
+              title: 'save_songs',
+            },
+          },
+        ],
       },
       {
-        path: 'save-songs',
-        name: 'admin-menu-users-new-songs',
-        component: () => import('@/pages/Songs/NewSong.vue'),
-        meta: {
-          title: 'new_songs',
-        },
+        path: 'singer',
+        redirect: '/list-singer/list-singer',
+        name: 'admin-menu-users-singer',
+        meta: { requiresAuth: true },
+        children: [
+          {
+            path: '',
+            name: 'admin-menu-users-list-singer',
+            component: () => import('@/pages/Singer/ListSinger.vue'),
+            meta: {
+              title: 'list_singer',
+            },
+          },
+          {
+            path: 'save-singer',
+            name: 'admin-menu-users-new-singer',
+            component: () => import('@/pages/Singer/NewSinger.vue'),
+            meta: {
+              title: 'new_singer',
+            },
+          },
+          {
+            path: 'save-singer/:id',
+            name: 'admin-menu-users-save-singer',
+            component: () => import('@/pages/Singer/NewSinger.vue'),
+            meta: {
+              title: 'save_singer',
+            },
+          },
+        ],
       },
       {
-        path: 'save-songs/:id',
-        name: 'admin-menu-users-save-songs',
-        component: () => import('@/pages/Songs/NewSong.vue'),
-        meta: {
-          title: 'save_songs',
-        },
-      },
-    ],
-  },
-  {
-    path: '/profession',
-    redirect: '/list-profession',
-    name: 'admin-menu-users-profession',
-    component: AdminMenu,
-    meta: { requiresAuth: true },
-    children: [
-      {
-        path: '',
-        name: 'admin-menu-users-list-profession',
-        component: () => import('@/pages/Profession/ListProfession.vue'),
-        meta: {
-          title: 'list_profession',
-        },
-      },
-    ],
-  },
-  {
-    path: '/singer',
-    redirect: '/list-singer/list-singer',
-    name: 'admin-menu-users-singer',
-    component: AdminMenu,
-    meta: { requiresAuth: true },
-    children: [
-      {
-        path: '',
-        name: 'admin-menu-users-list-singer',
-        component: () => import('@/pages/Singer/ListSinger.vue'),
-        meta: {
-          title: 'list_singer',
-        },
+        path: 'profession',
+        redirect: '/list-profession',
+        name: 'admin-menu-users-profession',
+        meta: { requiresAuth: true },
+        children: [
+          {
+            path: '',
+            name: 'admin-menu-users-list-profession',
+            component: () => import('@/pages/Profession/ListProfession.vue'),
+            meta: {
+              title: 'list_profession',
+            },
+          },
+        ],
       },
       {
-        path: 'save-singer',
-        name: 'admin-menu-users-new-singer',
-        component: () => import('@/pages/Singer/NewSinger.vue'),
-        meta: {
-          title: 'new_singer',
-        },
+        path: 'categories',
+        redirect: '/list-categories',
+        name: 'admin-menu-users-categories',
+        meta: { requiresAuth: true },
+        children: [
+          {
+            path: '',
+            name: 'admin-menu-users-list-categories',
+            component: () => import('@/pages/Categories/ListCategories.vue'),
+            meta: {
+              title: 'list_caregories',
+            },
+          },
+        ],
       },
       {
-        path: 'save-singer/:id',
-        name: 'admin-menu-users-save-singer',
-        component: () => import('@/pages/Singer/NewSinger.vue'),
-        meta: {
-          title: 'save_singer',
-        },
-      },
-    ],
-  },
-  {
-    path: '/categories',
-    redirect: '/list-categories',
-    name: 'admin-menu-users-categories',
-    component: AdminMenu,
-    meta: { requiresAuth: true },
-    children: [
-      {
-        path: '',
-        name: 'admin-menu-users-list-categories',
-        component: () => import('@/pages/Categories/ListCategories.vue'),
-        meta: {
-          title: 'list_caregories',
-        },
-      },
-    ],
-  },
-  {
-    path: '/countries',
-    redirect: '/list-countries',
-    name: 'client-menu',
-    component: AdminMenu,
-    meta: { requiresAuth: true },
-    children: [
-      {
-        path: '/',
-        name: 'client-menu-dashboard-overview-1',
-        component: DashboardOverview1,
+        path: 'countries',
+        redirect: '/list-countries',
+        name: 'admin-menu-users-countries',
+        meta: { requiresAuth: true },
+        children: [
+          {
+            path: '/',
+            name: 'admin-menu-users-list-countries',
+            component: () => import('@/pages/Country/ListCountry.vue'),
+            meta: {
+              title: 'list_countries',
+            },
+          },
+        ],
       },
     ],
   },
   {
-    path: '/listen',
-    name: 'listen',
+    path: '/discovery',
+    name: 'discovery',
     component: ClientMenu,
     children: [
       {
         path: '',
-        name: 'client-menu-users-list-countries',
+        name: 'client-menu-users-list-discovery',
         component: DashboardOverview1,
         meta: {
-          title: 'countries',
+          title: 'discovery',
+        },
+      },
+    ],
+  },
+  {
+    path: '/discovery-song',
+    name: 'discovery-song',
+    component: ClientMenu,
+    children: [
+      {
+        path: '',
+        name: 'client-menu-users-list-discovery-song',
+        component: DashboardOverview1,
+        meta: {
+          title: 'discovery-song',
+        },
+      },
+    ],
+  },
+  {
+    path: '/discovery-singer',
+    name: 'discovery-singer',
+    component: ClientMenu,
+    children: [
+      {
+        path: '',
+        name: 'client-menu-users-list-discovery-singer',
+        component: DashboardOverview1,
+        meta: {
+          title: 'discovery-singer',
         },
       },
     ],

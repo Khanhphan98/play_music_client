@@ -1,5 +1,5 @@
 <script setup lang="ts">
-  import { computed, onMounted } from 'vue';
+  import { computed, onMounted, ref } from 'vue';
   import { SongStore } from '@/stores/song-store';
   import { ISong } from '@/model/interface/ISong';
   import { env } from '@/utils/my-variables';
@@ -16,6 +16,13 @@
 
   const singerStore = SingerStore();
   const singers = computed(() => singerStore.singers.slice(0, 5) as ISinger[]);
+
+  // value scope
+  const countriesMusic = ref([
+    { name: "Việt Nam", image: "/src/assets/images/banners/vietnam.jpeg" },
+    { name: "US-UK", image: "/src/assets/images/banners/usuk.jpeg" },
+    { name: "Kpop", image: "/src/assets/images/banners/kpop.png" },
+  ])
 
   onMounted(() => {
     songStore.list();
@@ -34,8 +41,24 @@
         <div v-for='song in songsBanner' :key='song.id' class="col-span-6 intro-y sm:col-span-4 md:col-span-3 2xl:col-span-2">
           <div class="relative rounded">
             <FileIcon class="w-full mx-auto" variant="image" :src="env.backendServer + song.picture" />
-            <div class="text-slate-500 text-xs text-center mt-0.5">
+            <div class="text-xs text-slate-500 text-center mt-0.5">
               {{ song.name }}
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-span-12 2xl:col-span-9">
+      <div class="grid grid-cols-3 gap-2 mt-2 intro-y sm:gap-6">
+        <div v-for='music_c in countriesMusic' :key='music_c.name' class="before:block before:absolute before:w-full before:top-0 before:left-0 before:z-10 before:bg-gradient-to-t before:from-black/90 before:to-black/10 image-fit">
+          <div class="relative bg-cover rounded" :style="'background-image: url(' + music_c.image +');'">
+            <div class="z-10 h-[150px] w-full px-10 py-6 bg-black/70 rounded">
+              <a href="#" class="grid text-center font-medium">
+                <span class='rounded px-5 py-2 grid'>
+                    <span class='text-xl'>{{ music_c.name }}</span>
+                    <span class='text-violet-400'>#Play music</span>
+                  </span>
+              </a>
             </div>
           </div>
         </div>
@@ -109,7 +132,7 @@
               <h2 class="mr-5 text-lg font-medium truncate">
                 Nghệ sĩ
               </h2>
-              <a href="" class="ml-auto truncate text-sky-500 opacity-40"> Show More </a>
+              <a href="" class="ml-auto truncate opacity-40 text-violet-500"> Show More </a>
             </div>
             <div class="mt-5 relative before:block before:absolute before:w-px before:h-[85%] before:bg-slate-200 before:dark:bg-darkmode-400 before:ml-5 before:mt-5">
               <div class="relative flex items-center mb-3 intro-x" v-for='singer in singers' :key='singer.id'>
@@ -133,6 +156,26 @@
             </div>
           </div>
           <!-- END: Singer -->
+        </div>
+      </div>
+    </div>
+    <div class="col-span-12 2xl:col-span-9">
+      <div class="flex items-center h-10 intro-x">
+        <h2 class="text-lg font-medium truncate">Nghệ sĩ thịnh hành</h2>
+      </div>
+      <div class="grid grid-cols-5 gap-2 mt-2 intro-y sm:gap-6">
+        <div v-for='singer in singers' :key='singer.id' class="before:block before:absolute before:w-full before:h-full before:top-0 before:left-0 before:z-10 before:bg-gradient-to-t before:from-black/90 before:to-black/10 image-fit">
+          <div class="relative rounded">
+            <FileIcon class="w-full mx-auto shadow-2xl" variant="image" :src="env.backendServer + singer.avatar" />
+          </div>
+          <div class="absolute bottom-0 z-10 px-5 pb-6 text-white">
+            <div class="text-white">
+              <a href="" class="font-medium">
+                <span class="px-2 py-1 rounded bg-white/20 flex">{{ singer.name }} <Lucide icon="Star" class="w-3 h-3 ml-1 mt-0.5" /></span>
+              </a>
+            </div>
+            <a href="" class="block mt-3 text-sm font-medium">{{ singer.description.slice(0, 50) }}</a>
+          </div>
         </div>
       </div>
     </div>

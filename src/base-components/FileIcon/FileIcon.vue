@@ -7,6 +7,7 @@ interface FileIconProps extends HTMLAttributes {
   variant: Variant;
   type?: string;
   src?: string;
+  alt?: string;
 }
 
 function getSVG(variant: string) {
@@ -19,7 +20,7 @@ function getSVG(variant: string) {
   }
 }
 
-const { variant, type, src } = defineProps<FileIconProps>();
+const { variant, type, src, alt } = defineProps<FileIconProps>();
 </script>
 
 <template>
@@ -42,7 +43,7 @@ const { variant, type, src } = defineProps<FileIconProps>();
       >
         <img
           class="rounded-md"
-          alt="Midone Tailwind HTML Admin Template"
+          :alt="alt"
           :src="src"
         />
       </div>
