@@ -1,8 +1,11 @@
 import { defineStore } from 'pinia';
 import MediaService from '@/model/service/media-service';
 import { IFileUpload } from '@/model/interface/IFileUpload';
+import { ref } from 'vue';
+import { ISong } from '@/model/interface/ISong';
 
 export const MediaStore = defineStore('mediaStore', () => {
+  const song = ref<ISong>({ name: '' } as ISong);
 
   async function removeFileImage(filename: string) {
     // init value file in directory image
@@ -18,8 +21,14 @@ export const MediaStore = defineStore('mediaStore', () => {
     await MediaService.delete(fileRemove);
   }
 
+  function initSongStore (item: ISong) {
+    song.value = item;
+  }
+
   return {
+    song,
+    initSongStore,
     removeFileImage,
-    removeFileMp3
+    removeFileMp3,
   };
 });

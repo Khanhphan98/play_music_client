@@ -10,6 +10,7 @@
   import Lucide from '@/base-components/Lucide/Lucide.vue';
   import Menu from '@/layouts/Admin/Menu.vue';
   import { useClientMenuStore } from '@/stores/client-menu';
+  import PlayMusicPlayer from '@/pages/PlayMusicPlayer.vue';
 
   const route = useRoute();
   const formattedMenu = reactive<Array<FormattedMenu | 'divider'>>([]);
@@ -143,6 +144,9 @@
       <!-- END: Content -->
     </div>
   </div>
+  <!-- Template Music -->
+  <PlayMusicPlayer />
+  <!-- Template Music -->
   <!-- MESSSAGE TOAST -->
   <NotificationToastify />
   <!-- MESSSAGE TOAST -->

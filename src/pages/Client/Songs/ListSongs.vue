@@ -6,11 +6,18 @@
   import { computed, onMounted } from 'vue';
   import { ISong } from '@/model/interface/ISong';
   import Lucide from '@/base-components/Lucide';
+  import { MediaStore } from '@/stores/media-store';
 
   const songStore = SongStore();
-  const songs = computed(() => songStore.songs.slice(0, 5) as ISong[]);
+  const songs = computed(() => songStore.songs as ISong[]);
+
+  const mediaStore = MediaStore();
 
   // value scope
+
+  function actionPlaySong (song: ISong) {
+    mediaStore.initSongStore(song);
+  }
 
   onMounted(() => {
     songStore.recent();
@@ -45,7 +52,7 @@
                   <div class='text-3xl opacity-30 mx-4'>
                     -
                   </div>
-                  <div class="flex-none w-10 h-10 overflow-hidden rounded-md image-fit relative">
+                  <div class="flex-none w-10 h-10 overflow-hidden rounded-md image-fit relative" @click='actionPlaySong(song)'>
                     <img :alt="song.name" :src="env.backendServer + song.picture" class='z-0' />
                     <Lucide icon="Play" class="w-4 h-4 z-50 text-white absolute" />
                   </div>

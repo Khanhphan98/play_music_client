@@ -8,7 +8,7 @@
   import { ISinger } from '@/model/interface/ISinger';
 
   const singerStore = SingerStore();
-  const singers = computed(() => singerStore.singers.slice(0, 5) as ISinger[]);
+  const singers = computed(() => singerStore.singers as ISinger[]);
 
   // value scope
 
