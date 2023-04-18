@@ -122,7 +122,7 @@ const routes = [
         meta: { requiresAuth: true },
         children: [
           {
-            path: '/',
+            path: '',
             name: 'admin-menu-users-list-countries',
             component: () => import('@/pages/Country/ListCountry.vue'),
             meta: {
@@ -134,7 +134,7 @@ const routes = [
     ],
   },
   {
-    path: '/discovery',
+    path: '/',
     name: 'discovery',
     component: ClientMenu,
     children: [
@@ -149,8 +149,8 @@ const routes = [
     ],
   },
   {
-    path: '/discovery-song',
-    name: 'discovery-song',
+    path: '/song',
+    name: 'song',
     component: ClientMenu,
     children: [
       {
@@ -164,8 +164,8 @@ const routes = [
     ],
   },
   {
-    path: '/discovery-singer',
-    name: 'discovery-singer',
+    path: '/singer',
+    name: 'singer',
     component: ClientMenu,
     children: [
       {

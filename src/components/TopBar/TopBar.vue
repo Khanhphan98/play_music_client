@@ -1,21 +1,12 @@
 <script setup lang="ts">
   import { ref } from 'vue';
   import DarkModeSwitcher from '@/components/DarkModeSwitcher';
-  import Lucide from '../../base-components/Lucide';
   import Breadcrumb from '../../base-components/Breadcrumb';
-  import { FormInput } from '../../base-components/Form';
-  import { Menu, Popover } from '../../base-components/Headless';
-  import fakerData from '../../utils/faker';
-  import _ from 'lodash';
-  import { TransitionRoot } from '@headlessui/vue';
+  import { FormSelect } from '../../base-components/Form';
+  import { LocaleStore } from '@/stores/locale-store';
 
-  const searchDropdown = ref(false);
-  const showSearchDropdown = () => {
-    searchDropdown.value = true;
-  };
-  const hideSearchDropdown = () => {
-    searchDropdown.value = false;
-  };
+  const localeStore = LocaleStore();
+  const languageMode = ref(localStorage.getItem('locale'));
 </script>
 
 <template>
@@ -27,6 +18,17 @@
       <Breadcrumb.Link to="/" :active="true"> Discovery </Breadcrumb.Link>
     </Breadcrumb>
     <!-- END: Breadcrumb -->
+    <!--      BEGIN: Change Language-->
+    <div class='text-right mr-5'>
+      <FormSelect
+        v-model="languageMode"
+        @change="localeStore.actionChangeLocale(languageMode)"
+        name="language">
+        <option value="vi">VI</option>
+        <option value="en">EN</option>
+      </FormSelect>
+    </div>
+    <!--      END: Change Language-->
     <!-- BEGIN: DarkMode, LightMode-->
     <DarkModeSwitcher class="mr-5 h-5 w-5" />
     <!-- END: DarkMode, LightMode-->
