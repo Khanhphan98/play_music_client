@@ -1,6 +1,6 @@
-import { IProfession } from '@/model/interface/IProfession';
 import axiosInstance from '@/config/Interceptors';
 import { ISinger } from '@/model/interface/ISinger';
+import { apiClient } from '@/http-common';
 
 class SingerService {
   list(): Promise<any> {
@@ -21,6 +21,10 @@ class SingerService {
 
   search(singer: ISinger): Promise<any> {
     return axiosInstance.get(`/api/singer/${singer.id}/`);
+  }
+
+  recent(singer: ISinger): Promise<any> {
+    return apiClient('').get('/api/singer/recent/')
   }
 }
 

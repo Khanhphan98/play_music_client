@@ -59,6 +59,20 @@ export const SongStore = defineStore('songStore', () => {
     return await SongService.search(request);
   }
 
+  async function recent() {
+    // call request
+    try {
+      // init value
+      const request = { } as ISong;
+      // call request
+      const response = await SongService.recent(request);
+      if (response.data) {
+        songs.value = response.data.data;
+      }
+    } catch (e) {
+      handleExceptionError(e);
+    }
+  }
 
   return {
     songs,
@@ -66,6 +80,7 @@ export const SongStore = defineStore('songStore', () => {
     save,
     update,
     remove,
-    search
+    search,
+    recent
   };
 });

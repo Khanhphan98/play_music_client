@@ -99,3 +99,10 @@ export function toHHMMSS (secs: string) {
     .filter((v,i) => v !== "00" || i > 0)
     .join(":")
 }
+
+export function randomDarkColorRgb() {
+  const red = Math.floor((Math.random() * 256) / 0.8);
+  const green = Math.floor((Math.random() * 256) / 2.5);
+  const blue = Math.floor((Math.random() * 256) / 0.8);
+  return red + ', ' + green + ', ' + blue;
+}

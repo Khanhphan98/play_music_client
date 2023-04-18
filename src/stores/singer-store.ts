@@ -56,6 +56,21 @@ export const SingerStore = defineStore('singerStore', () => {
     return await SingerService.search(request);
   }
 
+  async function recent() {
+    try {
+      // init value
+      const request = { } as ISinger;
+      // call request
+      const response = await SingerService.recent(request);
+      if (response.data) {
+        singers.value = response.data.data;
+      }
+    } catch (e) {
+      handleExceptionError(e);
+    }
+  }
+
+
   return {
     singers,
     singerSeleted,
@@ -63,6 +78,7 @@ export const SingerStore = defineStore('singerStore', () => {
     save,
     update,
     remove,
-    search
+    search,
+    recent
   };
 });

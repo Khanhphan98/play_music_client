@@ -25,8 +25,8 @@
   ])
 
   onMounted(() => {
-    songStore.list();
-    singerStore.list()
+    songStore.recent();
+    singerStore.recent()
   })
 
 </script>

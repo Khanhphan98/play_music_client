@@ -156,7 +156,7 @@ const routes = [
       {
         path: '',
         name: 'client-menu-users-list-discovery-song',
-        component: DashboardOverview1,
+        component: () => import('@/pages/Client/Songs/ListSongs.vue'),
         meta: {
           title: 'discovery-song',
         },
@@ -171,7 +171,7 @@ const routes = [
       {
         path: '',
         name: 'client-menu-users-list-discovery-singer',
-        component: DashboardOverview1,
+        component: () => import('@/pages/Client/Singer/ListSinger.vue'),
         meta: {
           title: 'discovery-singer',
         },

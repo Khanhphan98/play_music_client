@@ -1,5 +1,6 @@
 import axiosInstance from '@/config/Interceptors';
 import { ISong } from '@/model/interface/ISong';
+import { apiClient } from '@/http-common';
 
 class SongService {
   list(): Promise<any> {
@@ -20,6 +21,10 @@ class SongService {
 
   search(song: ISong): Promise<any> {
     return axiosInstance.get(`/api/song/${song.id}/`);
+  }
+
+  recent(song: ISong): Promise<any> {
+    return apiClient('').get('/api/song/recent/')
   }
 }
 
