@@ -25,13 +25,13 @@
 </script>
 
 <template>
-  <div :class="[
+  <div v-if='songs && songs.length > 0' :class="[
       'z-40 grid gap-6 -mb-10 -mx-[16px] md:-mx-[22px] relative px-[22px] min-h-[400px] xl:-mt-5 2xl:-mt-8 2xl:z-10',
       'before:content-[\'\'] before:rounded-t-[30px] xl:before:rounded-t-[30px] before:rounded-b-[30px] xl:before:shadow-[0px_3px_20px_#0000000b] before:w-full before:h-full before:bg-slate-100 before:absolute before:top-0 before:left-0 before:right-0 before:dark:bg-darkmode-700',
     ]"
   >
     <div class="relative z-10 col-span-12 2xl:col-span-3">
-      <div class="pb-10 intro-y">
+      <div class="pb-10">
         <div class="grid grid-cols-12 gap-x-6 2xl:gap-x-0 gap-y-6">
           <!-- BEGIN: Recent Activities -->
           <!-- END: Recent Activities -->
@@ -39,34 +39,45 @@
             <div class="flex items-center h-10 mt-6">
               <h2 class="mr-5 text-3xl font-medium">Bảng xếp hạng #PM</h2>
             </div>
-            <div class="mt-5">
-              <div v-for='(song, idx) in songs' :key='song.id' class="intro-x">
-                <div class="flex items-center px-5 py-3 mb-3 zoom-in border-2 rounded-md">
-                  <div class='text-3xl font-bold border-white' :class="{
+            <div class="mt-5 grid grid-cols-12 gap-6">
+              <div class="col-span-2 md:col-span-4 lg:col-span-2 relative">
+                <div class="md:block">
+                  <img :alt="songs[0].name" :src="env.backendServer + songs[0].picture" class="w-full h-auto rounded-lg" />
+                  <div class='mt-2'>
+                    <h1 class='text-center text-2xl font-bold font-serif'>{{ songs[0].name }}</h1>
+                    <h3 class='text-center'>{{ formatDate(songs[0].release, 'DD/MM/YYYY') }}</h3>
+                  </div>
+                </div>
+              </div>
+              <div class="col-span-10 md:col-span-8 lg:col-span-10">
+                <div v-for='(song, idx) in songs' :key='song.id' class="intro-x">
+                  <div class="flex items-center px-5 py-3 mb-3 zoom-in border-2 rounded-md">
+                    <div class='text-3xl font-bold border-white' :class="{
                     'text-blue-500' : idx === 0,
                     'text-red-500' : idx === 1,
                     'text-yellow-500' : idx === 2,
                   }">
-                    {{ idx + 1 }}
-                  </div>
-                  <div class='text-3xl opacity-30 mx-4'>
-                    -
-                  </div>
-                  <div class="flex-none w-10 h-10 overflow-hidden rounded-md image-fit relative" @click='actionPlaySong(song)'>
-                    <img :alt="song.name" :src="env.backendServer + song.picture" class='z-0' />
-                    <Lucide icon="Play" class="w-4 h-4 z-50 text-white absolute" />
-                  </div>
-                  <div class="ml-4 mr-auto">
-                    <div class="font-medium">{{ song.name }}</div>
-                    <div class="text-slate-500 text-xs mt-0.5">
-                      {{ formatDate(song.release, 'DD/MM/YYYY') }}
+                      {{ idx + 1 }}
                     </div>
-                  </div>
-                  <div class='text-slate-500 mr-5'>
-                    {{ song.description.slice(0,50) }}
-                  </div>
-                  <div class="text-slate-500">
-                    {{ toHHMMSS(String(song.time)) }}
+                    <div class='text-3xl opacity-30 mx-4'>
+                      -
+                    </div>
+                    <div class="flex-none w-10 h-10 overflow-hidden rounded-md image-fit relative" @click='actionPlaySong(song)'>
+                      <img :alt="song.name" :src="env.backendServer + song.picture" class='z-0' />
+                      <Lucide icon="Play" class="w-4 h-4 z-50 text-white absolute" />
+                    </div>
+                    <div class="ml-4 mr-auto">
+                      <div class="font-medium">{{ song.name }}</div>
+                      <div class="text-slate-500 text-xs mt-0.5">
+                        {{ formatDate(song.release, 'DD/MM/YYYY') }}
+                      </div>
+                    </div>
+                    <div class='text-slate-500 mr-5'>
+                      {{ song.description.slice(0,50) }}
+                    </div>
+                    <div class="text-slate-500">
+                      {{ toHHMMSS(String(song.time)) }}
+                    </div>
                   </div>
                 </div>
               </div>
