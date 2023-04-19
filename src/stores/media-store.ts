@@ -1,11 +1,14 @@
 import { defineStore } from 'pinia';
 import MediaService from '@/model/service/media-service';
 import { IFileUpload } from '@/model/interface/IFileUpload';
-import { ref } from 'vue';
+import { computed, ref } from 'vue';
 import { ISong } from '@/model/interface/ISong';
+import { SongStore } from '@/stores/song-store';
 
 export const MediaStore = defineStore('mediaStore', () => {
+  const songStore = SongStore();
   const song = ref<ISong>({ name: '' } as ISong);
+  const songs = computed(() => songStore.songs as ISong[]);
 
   async function removeFileImage(filename: string) {
     // init value file in directory image
@@ -25,10 +28,22 @@ export const MediaStore = defineStore('mediaStore', () => {
     song.value = item;
   }
 
+  function actionNextSong() {
+    const index = songs.value.indexOf(song.value);
+    song.value = songs.value[index + 1] || songs.value[0];
+  }
+
+  function actionPrevSong() {
+    const index = songs.value.indexOf(song.value);
+    song.value = songs.value[index - 1] || songs.value[songs.value.length - 1];
+  }
+
   return {
     song,
     initSongStore,
     removeFileImage,
     removeFileMp3,
+    actionNextSong,
+    actionPrevSong
   };
 });

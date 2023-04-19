@@ -9,6 +9,8 @@
   import { ISinger } from '@/model/interface/ISinger';
   import Lucide from '@/base-components/Lucide/Lucide.vue';
   import { formatDate } from '@/utils/helper';
+  import LoadingIcon from '@/base-components/LoadingIcon/LoadingIcon.vue';
+  import { MediaStore } from '@/stores/media-store';
 
   const songStore = SongStore();
   const songs = computed(() => songStore.songs.slice(0, 5) as ISong[]);
@@ -17,12 +19,21 @@
   const singerStore = SingerStore();
   const singers = computed(() => singerStore.singers.slice(0, 5) as ISinger[]);
 
+  const mediaStore = MediaStore();
+  const SongPlay = computed(() => mediaStore.song);
+
   // value scope
   const countriesMusic = ref([
     { name: "Việt Nam", image: "/src/assets/images/banners/vietnam.jpeg" },
     { name: "US-UK", image: "/src/assets/images/banners/usuk.jpeg" },
     { name: "Kpop", image: "/src/assets/images/banners/kpop.png" },
   ])
+
+  const showRecent = ref();
+
+  function actionPlaySong (song: ISong) {
+    mediaStore.initSongStore(song);
+  }
 
   onMounted(() => {
     songStore.recent();
@@ -39,9 +50,17 @@
           <h2 class="text-lg font-medium truncate">Gần đây</h2>
         </div>
       </div>
-      <div v-for='song in songsBanner' :key='song.id' class="col-span-12 intro-y sm:col-span-4 md:col-span-3 2xl:col-span-3">
+      <div v-for='(song, idx) in songsBanner' :key='song.id' @mouseover="showRecent = idx" @mouseleave="showRecent = ''" class="col-span-12 intro-y sm:col-span-4 md:col-span-3 2xl:col-span-3">
         <div class="relative rounded">
-          <FileIcon class="w-full mx-auto" variant="image" :src="env.backendServer + song.picture" />
+          <div class='relative'>
+            <FileIcon class="w-full mx-auto rounded" variant="image" :src="env.backendServer + song.picture" />
+            <div v-show='showRecent === idx || song.id === SongPlay.id' class='absolute rounded w-full h-full bg-black/50 top-0 flex justify-center align-center duration-500'>
+              <button class="btn btn-primary opacity-40 relative w-25 h-25 p-24" @click='actionPlaySong(song)'>
+                <LoadingIcon v-show='song.id === SongPlay.id' icon="audio" />
+                <Lucide v-show='song.id !== SongPlay.id' icon="Play" class="w-8 h-8 text-white" />
+              </button>
+            </div>
+          </div>
           <div class="text-xs text-slate-500 text-center mt-0.5">
             {{ song.name }}
           </div>

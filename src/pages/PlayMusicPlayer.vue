@@ -52,14 +52,6 @@
     }
   }
 
-  function actionNextMusic() {
-
-  }
-
-  function actionPrevMusic() {
-
-  }
-
 </script>
 
 <template>
@@ -71,7 +63,11 @@
             <FileIcon class="w-16 h-16 rounded-lg" variant="image" :src="env.backendServer + SongPlay.picture" />
             <div class='grid mx-2'>
               <span class='font-semibold text-base'>{{ SongPlay.name }}</span>
-              <span class='text-sm'>{{ SongPlay.singers__name }}</span>
+              <div>
+                <span class='text-sm text-slate-400' v-for='(name_singer, idx) in SongPlay.singers' :key='name_singer'>
+                  {{ name_singer }}<span v-if='idx !== SongPlay.singers.length - 1'>, </span>
+                </span>
+              </div>
             </div>
             <div class='mx-5'>
               <Lucide icon="Heart" class="w-4 h-4 z-50 text-white" />
@@ -80,7 +76,7 @@
         </div>
         <div class='col-span-4 mt-1'>
           <div class='flex text-center justify-center'>
-            <button class='btn p-2 mr-7 hover:bg-teal-50/20 hover:rounded-full hover:duration-500' @click='actionPrevMusic()'>
+            <button class='btn p-2 mr-7 hover:bg-teal-50/20 hover:rounded-full hover:duration-500' @click='mediaStore.actionPrevSong()'>
               <Lucide icon="SkipBack" class="w-5 h-5 z-50 text-white ml-0.5 mt-0.5" />
             </button>
             <button class='border-solid btn rounded-full p-1.5 btn-music' v-show='showPlay' @click='actionPlayMusic(); showPlay = false'>
@@ -89,16 +85,16 @@
             <button class='border-solid btn rounded-full btn-music p-1.5' v-show='!showPlay' @click='actionStopMusic(); showPlay = true'>
               <Lucide icon="Equal" class="w-5 h-5 z-50 ml-0.5 mt-0.5" />
             </button>
-            <button class='btn p-2 ml-7 hover:bg-teal-50/20 hover:rounded-full hover:duration-500' @click='actionNextMusic()'>
+            <button class='btn p-2 ml-7 hover:bg-teal-50/20 hover:rounded-full hover:duration-500' @click='mediaStore.actionNextSong()'>
               <Lucide icon="SkipForward" class="w-5 h-5 z-50 text-white ml-0.5 mt-0.5" />
             </button>
           </div>
           <div class='grid grid-cols-12 mt-4'>
-            <div class='text-center -mt-2'>{{ currentTime }}</div>
+            <div class='-mt-2 mr-2'>{{ currentTime }}</div>
             <div class="h-1 col-span-10 btn-progressbar-music rounded bg-teal-50/20">
               <div role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"></div>
             </div>
-            <div class='text-center -mt-2'>{{ toHHMMSS(String(SongPlay.time)) }}</div>
+            <div class='-mt-2 ml-2'>{{ toHHMMSS(String(SongPlay.time)) }}</div>
           </div>
         </div>
         <div class='col-span-4 text-right'>

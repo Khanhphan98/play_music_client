@@ -1,20 +1,22 @@
 <script setup lang='ts'>
   import { env } from '@/utils/my-variables';
   import { formatDate } from '@/utils/helper';
-  import { randomDarkColorRgb, toHHMMSS } from '@/utils/my-function';
+  import { toHHMMSS } from '@/utils/my-function';
   import { SongStore } from '@/stores/song-store';
-  import { computed, onMounted } from 'vue';
+  import { computed, onMounted, ref } from 'vue';
   import { ISong } from '@/model/interface/ISong';
   import Lucide from '@/base-components/Lucide';
   import { MediaStore } from '@/stores/media-store';
+  import LoadingIcon from '@/base-components/LoadingIcon/LoadingIcon.vue';
 
   const songStore = SongStore();
   const songs = computed(() => songStore.songs as ISong[]);
-  console.log(songs.value);
 
   const mediaStore = MediaStore();
+  const SongPlay = computed(() => mediaStore.song);
 
   // value scope
+  const showAction = ref();
 
   function actionPlaySong (song: ISong) {
     mediaStore.initSongStore(song);
@@ -49,7 +51,7 @@
                     <div class='text-center text-lg font-serif'>
                       <span v-for='(name_singer, idx) in songs[0].singers' :key='name_singer'>
                       {{ name_singer }}<span v-if='idx !== songs[0].singers.length - 1'>, </span>
-                    </span>
+                      </span>
                     </div>
                     <h3 class='text-center text-slate-500 mt-1'>Ra mắt: {{ formatDate(songs[0].release, 'DD/MM/YYYY') }}</h3>
                     <div class='text-center'>
@@ -64,21 +66,29 @@
                 </div>
               </div>
               <div class="col-span-10 md:col-span-8 lg:col-span-9">
-                <div v-for='(song, idx) in songs' :key='song.id' class="intro-x">
+                <div v-for='(song, idx) in songs' :key='song.id' class="intro-x" @mouseover="showAction = idx" @mouseleave="showAction = ''">
                   <div class="flex items-center px-5 py-3 mb-3 zoom-in border-2 rounded-md">
                     <div class='text-3xl font-bold border-white' :class="{
-                    'text-blue-500' : idx === 0,
-                    'text-red-500' : idx === 1,
-                    'text-yellow-500' : idx === 2,
-                  }">
+                      'text-blue-500' : idx === 0,
+                      'text-red-500' : idx === 1,
+                      'text-yellow-500' : idx === 2,
+                    }"
+                    >
                       {{ idx + 1 }}
                     </div>
                     <div class='text-3xl opacity-30 mx-4'>
                       -
                     </div>
-                    <div class="flex-none w-10 h-10 overflow-hidden rounded-md image-fit relative" @click='actionPlaySong(song)'>
+                    <div class="flex-none w-10 h-10 overflow-hidden rounded-md image-fit  p-0" @click='actionPlaySong(song)'>
                       <img :alt="song.name" :src="env.backendServer + song.picture" class='z-0' />
-                      <Lucide icon="Play" class="w-4 h-4 z-50 text-white absolute" />
+                      <div v-show="showAction === idx || song.id === SongPlay.id" class="absolute flex inset-x-0 bg-black/80 w-full h-full justify-center align-center">
+                        <button class="btn btn-primary" v-show='song.id !== SongPlay.id'>
+                          <Lucide icon="Play" class="w-4 h-4 text-white" />
+                        </button>
+                        <button class="btn btn-primary opacity-40 p-1.5" v-show='song.id === SongPlay.id'>
+                          <LoadingIcon icon="audio" />
+                        </button>
+                      </div>
                     </div>
                     <div class="ml-4 mr-auto">
                       <div class="font-medium">{{ song.name }}</div>
