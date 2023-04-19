@@ -37,7 +37,7 @@
 </script>
 
 <template>
-  <div class='absolute bottom-0 bg-black/30 w-full py-5'>
+  <div class='absolute bottom-0 bg-black/30 w-full py-5' v-if='false'>
     <div class='relative'>
       <div class='flex text-center justify-center'>
         <button class='btn btn-primary' v-if='showPlay' @click='actionPlayMusic(); showPlay = false'>

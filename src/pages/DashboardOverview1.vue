@@ -32,24 +32,24 @@
 </script>
 
 <template>
-  <div class="grid grid-cols-12 gap-6">
-    <div class="col-span-12 2xl:col-span-9">
-      <div class="flex items-center h-10 intro-x">
-        <h2 class="text-lg font-medium truncate">Gần đây</h2>
+  <div class="max-w-full md:max-w-none rounded-[30px] md:rounded-none min-w-0 min-h-screen bg-slate-100 flex-1 md:pt-2 pb-10 md:mt-1 relative dark:bg-darkmode-700 before:content-[''] before:w-full before:h-px before:block my-10">
+    <div class="grid grid-cols-12 gap-6 mt-2 intro-y">
+      <div class="col-span-12">
+        <div class="flex items-center intro-x">
+          <h2 class="text-lg font-medium truncate">Gần đây</h2>
+        </div>
       </div>
-      <div class="grid grid-cols-12 gap-3 mt-2 intro-y sm:gap-6">
-        <div v-for='song in songsBanner' :key='song.id' class="col-span-6 intro-y sm:col-span-4 md:col-span-3 2xl:col-span-2">
-          <div class="relative rounded">
-            <FileIcon class="w-full mx-auto" variant="image" :src="env.backendServer + song.picture" />
-            <div class="text-xs text-slate-500 text-center mt-0.5">
-              {{ song.name }}
-            </div>
+      <div v-for='song in songsBanner' :key='song.id' class="col-span-12 intro-y sm:col-span-4 md:col-span-3 2xl:col-span-3">
+        <div class="relative rounded">
+          <FileIcon class="w-full mx-auto" variant="image" :src="env.backendServer + song.picture" />
+          <div class="text-xs text-slate-500 text-center mt-0.5">
+            {{ song.name }}
           </div>
         </div>
       </div>
     </div>
-    <div class="col-span-12 2xl:col-span-9">
-      <div class="grid grid-cols-3 gap-2 mt-2 intro-y sm:gap-6">
+    <div class="col-span-12 2xl:col-span-12 my-10">
+      <div class="grid grid-cols-3 gap-2 mt-2 intro-y sm:gap-4">
         <div v-for='music_c in countriesMusic' :key='music_c.name' class="before:block before:absolute before:w-full before:top-0 before:left-0 before:z-10 before:bg-gradient-to-t before:from-black/90 before:to-black/10 image-fit">
           <div class="relative bg-cover rounded" :style="'background-image: url(' + music_c.image +');'">
             <div class="z-10 h-[150px] w-full px-10 py-6 bg-black/70 rounded">
@@ -64,101 +64,99 @@
         </div>
       </div>
     </div>
-    <div class="col-span-12 2xl:col-span-3">
-      <div class="pb-10 -mb-10 2xl:border-l">
-        <div class="grid grid-cols-12 2xl:pl-6 gap-x-6 2xl:gap-x-0 gap-y-6">
-          <!-- BEGIN: Song -->
-          <div class="col-span-12 mt-3 md:col-span-6 xl:col-span-4 2xl:col-span-12 2xl:mt-8">
-            <div class="flex items-center h-10 intro-x">
-              <h2 class="mr-5 text-lg font-medium truncate">Top</h2>
-            </div>
-            <div class="mt-5">
-              <div v-for='song in songs' :key='song.id' class="intro-x">
-                <div class="flex items-center px-5 py-3 mb-3 box zoom-in">
-                  <Lucide icon="Music" class="w-5 h-5 mr-4 text-slate-500" />
-                  <div class="flex-none w-10 h-10 overflow-hidden rounded-md image-fit">
-                    <img :alt="song.name" :src="env.backendServer + song.picture" />
-                  </div>
-                  <div class="ml-4 mr-auto">
-                    <div class="font-medium">{{ song.name }}</div>
-                    <div class="text-slate-500 text-xs mt-0.5">
-                      {{ formatDate(song.release, 'DD/MM/YYYY') }}
-                    </div>
-                  </div>
-                  <div class="text-success">
-                    {{ toHHMMSS(String(song.time)) }}
-                  </div>
-                </div>
-              </div>
-              <a href="" class="block w-full py-3 text-center border border-dotted rounded-md intro-x border-slate-400 dark:border-darkmode-300 text-slate-500">
-                View More
-              </a>
-            </div>
+    <div class="col-span-12 2xl:col-span-12 my-10">
+      <div class="grid grid-cols-12 gap-6 mt-2 intro-y">
+        <!-- BEGIN: Song -->
+        <div class="col-span-12 intro-y sm:col-span-4 md:col-span-4 2xl:col-span-4">
+          <div class="flex items-center h-10 intro-x">
+            <h2 class="mr-5 text-lg font-medium truncate">Top</h2>
           </div>
-          <!-- END: Song -->
-          <!-- BEGIN: Song -->
-          <div class="col-span-12 mt-3 md:col-span-6 xl:col-span-4 2xl:col-span-12 2xl:mt-8">
-            <div class="flex items-center h-10 intro-x">
-              <h2 class="mr-5 text-lg font-medium truncate">Bài hát</h2>
-            </div>
-            <div class="mt-5">
-              <div v-for='song in songs' :key='song.id' class="intro-x">
-                <div class="flex items-center px-5 py-3 mb-3 box zoom-in">
-                  <Lucide icon="Music" class="w-5 h-5 mr-4 text-slate-500" />
-                  <div class="flex-none w-10 h-10 overflow-hidden rounded-md image-fit">
-                    <img :alt="song.name" :src="env.backendServer + song.picture" />
-                  </div>
-                  <div class="ml-4 mr-auto">
-                    <div class="font-medium">{{ song.name }}</div>
-                    <div class="text-slate-500 text-xs mt-0.5">
-                      {{ formatDate(song.release, 'DD/MM/YYYY') }}
-                    </div>
-                  </div>
-                  <div class="text-success">
-                    {{ toHHMMSS(String(song.time)) }}
+          <div class="mt-5">
+            <div v-for='song in songs' :key='song.id' class="intro-x">
+              <div class="flex items-center px-5 py-3 mb-3 box zoom-in">
+                <Lucide icon="Music" class="w-5 h-5 mr-4 text-slate-500" />
+                <div class="flex-none w-10 h-10 overflow-hidden rounded-md image-fit">
+                  <img :alt="song.name" :src="env.backendServer + song.picture" />
+                </div>
+                <div class="ml-4 mr-auto">
+                  <div class="font-medium">{{ song.name }}</div>
+                  <div class="text-slate-500 text-xs mt-0.5">
+                    {{ formatDate(song.release, 'DD/MM/YYYY') }}
                   </div>
                 </div>
-              </div>
-              <a href="" class="block w-full py-3 text-center border border-dotted rounded-md intro-x border-slate-400 dark:border-darkmode-300 text-slate-500">
-                View More
-              </a>
-            </div>
-          </div>
-          <!-- END: Song -->
-          <!-- BEGIN: Singer -->
-          <div class="col-span-12 mt-3 md:col-span-6 xl:col-span-4 2xl:col-span-12">
-            <div class="flex items-center h-10 intro-x">
-              <h2 class="mr-5 text-lg font-medium truncate">
-                Nghệ sĩ
-              </h2>
-              <a href="" class="ml-auto truncate opacity-40 text-violet-500"> Show More </a>
-            </div>
-            <div class="mt-5 relative before:block before:absolute before:w-px before:h-[85%] before:bg-slate-200 before:dark:bg-darkmode-400 before:ml-5 before:mt-5">
-              <div class="relative flex items-center mb-3 intro-x" v-for='singer in singers' :key='singer.id'>
-                <div class="before:block before:absolute before:w-20 before:h-px before:bg-slate-200 before:dark:bg-darkmode-400 before:mt-5 before:ml-5">
-                  <div class="flex-none w-10 h-10 overflow-hidden rounded-full image-fit">
-                    <img :alt="singer.name" :src="env.backendServer + singer.avatar" />
-                  </div>
-                </div>
-                <div class="flex-1 px-5 py-3 ml-4 box zoom-in">
-                  <div class="flex items-center">
-                    <div class="font-medium">
-                      {{ singer.name }}
-                    </div>
-                    <div class="ml-auto text-xs text-slate-500"><Lucide icon="Heart" class="w-5 h-5" /></div>
-                  </div>
-                  <div class="text-slate-500">
-                    <div class="mt-1">{{ singer.description ? String(singer.description).slice(0, 30) : '' }}...</div>
-                  </div>
+                <div class="text-success">
+                  {{ toHHMMSS(String(song.time)) }}
                 </div>
               </div>
             </div>
+            <a href="" class="block w-full py-3 text-center border border-dotted rounded-md intro-x border-slate-400 dark:border-darkmode-300 text-slate-500">
+              View More
+            </a>
           </div>
-          <!-- END: Singer -->
         </div>
+        <!-- END: Song -->
+        <!-- BEGIN: Song -->
+        <div class="col-span-12 intro-y sm:col-span-4 md:col-span-4 2xl:col-span-4">
+          <div class="flex items-center h-10 intro-x">
+            <h2 class="mr-5 text-lg font-medium truncate">Bài hát</h2>
+          </div>
+          <div class="mt-5">
+            <div v-for='song in songs' :key='song.id' class="intro-x">
+              <div class="flex items-center px-5 py-3 mb-3 box zoom-in">
+                <Lucide icon="Music" class="w-5 h-5 mr-4 text-slate-500" />
+                <div class="flex-none w-10 h-10 overflow-hidden rounded-md image-fit">
+                  <img :alt="song.name" :src="env.backendServer + song.picture" />
+                </div>
+                <div class="ml-4 mr-auto">
+                  <div class="font-medium">{{ song.name }}</div>
+                  <div class="text-slate-500 text-xs mt-0.5">
+                    {{ formatDate(song.release, 'DD/MM/YYYY') }}
+                  </div>
+                </div>
+                <div class="text-success">
+                  {{ toHHMMSS(String(song.time)) }}
+                </div>
+              </div>
+            </div>
+            <a href="" class="block w-full py-3 text-center border border-dotted rounded-md intro-x border-slate-400 dark:border-darkmode-300 text-slate-500">
+              View More
+            </a>
+          </div>
+        </div>
+        <!-- END: Song -->
+        <!-- BEGIN: Singer -->
+        <div class="col-span-12 intro-y sm:col-span-4 md:col-span-4 2xl:col-span-4">
+          <div class="flex items-center h-10 intro-x">
+            <h2 class="mr-5 text-lg font-medium truncate">
+              Nghệ sĩ
+            </h2>
+            <a href="" class="ml-auto truncate opacity-40 text-violet-500"> Show More </a>
+          </div>
+          <div class="mt-5 relative before:block before:absolute before:w-px before:h-[85%] before:bg-slate-200 before:dark:bg-darkmode-400 before:ml-5 before:mt-5">
+            <div class="relative flex items-center mb-3 intro-x" v-for='singer in singers' :key='singer.id'>
+              <div class="before:block before:absolute before:w-20 before:h-px before:bg-slate-200 before:dark:bg-darkmode-400 before:mt-5 before:ml-5">
+                <div class="flex-none w-10 h-10 overflow-hidden rounded-full image-fit">
+                  <img :alt="singer.name" :src="env.backendServer + singer.avatar" />
+                </div>
+              </div>
+              <div class="flex-1 px-5 py-3 ml-4 box zoom-in">
+                <div class="flex items-center">
+                  <div class="font-medium">
+                    {{ singer.name }}
+                  </div>
+                  <div class="ml-auto text-xs text-slate-500"><Lucide icon="Heart" class="w-5 h-5" /></div>
+                </div>
+                <div class="text-slate-500">
+                  <div class="mt-1">{{ singer.description ? String(singer.description).slice(0, 30) : '' }}...</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- END: Singer -->
       </div>
     </div>
-    <div class="col-span-12 2xl:col-span-9">
+    <div class="col-span-12 2xl:col-span-12">
       <div class="flex items-center h-10 intro-x">
         <h2 class="text-lg font-medium truncate">Nghệ sĩ thịnh hành</h2>
       </div>
