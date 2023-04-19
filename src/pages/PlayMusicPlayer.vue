@@ -19,8 +19,8 @@
       audio.pause();
     }
     if (song.file_mp3) {
-      // audio = new Audio(env.backendServer + song.file_mp3);
-      // audio.play();
+      audio = new Audio(env.backendServer + song.file_mp3);
+      audio.play();
       showPlay.value = false;
     }
     showModal.value = true;
@@ -49,7 +49,7 @@
 </script>
 
 <template>
-  <div class='fixed bottom-0 bg-black/80 w-full py-3 px-5 z-50'>
+  <div class='fixed bottom-0 bg-black/80 w-full py-3 px-5 z-50' v-if='showModal'>
     <div class="relative">
       <div class="grid grid-cols-12 gap-6 intro-y">
         <div class="col-span-4">
