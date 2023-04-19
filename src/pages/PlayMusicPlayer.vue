@@ -5,7 +5,7 @@
   import { ISong } from '@/model/interface/ISong';
   import { env } from '@/utils/my-variables';
   import FileIcon from '@/base-components/FileIcon/FileIcon.vue';
-  import { toHHMMSS } from '../utils/my-function';
+  import { toHHMMSS } from '@/utils/my-function';
 
   const mediaStore = MediaStore();
   const SongPlay = computed(() => mediaStore.song as ISong);
@@ -13,6 +13,7 @@
   let audio = null as unknown as HTMLAudioElement;
   const showPlay = ref(true);
   const showModal = ref(false);
+  const currentTime = ref();
 
   watch(() => SongPlay.value, (song: ISong) => {
     if (audio) {
@@ -21,6 +22,19 @@
     if (song.file_mp3) {
       audio = new Audio(env.backendServer + song.file_mp3);
       audio.play();
+
+      audio.addEventListener('timeupdate', () => {
+        let mins = Math.floor(audio.currentTime / 60) as String | Number;
+        if (mins < 10) {
+          mins = '0' + String(mins);
+        }
+        let secs = Math.floor(audio.currentTime % 60) as String | Number;
+        if (secs < 10) {
+          secs = '0' + String(secs);
+        }
+        currentTime.value = mins + ':' + secs;
+      })
+
       showPlay.value = false;
     }
     showModal.value = true;
@@ -80,7 +94,7 @@
             </button>
           </div>
           <div class='grid grid-cols-12 mt-4'>
-            <div class='text-center -mt-2'>0:00</div>
+            <div class='text-center -mt-2'>{{ currentTime }}</div>
             <div class="h-1 col-span-10 btn-progressbar-music rounded bg-teal-50/20">
               <div role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"></div>
             </div>
