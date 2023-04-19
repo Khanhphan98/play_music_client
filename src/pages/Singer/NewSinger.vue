@@ -79,7 +79,7 @@
       } else {
         await singerStore.save(request);
       }
-      await router.push('/singer')
+      await router.push('/admin/singer')
     });
   });
 

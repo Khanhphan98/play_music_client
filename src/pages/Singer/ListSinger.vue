@@ -140,7 +140,7 @@
             </Table.Td>
             <Table.Td>
               <div class='flex items-center'>
-                <Button size="sm" variant="secondary" class="mr-3" @click="router.push(`/singer/save-singer/${singer.id}`)">
+                <Button size="sm" variant="secondary" class="mr-3" @click="router.push(`/admin/singer/save-singer/${singer.id}`)">
                   <Lucide icon="FileSignature" class="w-4 h-4" />
                 </Button>
                 <Button size="sm" variant="outline-danger" class="mr-3" @click='showModalDelete = true; singerDelete = singer'>

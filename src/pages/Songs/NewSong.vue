@@ -101,7 +101,7 @@
         await songStore.save(request);
       }
       // redirect
-      await router.push('/songs')
+      await router.push('/admin/songs')
     }).then(async () => {
       // check nếu có file đang xoá tạm thì call api xoá trên server
       await handleDeletedFileTemporary();

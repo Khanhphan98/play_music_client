@@ -65,7 +65,7 @@
 <template>
   <div class='fixed bottom-0 bg-black/80 w-full py-3 px-5 z-50' v-if='showModal'>
     <div class="relative">
-      <div class="grid grid-cols-12 gap-6 intro-y">
+      <div class="grid grid-cols-12 gap-6 intro-y mt-2">
         <div class="col-span-4">
           <div class="flex items-center intro-x">
             <FileIcon class="w-16 h-16 rounded-lg" variant="image" :src="env.backendServer + SongPlay.picture" />
@@ -102,7 +102,7 @@
           </div>
         </div>
         <div class='col-span-4 text-right'>
-          <div class='mt-5'>
+          <div class='mt-1'>
             <button class='btn p-2 ml-7'>
               <Lucide icon="ListOrdered" class="w-5 h-5 z-50 text-white ml-0.5 mt-0.5" />
             </button>

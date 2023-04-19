@@ -30,24 +30,17 @@
           <!-- END: Recent Activities -->
           <div class="col-span-12 mt-3 md:col-span-12 xl:col-span-12 2xl:col-span-12 2xl:mt-12">
             <div class="flex items-center h-10 mt-6">
-              <h2 class="mr-5 text-3xl font-medium">Bảng xếp hạng #PM</h2>
+              <h2 class="mr-5 text-3xl font-medium">Danh sách Nghệ sĩ #PM</h2>
             </div>
             <div class="mt-5">
               <div v-for='(singer, idx) in singers' :key='singer.id' class="intro-x">
                 <div class="flex items-center px-5 py-3 mb-3 zoom-in border-2 rounded-md">
-                  <div class='text-3xl font-bold border-white' :class="{
-                    'text-blue-500' : idx === 0,
-                    'text-red-500' : idx === 1,
-                    'text-yellow-500' : idx === 2,
-                  }">
-                    {{ idx + 1 }}
-                  </div>
+                  <Lucide icon="HeartHandshake" class="w-5 h-5 z-50 text-white" />
                   <div class='text-3xl opacity-30 mx-4'>
                     -
                   </div>
                   <div class="flex-none w-10 h-10 overflow-hidden rounded-md image-fit relative">
                     <img :alt="singer.name" :src="env.backendServer + singer.avatar" class='z-0' />
-                    <Lucide icon="Play" class="w-4 h-4 z-50 text-white absolute" />
                   </div>
                   <div class="ml-4 mr-auto">
                     <div class="font-medium">{{ singer.name }}</div>
@@ -57,9 +50,6 @@
                   </div>
                   <div class='text-slate-500 mr-5'>
                     {{ singer.description.slice(0,50) }}
-                  </div>
-                  <div class="text-slate-500">
-                    {{ toHHMMSS(String(singer.name)) }}
                   </div>
                 </div>
               </div>

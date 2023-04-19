@@ -10,6 +10,7 @@
 
   const songStore = SongStore();
   const songs = computed(() => songStore.songs as ISong[]);
+  console.log(songs.value);
 
   const mediaStore = MediaStore();
 
@@ -40,16 +41,29 @@
               <h2 class="mr-5 text-3xl font-medium">Bảng xếp hạng #PM</h2>
             </div>
             <div class="mt-5 grid grid-cols-12 gap-6">
-              <div class="col-span-2 md:col-span-4 lg:col-span-2 relative">
+              <div class="col-span-2 md:col-span-4 lg:col-span-3 relative">
                 <div class="md:block">
                   <img :alt="songs[0].name" :src="env.backendServer + songs[0].picture" class="w-full h-auto rounded-lg" />
                   <div class='mt-2'>
                     <h1 class='text-center text-2xl font-bold font-serif'>{{ songs[0].name }}</h1>
-                    <h3 class='text-center'>{{ formatDate(songs[0].release, 'DD/MM/YYYY') }}</h3>
+                    <div class='text-center text-lg font-serif'>
+                      <span v-for='(name_singer, idx) in songs[0].singers' :key='name_singer'>
+                      {{ name_singer }}<span v-if='idx !== songs[0].singers.length - 1'>, </span>
+                    </span>
+                    </div>
+                    <h3 class='text-center text-slate-500 mt-1'>Ra mắt: {{ formatDate(songs[0].release, 'DD/MM/YYYY') }}</h3>
+                    <div class='text-center'>
+                      <button class='p-2 border-teal-50 border-solid'>
+                        <Lucide icon="Heart" class="w-5 h-5 z-50 text-white ml-0.5 mt-0.5" />
+                      </button>
+                      <button class=''>
+                        <Lucide icon="Music" class="w-5 h-5 z-50 ml-0.5 mt-0.5" />
+                      </button>
+                    </div>
                   </div>
                 </div>
               </div>
-              <div class="col-span-10 md:col-span-8 lg:col-span-10">
+              <div class="col-span-10 md:col-span-8 lg:col-span-9">
                 <div v-for='(song, idx) in songs' :key='song.id' class="intro-x">
                   <div class="flex items-center px-5 py-3 mb-3 zoom-in border-2 rounded-md">
                     <div class='text-3xl font-bold border-white' :class="{
@@ -69,11 +83,13 @@
                     <div class="ml-4 mr-auto">
                       <div class="font-medium">{{ song.name }}</div>
                       <div class="text-slate-500 text-xs mt-0.5">
-                        {{ formatDate(song.release, 'DD/MM/YYYY') }}
+                        <span v-for='(name_singer, idx) in song.singers' :key='name_singer'>
+                          {{ name_singer }}<span v-if='idx !== song.singers.length - 1'>, </span>
+                        </span>
                       </div>
                     </div>
                     <div class='text-slate-500 mr-5'>
-                      {{ song.description.slice(0,50) }}
+                      {{ song.lyric.slice(0,50) }}
                     </div>
                     <div class="text-slate-500">
                       {{ toHHMMSS(String(song.time)) }}
