@@ -156,7 +156,7 @@
             <a href="" class="ml-auto truncate opacity-40 text-violet-500"> Show More </a>
           </div>
           <div class="mt-5 relative before:block before:absolute before:w-px before:h-[85%] before:bg-slate-200 before:dark:bg-darkmode-400 before:ml-5 before:mt-5">
-            <div class="relative flex items-center mb-3 intro-x" v-for='singer in singers' :key='singer.id'>
+            <div class="relative flex items-center mb-3 intro-x" v-for='singer in singers' :key='singer.id' @click='singerStore.searchInfoSinger(singer.id)'>
               <div class="before:block before:absolute before:w-20 before:h-px before:bg-slate-200 before:dark:bg-darkmode-400 before:mt-5 before:ml-5">
                 <div class="flex-none w-10 h-10 overflow-hidden rounded-full image-fit">
                   <img :alt="singer.name" :src="env.backendServer + singer.avatar" />
@@ -181,10 +181,11 @@
     </div>
     <div class="col-span-12 2xl:col-span-12">
       <div class="flex items-center h-10 intro-x">
-        <h2 class="text-lg font-medium truncate">Nghệ sĩ thịnh hành</h2>
+        <h2 class="text-lg font-medium truncate mr-2">Nghệ sĩ thịnh hành </h2>
+        <Lucide icon="Heart" class="w-4 h-4 text-white" />
       </div>
       <div class="grid grid-cols-5 gap-2 mt-2 intro-y sm:gap-6">
-        <div v-for='singer in singers' :key='singer.id' class="before:block before:absolute before:w-full before:h-full before:top-0 before:left-0 before:z-10 before:bg-gradient-to-t before:from-black/90 before:to-black/10 image-fit">
+        <div v-for='singer in singers' :key='singer.id' @click='singerStore.searchInfoSinger(singer.id)' class="before:block before:absolute before:w-full before:h-full before:top-0 before:left-0 before:z-10 before:bg-gradient-to-t before:from-black/90 before:to-black/10 image-fit">
           <div class="relative rounded">
             <FileIcon class="w-full mx-auto shadow-2xl" variant="image" :src="env.backendServer + singer.avatar" />
           </div>

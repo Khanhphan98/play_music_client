@@ -24,7 +24,7 @@ class SingerService {
   }
 
   recent(singer: ISinger): Promise<any> {
-    return apiClient('').get('/api/singer/recent/')
+    return apiClient('').post('/api/singer/recent/', singer)
   }
 }
 

@@ -4,10 +4,13 @@ import { ref } from 'vue';
 import { ISong } from '@/model/interface/ISong';
 import SongService from '@/model/service/song-service';
 import { MyStore } from '@/stores/my-store';
+import { IStatistik } from '@/model/interface/IStatistik';
+import { StatistikStore } from '@/stores/statistik-store';
 
 export const SongStore = defineStore('songStore', () => {
   const songs = ref<ISong[]>([]);
   const myStore = MyStore()
+  const statistikStore = StatistikStore();
 
   async function list() {
     try {
@@ -22,9 +25,21 @@ export const SongStore = defineStore('songStore', () => {
   }
 
   async function save(song: ISong) {
+    // init statistik before when create singer
+    const statistik = await statistikStore.actionSaveStatistikSong() as IStatistik;
     // init value
-    const request = { name: song.name, release: song.release, time: song.time, lyric: song.lyric, description: song.description,
-      file_mp3: song.file_mp3, picture: song.picture, categories: song.categories, countries: song.countries, singers: song.singers,
+    const request = {
+      name: song.name,
+      release: song.release,
+      time: song.time,
+      lyric: song.lyric,
+      description: song.description,
+      file_mp3: song.file_mp3,
+      picture: song.picture,
+      categories: song.categories,
+      countries: song.countries,
+      singers: song.singers,
+      statistik: Number(statistik.id)
     } as ISong;
     // call request
     await SongService.save(request);

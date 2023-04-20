@@ -1,7 +1,6 @@
 <script setup lang='ts'>
   import { env } from '@/utils/my-variables';
   import { formatDate } from '@/utils/helper';
-  import { toHHMMSS } from '@/utils/my-function';
   import { computed, onMounted } from 'vue';
   import Lucide from '@/base-components/Lucide';
   import { SingerStore } from '@/stores/singer-store';
@@ -33,7 +32,7 @@
               <h2 class="mr-5 text-3xl font-medium">Danh sách Nghệ sĩ #PM</h2>
             </div>
             <div class="mt-5">
-              <div v-for='(singer, idx) in singers' :key='singer.id' class="intro-x">
+              <div v-for='(singer, idx) in singers' :key='singer.id' class="intro-x" @click='singerStore.searchInfoSinger(singer.id)'>
                 <div class="flex items-center px-5 py-3 mb-3 zoom-in border-2 rounded-md">
                   <Lucide icon="HeartHandshake" class="w-5 h-5 z-50 text-white" />
                   <div class='text-3xl opacity-30 mx-4'>

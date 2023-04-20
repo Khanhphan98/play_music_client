@@ -1,4 +1,5 @@
 import { IProfession } from '@/model/interface/IProfession';
+import { IStatistik } from '@/model/interface/IStatistik';
 
 export interface ISinger {
   id: string;
@@ -8,4 +9,5 @@ export interface ISinger {
   description: string;
   avatar: string;
   professions: IProfession[] | [];
+  statistik: IStatistik | number;
 }

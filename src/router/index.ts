@@ -176,6 +176,14 @@ const routes = [
           title: 'discovery-singer',
         },
       },
+      {
+        path: ':name',
+        name: 'client-menu-users-info-discovery-singer',
+        component: () => import('@/pages/Client/Singer/SingerInfo.vue'),
+        meta: {
+          title: 'info-discovery-singer',
+        },
+      },
     ],
   },
   {

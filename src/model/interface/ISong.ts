@@ -11,7 +11,8 @@ export interface ISong {
   description: string;
   file_mp3: string;
   picture: string;
-  categories: ICategory[];
-  countries: ICountry[];
-  singers: ISinger[];
+  categories: ICategory[] | [];
+  countries: ICountry[] | [];
+  singers: ISinger[] | [];
+  statistik: number;
 }

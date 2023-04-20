@@ -106,3 +106,7 @@ export function randomDarkColorRgb() {
   const blue = Math.floor((Math.random() * 256) / 0.8);
   return red + ', ' + green + ', ' + blue;
 }
+
+export function removeDiacritics(str: string) {
+  return str.normalize("NFD").replace(/[\u0300-\u036f]/g, "");
+}
