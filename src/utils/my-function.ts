@@ -110,3 +110,19 @@ export function randomDarkColorRgb() {
 export function removeDiacritics(str: string) {
   return str.normalize("NFD").replace(/[\u0300-\u036f]/g, "");
 }
+
+export function percentUsed(used: number, total: number) {
+  //truong hop total unlimit
+  if (total <= 0) {
+    return -1;
+  } else if (used <= 0 && total > 0) {
+    return 0;
+  } else {
+    const percent = (used / total) * 100;
+    if (percent >= 100) {
+      return 100;
+    } else {
+      return Number.isSafeInteger(percent) ? percent : percent.toFixed(2);
+    }
+  }
+}

@@ -4,13 +4,19 @@
   import { toHHMMSS } from '@/utils/my-function';
   import { SongStore } from '@/stores/song-store';
   import { computed, onMounted, ref } from 'vue';
-  import { ISong } from '@/model/interface/ISong';
   import Lucide from '@/base-components/Lucide';
   import { MediaStore } from '@/stores/media-store';
   import LoadingIcon from '@/base-components/LoadingIcon/LoadingIcon.vue';
+  import { IStatistik } from '@/model/interface/IStatistik';
 
   const songStore = SongStore();
-  const songs = computed(() => songStore.songs as ISong[]);
+  const songs = computed(() => {
+    return songStore.songs.sort((a, b) => {
+      let x = a.statistik as IStatistik;
+      let y = b.statistik as IStatistik;
+      return y.song_play_count - x.song_play_count;
+    })
+  });
 
   const mediaStore = MediaStore();
   const SongPlay = computed(() => mediaStore.song);
@@ -52,7 +58,7 @@
             <div class="mt-5 grid grid-cols-12 gap-6">
               <div class="col-span-2 md:col-span-4 lg:col-span-3 relative">
                 <div class="md:block">
-                  <img :alt="songs[0].name" :src="env.backendServer + songs[0].picture" class="w-full h-auto rounded-lg" />
+                  <img :alt="songs[0].name" :src="env.backendServer + songs[0].picture" class="cursor-pointer w-full h-auto rounded-lg" @click='mediaStore.initSongStore(songs[0])' />
                   <div class='mt-2'>
                     <h1 class='text-center text-2xl font-bold font-serif'>{{ songs[0].name }}</h1>
                     <div class='text-center text-lg font-serif'>

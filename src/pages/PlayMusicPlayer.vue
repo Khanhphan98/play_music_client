@@ -6,6 +6,8 @@
   import { env } from '@/utils/my-variables';
   import FileIcon from '@/base-components/FileIcon/FileIcon.vue';
   import { toHHMMSS } from '@/utils/my-function';
+  import Progress from '@/base-components/Progress';
+
 
   const mediaStore = MediaStore();
   const SongPlay = computed(() => mediaStore.song as ISong);
@@ -14,6 +16,13 @@
   const showPlay = ref(true);
   const showModal = ref(false);
   const currentTime = ref();
+  const percentTime = ref();
+  const repeatSong: any = ref([
+    { icon: 'Repeat' },
+    { icon: 'Repeat' },
+    { icon: 'Repeat1' },
+  ]);
+  const repeatType = computed(() => mediaStore.repeatType);
 
   watch(() => SongPlay.value, (song: ISong) => {
     if (audio) {
@@ -32,7 +41,21 @@
         if (secs < 10) {
           secs = '0' + String(secs);
         }
+
+        percentTime.value = ((audio.currentTime / audio.duration) * 100).toFixed(2) + '%';
         currentTime.value = mins + ':' + secs;
+
+        if (Number(parseInt(percentTime.value).toFixed(0)) === 100) {
+            // Lặp vô hạn
+            if (repeatType.value === 1) {
+              mediaStore.actionNextSongByRepeat();
+            }
+            // Lặp một lần
+            else if (repeatType.value === 2) {
+              mediaStore.actionNextSongByRepeat();
+            }
+        }
+
       })
 
       showPlay.value = false;
@@ -88,11 +111,26 @@
             <button class='btn p-2 ml-7 hover:bg-teal-50/20 hover:rounded-full hover:duration-500' @click='mediaStore.actionNextSong()'>
               <Lucide icon="SkipForward" class="w-5 h-5 z-50 text-white ml-0.5 mt-0.5" />
             </button>
+            <div class='relative'>
+              <button v-for='(song_c, ids) in repeatSong' :key='song_c.id' class='absolute btn p-2 ml-6 hover:bg-teal-50/20 hover:rounded-full hover:duration-500' @click='mediaStore.actionRepeatSong()'>
+                <Lucide :icon="song_c.icon" class="w-5 h-5 z-50 text-white ml-0.5 mt-0.5" v-if='ids === repeatType' :class="{
+                      'text-purple-500' : ids === 1 || ids === 2,
+              }" />
+              </button>
+            </div>
           </div>
           <div class='grid grid-cols-12 mt-4'>
             <div class='-mt-2 mr-2'>{{ currentTime }}</div>
-            <div class="h-1 col-span-10 btn-progressbar-music rounded bg-teal-50/20">
-              <div role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"></div>
+            <div class="h-1 col-span-10 btn-progressbar-music rounded bg-teal-50/20 relative">
+              <Progress class="h-1 absolute">
+                <Progress.Bar
+                  :style="{ width: percentTime }"
+                  role="progressbar"
+                  aria-valuenow="50"
+                  aria-valuemin="0"
+                  aria-valuemax="100">
+                </Progress.Bar>
+              </Progress>
             </div>
             <div class='-mt-2 ml-2'>{{ toHHMMSS(String(SongPlay.time)) }}</div>
           </div>
