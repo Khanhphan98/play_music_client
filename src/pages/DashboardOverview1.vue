@@ -11,10 +11,18 @@
   import { formatDate } from '@/utils/helper';
   import LoadingIcon from '@/base-components/LoadingIcon/LoadingIcon.vue';
   import { MediaStore } from '@/stores/media-store';
+  import { IStatistik } from '@/model/interface/IStatistik';
 
   const songStore = SongStore();
   const songs = computed(() => songStore.songs.slice(0, 5) as ISong[]);
   const songsBanner = computed(() => songStore.songs.slice(0, 4) as ISong[]);
+  const songsTopView = computed(() => {
+    return songStore.songs.sort((a, b) => {
+      let x = a.statistik as IStatistik;
+      let y = b.statistik as IStatistik;
+      return y.song_play_count - x.song_play_count;
+    })
+  });
 
   const singerStore = SingerStore();
   const singers = computed(() => singerStore.singers.slice(0, 5) as ISinger[]);
@@ -31,12 +39,12 @@
 
   const showRecent = ref();
 
-  function actionPlaySong (song: ISong) {
-    mediaStore.initSongStore(song);
-  }
-
   function showBackgroundImage (url: string) {
     return `background-image: url(${url});`;
+  }
+
+  function renderView(statistik: IStatistik) {
+    return statistik.song_play_count
   }
 
   onMounted(() => {
@@ -59,7 +67,7 @@
           <div class='relative'>
             <FileIcon class="w-full mx-auto rounded" variant="image" :src="env.backendServer + song.picture" />
             <div v-show='showRecent === idx || song.id === SongPlay.id' class='absolute rounded w-full h-full bg-black/50 top-0 flex justify-center align-center duration-500'>
-              <button class="btn btn-primary opacity-40 relative w-25 h-25 p-24" @click='actionPlaySong(song)'>
+              <button class="btn btn-primary opacity-40 relative w-25 h-25 p-24" @click='mediaStore.initSongStore(song)'>
                 <LoadingIcon v-show='song.id === SongPlay.id' icon="audio" />
                 <Lucide v-show='song.id !== SongPlay.id' icon="Play" class="w-8 h-8 text-white" />
               </button>
@@ -95,7 +103,7 @@
             <h2 class="mr-5 text-lg font-medium truncate">Top</h2>
           </div>
           <div class="mt-5">
-            <div v-for='song in songs' :key='song.id' class="intro-x">
+            <div v-for='song in songsTopView' :key='song.id' class="intro-x" @click='mediaStore.initSongStore(song)'>
               <div class="flex items-center px-5 py-3 mb-3 box zoom-in">
                 <Lucide icon="Music" class="w-5 h-5 mr-4 text-slate-500" />
                 <div class="flex-none w-10 h-10 overflow-hidden rounded-md image-fit">
@@ -104,15 +112,17 @@
                 <div class="ml-4 mr-auto">
                   <div class="font-medium">{{ song.name }}</div>
                   <div class="text-slate-500 text-xs mt-0.5">
-                    {{ formatDate(song.release, 'DD/MM/YYYY') }}
+                    <span v-for='(singer, idx) in song.singers' :key='singer.name'>
+                      {{ singer.name }}<span v-if='idx !== song.singers.length - 1'>, </span>
+                    </span>
                   </div>
                 </div>
-                <div class="text-success">
-                  {{ toHHMMSS(String(song.time)) }}
+                <div class="text-slate-500 flex">
+                  {{ renderView(song.statistik as IStatistik) }} lượt nghe
                 </div>
               </div>
             </div>
-            <a href="" class="block w-full py-3 text-center border border-dotted rounded-md intro-x border-slate-400 dark:border-darkmode-300 text-slate-500">
+            <a href="/song" class="block w-full py-3 text-center border border-dotted rounded-md intro-x border-slate-400 dark:border-darkmode-300 text-slate-500">
               View More
             </a>
           </div>
@@ -124,7 +134,7 @@
             <h2 class="mr-5 text-lg font-medium truncate">Bài hát</h2>
           </div>
           <div class="mt-5">
-            <div v-for='song in songs' :key='song.id' class="intro-x">
+            <div v-for='song in songs' :key='song.id' class="intro-x" @click='mediaStore.initSongStore(song)'>
               <div class="flex items-center px-5 py-3 mb-3 box zoom-in">
                 <Lucide icon="Music" class="w-5 h-5 mr-4 text-slate-500" />
                 <div class="flex-none w-10 h-10 overflow-hidden rounded-md image-fit">
@@ -141,7 +151,7 @@
                 </div>
               </div>
             </div>
-            <a href="" class="block w-full py-3 text-center border border-dotted rounded-md intro-x border-slate-400 dark:border-darkmode-300 text-slate-500">
+            <a href="/song" class="block w-full py-3 text-center border border-dotted rounded-md intro-x border-slate-400 dark:border-darkmode-300 text-slate-500">
               View More
             </a>
           </div>
@@ -153,7 +163,7 @@
             <h2 class="mr-5 text-lg font-medium truncate">
               Nghệ sĩ
             </h2>
-            <a href="" class="ml-auto truncate opacity-40 text-violet-500"> Show More </a>
+            <a href="/singer" class="ml-auto truncate opacity-40 text-violet-500"> Show More </a>
           </div>
           <div class="mt-5 relative before:block before:absolute before:w-px before:h-[85%] before:bg-slate-200 before:dark:bg-darkmode-400 before:ml-5 before:mt-5">
             <div class="relative flex items-center mb-3 intro-x" v-for='singer in singers' :key='singer.id' @click='singerStore.searchInfoSinger(singer.id)'>

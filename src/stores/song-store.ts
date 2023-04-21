@@ -78,7 +78,7 @@ export const SongStore = defineStore('songStore', () => {
     // call request
     try {
       // init value
-      const request = { } as ISong;
+      const request = { id: "" } as ISong;
       // call request
       const response = await SongService.recent(request);
       if (response.data) {

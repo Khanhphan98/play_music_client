@@ -1,6 +1,7 @@
 import { ICategory } from '@/model/interface/ICategory';
 import { ICountry } from '@/model/interface/ICountry';
 import { ISinger } from '@/model/interface/ISinger';
+import { IStatistik } from '@/model/interface/IStatistik';
 
 export interface ISong {
   id: string;
@@ -14,5 +15,5 @@ export interface ISong {
   categories: ICategory[] | [];
   countries: ICountry[] | [];
   singers: ISinger[] | [];
-  statistik: number;
+  statistik: IStatistik | number;
 }

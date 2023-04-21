@@ -18,10 +18,6 @@
   // value scope
   const showAction = ref();
 
-  function actionPlaySong (song: ISong) {
-    mediaStore.initSongStore(song);
-  }
-
   onMounted(() => {
     songStore.recent();
   })
@@ -79,7 +75,7 @@
                     <div class='text-3xl opacity-30 mx-4'>
                       -
                     </div>
-                    <div class="flex-none w-10 h-10 overflow-hidden rounded-md image-fit  p-0" @click='actionPlaySong(song)'>
+                    <div class="flex-none w-10 h-10 overflow-hidden rounded-md image-fit  p-0" @click='mediaStore.initSongStore(song)'>
                       <img :alt="song.name" :src="env.backendServer + song.picture" class='z-0' />
                       <div v-show="showAction === idx || song.id === SongPlay.id" class="absolute flex inset-x-0 bg-black/80 w-full h-full justify-center align-center">
                         <button class="btn btn-primary" v-show='song.id !== SongPlay.id'>

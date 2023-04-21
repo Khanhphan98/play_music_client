@@ -24,7 +24,7 @@ class SongService {
   }
 
   recent(song: ISong): Promise<any> {
-    return apiClient('').get('/api/song/recent/')
+    return apiClient('').post('/api/song/recent/', song);
   }
 }
 
