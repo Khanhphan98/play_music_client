@@ -26,6 +26,14 @@ class SongService {
   recent(song: ISong): Promise<any> {
     return apiClient('').post('/api/song/recent/', song);
   }
+
+  search_by_country (query: any): Promise<any> {
+    return apiClient('').post('/api/song/country/', query);
+  }
+
+  search_by_exclude_country (query: any): Promise<any> {
+    return apiClient('').post('/api/song/exclude-country/', query);
+  }
 }
 
 export default new SongService();

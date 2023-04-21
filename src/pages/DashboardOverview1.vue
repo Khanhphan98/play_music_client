@@ -103,11 +103,19 @@
             <h2 class="mr-5 text-lg font-medium truncate">Top</h2>
           </div>
           <div class="mt-5">
-            <div v-for='song in songsTopView' :key='song.id' class="intro-x" @click='mediaStore.initSongStore(song)'>
+            <div v-for='(song, idx) in songsTopView'  @mouseover="showRecent = idx" @mouseleave="showRecent = ''" :key='song.id' class="intro-x" @click='mediaStore.initSongStore(song)'>
               <div class="flex items-center px-5 py-3 mb-3 box zoom-in">
                 <Lucide icon="Music" class="w-5 h-5 mr-4 text-slate-500" />
                 <div class="flex-none w-10 h-10 overflow-hidden rounded-md image-fit">
                   <img :alt="song.name" :src="env.backendServer + song.picture" />
+                  <div v-show="showRecent === idx || song.id === SongPlay.id" class="absolute flex inset-x-0 bg-black/80 w-full h-full justify-center align-center">
+                    <button class="btn btn-primary" v-show='song.id !== SongPlay.id'>
+                      <Lucide icon="Play" class="w-4 h-4 text-white" />
+                    </button>
+                    <button class="btn btn-primary opacity-40 p-1.5" v-show='song.id === SongPlay.id'>
+                      <LoadingIcon icon="audio" />
+                    </button>
+                  </div>
                 </div>
                 <div class="ml-4 mr-auto">
                   <div class="font-medium">{{ song.name }}</div>
@@ -134,11 +142,19 @@
             <h2 class="mr-5 text-lg font-medium truncate">Bài hát</h2>
           </div>
           <div class="mt-5">
-            <div v-for='song in songs' :key='song.id' class="intro-x" @click='mediaStore.initSongStore(song)'>
+            <div v-for='(song, idx) in songs'  @mouseover="showRecent = idx" @mouseleave="showRecent = ''" :key='song.id' class="intro-x" @click='mediaStore.initSongStore(song)'>
               <div class="flex items-center px-5 py-3 mb-3 box zoom-in">
                 <Lucide icon="Music" class="w-5 h-5 mr-4 text-slate-500" />
                 <div class="flex-none w-10 h-10 overflow-hidden rounded-md image-fit">
                   <img :alt="song.name" :src="env.backendServer + song.picture" />
+                  <div v-show="showRecent === idx || song.id === SongPlay.id" class="absolute flex inset-x-0 bg-black/80 w-full h-full justify-center align-center">
+                    <button class="btn btn-primary" v-show='song.id !== SongPlay.id'>
+                      <Lucide icon="Play" class="w-4 h-4 text-white" />
+                    </button>
+                    <button class="btn btn-primary opacity-40 p-1.5" v-show='song.id === SongPlay.id'>
+                      <LoadingIcon icon="audio" />
+                    </button>
+                  </div>
                 </div>
                 <div class="ml-4 mr-auto">
                   <div class="font-medium">{{ song.name }}</div>

@@ -17,6 +17,17 @@
 
   // value scope
   const showAction = ref();
+  const isActiveCountry = ref(false);
+  // value scope
+  const countriesMusic = ref([
+    { ids: ["1"], name: "Việt Nam", image: "./src/assets/images/banners/vietnam.jpeg" },
+    { ids: ["4"], name: "Kpop", image: "./src/assets/images/banners/kpop.png" },
+    { ids: ["1", "4"], name: "US-UK", image: "./src/assets/images/banners/usuk.jpeg" },
+  ])
+
+  async function filterCountry(ids: string[]) {
+    await songStore.searchByCountry(ids);
+  }
 
   onMounted(() => {
     songStore.recent();
@@ -62,6 +73,20 @@
                 </div>
               </div>
               <div class="col-span-10 md:col-span-8 lg:col-span-9">
+                <div  class='flex mb-5'>
+                    <span v-for='(music_c, idx) in countriesMusic' :key='music_c.name' @click='filterCountry(music_c.ids); isActiveCountry = idx'
+                          class='cursor-pointer border-solid font-serif border-cyan-700 border-2 px-8 py-2 rounded-3xl mr-3'
+                          :class="{ 'bg-violet-800': isActiveCountry === idx }"
+                    >
+                        <span class='text-base' :class="{
+                            'text-blue-500' : idx === 0,
+                            'text-red-500' : idx === 1,
+                            'text-yellow-500' : idx === 2,
+                            'text-white': isActiveCountry === idx
+                          }"
+                        >{{ music_c.name }}</span>
+                    </span>
+                </div>
                 <div v-for='(song, idx) in songs' :key='song.id' class="intro-x" @mouseover="showAction = idx" @mouseleave="showAction = ''">
                   <div class="flex items-center px-5 py-3 mb-3 zoom-in border-2 rounded-md">
                     <div class='text-3xl font-bold border-white' :class="{

@@ -89,6 +89,28 @@ export const SongStore = defineStore('songStore', () => {
     }
   }
 
+  async function searchByCountry(ids: string[]) {
+    // call request
+    try {
+      // init value
+      const request = { country_ids: ids };
+      // call request
+      if (ids.length > 1) {
+        const response = await SongService.search_by_exclude_country(request);
+        if (response.data) {
+          songs.value = response.data.data;
+        }
+      } else {
+        const response = await SongService.search_by_country(request);
+        if (response.data) {
+          songs.value = response.data.data;
+        }
+      }
+    } catch (e) {
+      handleExceptionError(e);
+    }
+  }
+
   return {
     songs,
     list,
@@ -96,6 +118,7 @@ export const SongStore = defineStore('songStore', () => {
     update,
     remove,
     search,
-    recent
+    recent,
+    searchByCountry
   };
 });
