@@ -1,20 +1,16 @@
 <script setup lang="ts">
   import { useRoute } from 'vue-router';
-  import logoUrl from '@/assets/images/logo.svg';
   import Divider from './Divider.vue';
   import Menu from './Menu.vue';
   import TopBarAdmin from '@/components/TopBar/TopBarAdmin.vue';
-  import DarkModeSwitcher from '../../components/DarkModeSwitcher';
-  import MainColorSwitcher from '../../components/MainColorSwitcher';
   import MobileMenu from '../../components/MobileMenu/AdminMobileMenu.vue';
   import { useAdminMenuStore } from '@/stores/admin-menu';
   import { FormattedMenu, nestedMenu, enter, leave } from './admin-menu';
   import { watch, reactive, computed, onMounted, ref } from 'vue';
   import Lucide from '@/base-components/Lucide/Lucide.vue';
   import Button from '@/base-components/Button/Button.vue';
-  import Tippy from '@/base-components/Tippy/Tippy.vue';
   import NotificationToastify from '@/base-components/iCustom/NotificationCustom/Main.vue';
-  import { FormSelect } from '@/base-components/Form';
+  import PlayMusicPlayer from '@/pages/PlayMusicPlayer.vue';
 
   const route = useRoute();
   const formattedMenu = reactive<Array<FormattedMenu | 'divider'>>([]);
@@ -168,6 +164,9 @@
       <!-- END: Content -->
     </div>
   </div>
+  <!-- Template Music -->
+  <PlayMusicPlayer />
+  <!-- Template Music -->
   <!-- MESSSAGE TOAST -->
   <NotificationToastify />
   <!-- MESSSAGE TOAST -->
