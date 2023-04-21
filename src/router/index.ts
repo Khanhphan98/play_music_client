@@ -214,24 +214,28 @@ router.beforeEach(async (to, _from, next) => {
   //init value
   const userStore = UserStore();
   const localeStore = LocaleStore();
-  //set locale
-  localeStore.actionSetDefaultLocale();
-  //get token
-  userStore.actionGetToken();
-  //check 1 lan gui request ve server xem jwt hop le ko
-  if (!userStore.hasLogged) {
-    try {
-      //require token
-      if (userStore.myUser.access_token) {
-        await userStore.actionGetInfoUser();
+  const arrays = to.path.split('/');
+  const pathAdmin = arrays.some((value) => value === 'admin');
+  if (pathAdmin) {
+    //set locale
+    localeStore.actionSetDefaultLocale();
+    //get token
+    userStore.actionGetToken();
+    //check 1 lan gui request ve server xem jwt hop le ko
+    if (!userStore.hasLogged) {
+      try {
+        //require token
+        if (userStore.myUser.access_token) {
+          await userStore.actionGetInfoUser();
+        }
+      } catch (e) {
+        userStore.actionRemoveToken();
+        handleExceptionError(e);
       }
-    } catch (e) {
-      userStore.actionRemoveToken();
-      handleExceptionError(e);
     }
   }
   //nếu giá trị rỗng thì chuyển route về login
-  if (to.matched.some((record) => record.meta.requiresAuth) && !userStore.myUser.access_token) {
+  if (to.matched.some((record) => record.meta.requiresAuth) && !userStore.myUser.access_token && pathAdmin) {
     next('/login');
   }
   //nếu co jwt hop le check dang vao route login ko, neu dung thi redirect ve trang chu admin

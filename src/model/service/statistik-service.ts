@@ -1,13 +1,13 @@
-import axiosInstance from '@/config/Interceptors';
 import { IStatistik } from '@/model/interface/IStatistik';
+import { apiClientNotAuthorization } from '@/http-common';
 
 class StatistikService {
   save(statistik: IStatistik): Promise<any> {
-    return axiosInstance.post('/api/statistik/', statistik);
+    return apiClientNotAuthorization().post('/api/statistik/', statistik);
   }
 
   update(statistik: IStatistik): Promise<any> {
-    return axiosInstance.put(`/api/statistik/${statistik.id}/`, statistik);
+    return apiClientNotAuthorization().put(`/api/statistik/${statistik.id}/`, statistik);
   }
 
 }

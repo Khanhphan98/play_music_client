@@ -1,6 +1,6 @@
 import axiosInstance from '@/config/Interceptors';
 import { ISong } from '@/model/interface/ISong';
-import { apiClient } from '@/http-common';
+import { apiClient, apiClientNotAuthorization } from '@/http-common';
 
 class SongService {
   list(): Promise<any> {
@@ -24,15 +24,15 @@ class SongService {
   }
 
   recent(song: ISong): Promise<any> {
-    return apiClient('').post('/api/song/recent/', song);
+    return apiClientNotAuthorization().post('/api/song/recent/', song);
   }
 
   search_by_country (query: any): Promise<any> {
-    return apiClient('').post('/api/song/country/', query);
+    return apiClientNotAuthorization().post('/api/song/country/', query);
   }
 
   search_by_exclude_country (query: any): Promise<any> {
-    return apiClient('').post('/api/song/exclude-country/', query);
+    return apiClientNotAuthorization().post('/api/song/exclude-country/', query);
   }
 }
 

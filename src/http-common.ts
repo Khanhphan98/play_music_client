@@ -23,3 +23,14 @@ export function apiMultipart(token: string): AxiosInstance {
     },
   });
 }
+
+export function apiClientNotAuthorization(): AxiosInstance {
+  return axios.create({
+    baseURL: env.backendServer,
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    maxContentLength: Infinity,
+    maxBodyLength: Infinity,
+  });
+}

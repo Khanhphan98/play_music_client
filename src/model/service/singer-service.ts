@@ -1,6 +1,6 @@
 import axiosInstance from '@/config/Interceptors';
 import { ISinger } from '@/model/interface/ISinger';
-import { apiClient } from '@/http-common';
+import { apiClient, apiClientNotAuthorization } from '@/http-common';
 
 class SingerService {
   list(): Promise<any> {
@@ -24,7 +24,7 @@ class SingerService {
   }
 
   recent(singer: ISinger): Promise<any> {
-    return apiClient('').post('/api/singer/recent/', singer)
+    return apiClientNotAuthorization().post('/api/singer/recent/', singer)
   }
 }
 
