@@ -1,8 +1,16 @@
 <template>
-  <input type="range" min="0" max="100" value="40" step="5" />
+  <input type="range" min="0" max="100"  step="1" v-model='progressbar_value' />
 </template>
 
-<script lang='ts'>
+<script setup lang='ts'>
+  import { ref, watch } from 'vue';
+
+  const progressbar_value = ref(50);
+  const emit = defineEmits(['progressbar']);
+
+  watch(() => progressbar_value.value, (val: number) => {
+    emit('progressbar', val);
+  })
 
 </script>
 
@@ -33,7 +41,7 @@
 
     @media (prefers-color-scheme: dark) {
         input[type="range"] {
-            color: #f07167;
+            color: #dddddd;
             --track-color: rgba(255, 255, 255, 0.1);
         }
 
@@ -51,6 +59,7 @@
 
     input[type="range"]:active {
         cursor: grabbing;
+        color: #c409f1;
     }
 
     input[type="range"]:disabled {

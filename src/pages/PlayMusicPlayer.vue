@@ -18,8 +18,6 @@
   const showModal = ref(false);
   const currentTime = ref();
   const percentTime = ref();
-  const volume = ref(0.5);
-  const volumePercent = ref('50%');
   const repeatSong: any = ref([
     { icon: 'Repeat' },
     { icon: 'Repeat' },
@@ -78,9 +76,9 @@
     }
   }
 
-  function actionVolume() {
-    volume.value < 1 ? volume.value += 0.1 : volume.value = 0;
-    audio.volume = Number(volume.value.toFixed(2));
+  function actionVolume(volume_value: number) {
+    // volume.value < 1 ? volume.value += 0.1 : volume.value = 0;
+    audio.volume = Number((volume_value / 100).toFixed(2));
   }
 
 </script>
@@ -148,19 +146,7 @@
         <div class='col-span-4 text-right'>
           <div class="flex justify-end text-center">
             <div class='w-24 mt-5'>
-<!--              <div class="btn-progressbar-music rounded bg-teal-50/20 relative">-->
-<!--                <Progress class="h-1">-->
-<!--                  <Progress.Bar-->
-<!--                    :style="{ width: volumePercent }"-->
-<!--                    role="progressbar"-->
-<!--                    aria-valuenow="50"-->
-<!--                    aria-valuemin="0"-->
-<!--                    aria-valuemax="100">-->
-<!--                    <div @drag='actionVolume' class="bg-indigo-700 absolute h-2 w-2 rounded-full -top-0.5" :style="{ right: volumePercent }" ></div>-->
-<!--                  </Progress.Bar>-->
-<!--                </Progress>-->
-<!--              </div>-->
-              <SliderProgressbar />
+              <SliderProgressbar @progressbar='actionVolume' />
             </div>
             <div>
               <button class='btn p-2 ml-7'>
@@ -168,13 +154,6 @@
               </button>
             </div>
           </div>
-<!--          <div class="w-11/12 lg:w-2/6 mx-auto">-->
-<!--            <div class="bg-gray-200 dark:bg-gray-700 h-1 flex items-center justify-between">-->
-<!--              <div class="w-1/3 bg-indigo-700 h-1 flex items-center">-->
-<!--                <div class="bg-indigo-700 h-2 w-2 rounded-full shadow flex items-center justify-center"></div>-->
-<!--              </div>-->
-<!--            </div>-->
-<!--          </div>-->
         </div>
       </div>
     </div>
