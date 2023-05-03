@@ -32,10 +32,11 @@
   const SongPlay = computed(() => mediaStore.song);
 
   // value scope
+  // http://server.music.kdeveloper.net/api/media/banners/vietnam.jpeg
   const countriesMusic = ref([
-    { name: "Việt Nam", image: "./src/assets/images/banners/vietnam.jpeg" },
-    { name: "US-UK", image: "./src/assets/images/banners/usuk.jpeg" },
-    { name: "Kpop", image: "./src/assets/images/banners/kpop.png" },
+    { name: "Việt Nam", image: "http://server.music.kdeveloper.net/api/media/banners/vietnam.jpeg" },
+    { name: "US-UK", image: "http://server.music.kdeveloper.net/api/media/banners/usuk.jpeg" },
+    { name: "Kpop", image: "http://server.music.kdeveloper.net/api/media/banners/kpop.png" },
   ])
 
   const showRecent = ref();
@@ -83,7 +84,7 @@
     <div class="col-span-12 2xl:col-span-12 my-10">
       <div class="grid grid-cols-3 gap-2 mt-2 intro-y sm:gap-4">
         <div v-for='music_c in countriesMusic' :key='music_c.name' @click='router.push("/song")' class="before:block before:absolute before:w-full before:top-0 before:left-0 before:z-10 before:bg-gradient-to-t before:from-black/90 before:to-black/10 image-fit" >
-          <div class="relative bg-cover rounded" :style="showBackgroundImage(music_c.image)" @click='router.push("/song")'>
+          <div class="relative bg-cover rounded" :style="{ 'background-image': music_c.image }" @click='router.push("/song")'>
             <div class="z-10 h-[150px] w-full px-10 py-6 bg-black/70 rounded">
               <a href="#" class="grid text-center font-medium">
                 <span class='rounded px-5 py-2 grid'>

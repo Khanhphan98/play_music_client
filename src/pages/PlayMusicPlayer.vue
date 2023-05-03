@@ -7,6 +7,7 @@
   import FileIcon from '@/base-components/FileIcon/FileIcon.vue';
   import { toHHMMSS } from '@/utils/my-function';
   import Progress from '@/base-components/Progress';
+  import SliderProgressbar from '@/base-components/SliderProgressbar';
 
 
   const mediaStore = MediaStore();
@@ -17,6 +18,8 @@
   const showModal = ref(false);
   const currentTime = ref();
   const percentTime = ref();
+  const volume = ref(0.5);
+  const volumePercent = ref('50%');
   const repeatSong: any = ref([
     { icon: 'Repeat' },
     { icon: 'Repeat' },
@@ -75,6 +78,11 @@
     }
   }
 
+  function actionVolume() {
+    volume.value < 1 ? volume.value += 0.1 : volume.value = 0;
+    audio.volume = Number(volume.value.toFixed(2));
+  }
+
 </script>
 
 <template>
@@ -113,9 +121,11 @@
             </button>
             <div class='relative'>
               <button v-for='(song_c, ids) in repeatSong' :key='song_c.id' class='absolute btn p-2 ml-6 hover:bg-teal-50/20 hover:rounded-full hover:duration-500' @click='mediaStore.actionRepeatSong()'>
-                <Lucide :icon="song_c.icon" class="w-5 h-5 z-50 text-white ml-0.5 mt-0.5" v-if='ids === repeatType' :class="{
-                      'text-purple-500' : ids === 1 || ids === 2,
-              }" />
+                <Lucide :icon="song_c.icon" class="w-5 h-5 z-50 text-white ml-0.5 mt-0.5" v-show='ids === repeatType'
+                  :style="{
+                     'color' : ids === 1 || ids === 2 ? '#7e03b2' : '#fff'
+                  }"
+                />
               </button>
             </div>
           </div>
@@ -136,11 +146,35 @@
           </div>
         </div>
         <div class='col-span-4 text-right'>
-          <div class='mt-1'>
-            <button class='btn p-2 ml-7'>
-              <Lucide icon="ListOrdered" class="w-5 h-5 z-50 text-white ml-0.5 mt-0.5" />
-            </button>
+          <div class="flex justify-end text-center">
+            <div class='w-24 mt-5'>
+<!--              <div class="btn-progressbar-music rounded bg-teal-50/20 relative">-->
+<!--                <Progress class="h-1">-->
+<!--                  <Progress.Bar-->
+<!--                    :style="{ width: volumePercent }"-->
+<!--                    role="progressbar"-->
+<!--                    aria-valuenow="50"-->
+<!--                    aria-valuemin="0"-->
+<!--                    aria-valuemax="100">-->
+<!--                    <div @drag='actionVolume' class="bg-indigo-700 absolute h-2 w-2 rounded-full -top-0.5" :style="{ right: volumePercent }" ></div>-->
+<!--                  </Progress.Bar>-->
+<!--                </Progress>-->
+<!--              </div>-->
+              <SliderProgressbar />
+            </div>
+            <div>
+              <button class='btn p-2 ml-7'>
+                <Lucide icon="ListOrdered" class="w-5 h-5 z-50 text-white ml-0.5 mt-0.5" />
+              </button>
+            </div>
           </div>
+<!--          <div class="w-11/12 lg:w-2/6 mx-auto">-->
+<!--            <div class="bg-gray-200 dark:bg-gray-700 h-1 flex items-center justify-between">-->
+<!--              <div class="w-1/3 bg-indigo-700 h-1 flex items-center">-->
+<!--                <div class="bg-indigo-700 h-2 w-2 rounded-full shadow flex items-center justify-center"></div>-->
+<!--              </div>-->
+<!--            </div>-->
+<!--          </div>-->
         </div>
       </div>
     </div>

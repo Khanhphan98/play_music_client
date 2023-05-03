@@ -27,8 +27,8 @@
   // value scope
   const countriesMusic = ref([
     { ids: ["1"], name: "Việt Nam", image: "./src/assets/images/banners/vietnam.jpeg" },
-    { ids: ["4"], name: "Kpop", image: "./src/assets/images/banners/kpop.png" },
-    { ids: ["1", "4"], name: "US-UK", image: "./src/assets/images/banners/usuk.jpeg" },
+    { ids: ["2"], name: "Kpop", image: "./src/assets/images/banners/kpop.png" },
+    { ids: ["1", "2"], name: "US-UK", image: "./src/assets/images/banners/usuk.jpeg" },
   ])
 
   async function filterCountry(ids: string[]) {

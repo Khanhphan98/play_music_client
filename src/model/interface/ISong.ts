@@ -16,4 +16,6 @@ export interface ISong {
   countries: ICountry[] | [];
   singers: ISinger[] | [];
   statistik: IStatistik | number;
+  created_at: string;
+  updated_at: string;
 }
