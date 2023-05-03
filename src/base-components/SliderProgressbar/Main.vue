@@ -3,13 +3,23 @@
 </template>
 
 <script setup lang='ts'>
-  import { ref, watch } from 'vue';
+  import { computed } from 'vue';
 
-  const progressbar_value = ref(50);
   const emit = defineEmits(['progressbar']);
 
-  watch(() => progressbar_value.value, (val: number) => {
-    emit('progressbar', val);
+  const props = defineProps({
+    progressBarValue: {
+      type: Number
+    }
+  })
+
+  const progressbar_value = computed({
+    get () {
+      return props.progressBarValue;
+    },
+    set (value) {
+      emit('progressbar', value);
+    }
   })
 
 </script>

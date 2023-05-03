@@ -16,8 +16,11 @@
   let audio = null as unknown as HTMLAudioElement;
   const showPlay = ref(true);
   const showModal = ref(false);
+  const mutePlay = ref(false);
   const currentTime = ref();
   const percentTime = ref();
+  const volumeValue = ref<Number>(50);
+  const volumeValueRepeat = ref<Number>(50);
   const repeatSong: any = ref([
     { icon: 'Repeat' },
     { icon: 'Repeat' },
@@ -76,9 +79,22 @@
     }
   }
 
-  function actionVolume(volume_value: number) {
-    // volume.value < 1 ? volume.value += 0.1 : volume.value = 0;
+  function actionVolumeMusic(volume_value: number) {
+    volumeValueRepeat.value = volume_value;
     audio.volume = Number((volume_value / 100).toFixed(2));
+    if (audio.volume > 0) {
+      mutePlay.value = false;
+    }
+  }
+
+  function actionMuteMusic() {
+    mutePlay.value = !mutePlay.value;
+    if (mutePlay.value) {
+      audio.volume = volumeValue.value = 0;
+    } else {
+      audio.volume = Number((Number(volumeValueRepeat.value) / 100).toFixed(2));
+      volumeValue.value = Number(volumeValueRepeat.value);
+    }
   }
 
 </script>
@@ -145,11 +161,17 @@
         </div>
         <div class='col-span-4 text-right'>
           <div class="flex justify-end text-center">
-            <div class='w-24 mt-5'>
-              <SliderProgressbar @progressbar='actionVolume' />
+            <div class='mt-5'>
+              <SliderProgressbar :progress-bar-value='volumeValue' @progressbar='actionVolumeMusic' />
             </div>
-            <div>
-              <button class='btn p-2 ml-7'>
+            <div class='mt-3 ml-8'>
+              <button class='btn p-2' @click='actionMuteMusic'>
+                <Lucide v-if='mutePlay' icon="VolumeX" class="w-5 h-5 z-50 text-white ml-0.5 mt-0.5" />
+                <Lucide v-else icon="Volume2" class="w-5 h-5 z-50 text-white ml-0.5 mt-0.5" />
+              </button>
+            </div>
+            <div class='mt-3'>
+              <button class='btn p-2 ml-6'>
                 <Lucide icon="ListOrdered" class="w-5 h-5 z-50 text-white ml-0.5 mt-0.5" />
               </button>
             </div>
