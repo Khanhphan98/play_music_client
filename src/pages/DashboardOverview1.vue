@@ -22,7 +22,7 @@
       let x = a.statistik as IStatistik;
       let y = b.statistik as IStatistik;
       return y.song_play_count - x.song_play_count;
-    })
+    }).slice(0, 5);
   });
 
   const singerStore = SingerStore();
