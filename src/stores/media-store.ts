@@ -43,27 +43,44 @@ export const MediaStore = defineStore('mediaStore', () => {
     }
   }
 
-  function actionNextSong() {
-    const index = songs.value.findIndex(s => s.id === song.value.id);
-    song.value = songs.value[index + 1] || songs.value[0];
+  async function actionUpToView (item: ISong) {
+    // init value
+    const request = { id: item.id } as ISong;
+    // call request
+    const response = await SongService.recent(request);
+    if (response.data) {
+      const song_up_view = response.data.data[0] as ISong;
+      // init request statistij
+      const statistik  = song_up_view.statistik as IStatistik;
+      // call request
+      await statistikStore.actionIncreaseViewStatistikSong(statistik);
+    }
   }
 
-  function actionPrevSong() {
+  async function actionNextSong() {
+    const index = songs.value.findIndex(s => s.id === song.value.id);
+    song.value = songs.value[index + 1] || songs.value[0];
+    await actionUpToView(song.value);
+  }
+
+  async function actionPrevSong() {
     const index = songs.value.findIndex(s => s.id === song.value.id);
     song.value = songs.value[index - 1] || songs.value[songs.value.length - 1];
+    await actionUpToView(song.value);
   }
 
   function actionRepeatSong() {
     repeatType.value = (repeatType.value + 1) % 3;
   }
 
-  function actionNextSongByRepeat () {
+  async function actionNextSongByRepeat () {
     const index = songs.value.findIndex(s => s.id === song.value.id);
     // Nếu lặp lại một lần và chạy hết bai hát cuoi cung thì sẽ tạm dừng
     if (repeatType.value === 2 && !songs.value[index + 1]) {
       return;
     }
     song.value = songs.value[index + 1] || songs.value[0];
+    await actionUpToView(song.value);
   }
 
   return {
