@@ -17,6 +17,7 @@
   const showPlay = ref(true);
   const showModal = ref(false);
   const mutePlay = ref(false);
+  const shuffle = ref(false);
   const currentTime = ref();
   const percentTime = ref();
   const volumeValue = ref<Number>(50);
@@ -56,7 +57,19 @@
             }
             // Lặp một lần
             else if (repeatType.value === 2) {
-              mediaStore.actionNextSongByRepeat();
+              // back lại bài hát
+              if (shuffle) {
+                audio.currentTime = 0;
+                audio.play();
+                // Up view
+                mediaStore.actionUpToView(SongPlay.value);
+              } else {
+                mediaStore.actionNextSongByRepeat();
+              }
+            }
+            else {
+              audio.currentTime = 0;
+              showPlay.value = true;
             }
         }
 
@@ -121,6 +134,11 @@
         </div>
         <div class='col-span-4 mt-1'>
           <div class='flex text-center justify-center'>
+            <button class='btn p-2 mr-7 hover:bg-teal-50/20 hover:rounded-full hover:duration-500' @click='shuffle = !shuffle'>
+              <Lucide icon="Shuffle" class="w-5 h-5 z-50 text-white ml-0.5 mt-0.5" :style="{
+                     'color' : shuffle ? '#7e03b2' : '#fff'
+                  }" />
+            </button>
             <button class='btn p-2 mr-7 hover:bg-teal-50/20 hover:rounded-full hover:duration-500' @click='mediaStore.actionPrevSong()'>
               <Lucide icon="SkipBack" class="w-5 h-5 z-50 text-white ml-0.5 mt-0.5" />
             </button>

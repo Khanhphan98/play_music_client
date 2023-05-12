@@ -4,6 +4,7 @@
   "version": "0.0.0",
   "scripts": {
     "khanhphan": "cross-env vite --mode khanhphan",
+    "production": "cross-env vite --mode production",
     "build": "cross-env NODE_ENV=production vite build",
     "preview": "vite preview --port 8032",
     "lint": "eslint --ext .ts,vue --ignore-path .gitignore . --fix",

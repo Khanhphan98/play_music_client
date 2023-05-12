@@ -87,6 +87,7 @@ export const MediaStore = defineStore('mediaStore', () => {
     song,
     repeatType,
     initSongStore,
+    actionUpToView,
     removeFileImage,
     removeFileMp3,
     actionNextSong,
