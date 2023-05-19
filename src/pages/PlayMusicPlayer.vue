@@ -8,6 +8,7 @@
   import { toHHMMSS } from '@/utils/my-function';
   import Progress from '@/base-components/Progress';
   import SliderProgressbar from '@/base-components/SliderProgressbar';
+  import FavoriteSong from '@/pages/Client/Songs/FavoriteSong.vue';
 
 
   const mediaStore = MediaStore();
@@ -110,6 +111,16 @@
     }
   }
 
+  const hasFavorite = ref(false);
+  function actionHandleFavoriteSong (song: ISong) {
+    hasFavorite.value = !hasFavorite.value;
+    if (hasFavorite.value) {
+      mediaStore.actionPushFavoriteSong(song);
+    } else {
+      mediaStore.actionRemoveFavoriteSong(song);
+    }
+  }
+
 </script>
 
 <template>
@@ -128,7 +139,9 @@
               </div>
             </div>
             <div class='mx-5'>
-              <Lucide icon="Heart" class="w-4 h-4 z-50 text-white" />
+              <button @click='actionHandleFavoriteSong(SongPlay)'>
+                <Lucide icon="Heart" class="w-4 h-4 z-50" :class='hasFavorite ? "text-violet-600" : "text-white"' />
+              </button>
             </div>
           </div>
         </div>
@@ -139,7 +152,7 @@
                      'color' : shuffle ? '#7e03b2' : '#fff'
                   }" />
             </button>
-            <button class='btn p-2 mr-7 hover:bg-teal-50/20 hover:rounded-full hover:duration-500' @click='mediaStore.actionPrevSong()'>
+            <button class='btn p-2 mr-7 hover:bg-teal-50/20 hover:rounded-full hover:duration-500' @click='mediaStore.actionPrevSong(); hasFavorite = false'>
               <Lucide icon="SkipBack" class="w-5 h-5 z-50 text-white ml-0.5 mt-0.5" />
             </button>
             <button class='border-solid btn rounded-full p-1.5 btn-music' v-show='showPlay' @click='actionPlayMusic(); showPlay = false'>
@@ -148,7 +161,7 @@
             <button class='border-solid btn rounded-full btn-music p-1.5' v-show='!showPlay' @click='actionStopMusic(); showPlay = true'>
               <Lucide icon="Equal" class="w-5 h-5 z-50 ml-0.5 mt-0.5" />
             </button>
-            <button class='btn p-2 ml-7 hover:bg-teal-50/20 hover:rounded-full hover:duration-500' @click='mediaStore.actionNextSong()'>
+            <button class='btn p-2 ml-7 hover:bg-teal-50/20 hover:rounded-full hover:duration-500' @click='mediaStore.actionNextSong(); hasFavorite = false'>
               <Lucide icon="SkipForward" class="w-5 h-5 z-50 text-white ml-0.5 mt-0.5" />
             </button>
             <div class='relative'>
@@ -189,9 +202,7 @@
               </button>
             </div>
             <div class='mt-3'>
-              <button class='btn p-2 ml-6'>
-                <Lucide icon="ListOrdered" class="w-5 h-5 z-50 text-white ml-0.5 mt-0.5" />
-              </button>
+              <FavoriteSong />
             </div>
           </div>
         </div>

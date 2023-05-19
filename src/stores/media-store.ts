@@ -14,6 +14,8 @@ export const MediaStore = defineStore('mediaStore', () => {
   const song = ref<ISong>({ name: '' } as ISong);
   const songs = computed(() => songStore.songs as ISong[]);
   const repeatType = ref(0);
+  const playFavorite = ref(false);
+  const favorites = ref<ISong[]>([]);
 
   async function removeFileImage(filename: string) {
     // init value file in directory image
@@ -58,14 +60,24 @@ export const MediaStore = defineStore('mediaStore', () => {
   }
 
   async function actionNextSong() {
-    const index = songs.value.findIndex(s => s.id === song.value.id);
-    song.value = songs.value[index + 1] || songs.value[0];
+    if (playFavorite.value) {
+      const index = favorites.value.findIndex(s => s.id === song.value.id);
+      song.value = favorites.value[index + 1] || favorites.value[0];
+    } else {
+      const index = songs.value.findIndex(s => s.id === song.value.id);
+      song.value = songs.value[index + 1] || songs.value[0];
+    }
     await actionUpToView(song.value);
   }
 
   async function actionPrevSong() {
-    const index = songs.value.findIndex(s => s.id === song.value.id);
-    song.value = songs.value[index - 1] || songs.value[songs.value.length - 1];
+    if (playFavorite.value) {
+      const index = favorites.value.findIndex(s => s.id === song.value.id);
+      song.value = favorites.value[index - 1] || favorites.value[favorites.value.length - 1];
+    } else {
+      const index = songs.value.findIndex(s => s.id === song.value.id);
+      song.value = songs.value[index - 1] || songs.value[songs.value.length - 1];
+    }
     await actionUpToView(song.value);
   }
 
@@ -74,18 +86,41 @@ export const MediaStore = defineStore('mediaStore', () => {
   }
 
   async function actionNextSongByRepeat () {
-    const index = songs.value.findIndex(s => s.id === song.value.id);
-    // Nếu lặp lại một lần và chạy hết bai hát cuoi cung thì sẽ tạm dừng
-    if (repeatType.value === 2 && !songs.value[index + 1]) {
-      return;
+    if (playFavorite.value) {
+      const index = favorites.value.findIndex(s => s.id === song.value.id);
+      // Nếu lặp lại một lần và chạy hết bai hát cuoi cung thì sẽ tạm dừng
+      if (repeatType.value === 2 && !favorites.value[index + 1]) {
+        return;
+      }
+      song.value = favorites.value[index + 1] || favorites.value[0];
+    } else {
+      const index = songs.value.findIndex(s => s.id === song.value.id);
+      // Nếu lặp lại một lần và chạy hết bai hát cuoi cung thì sẽ tạm dừng
+      if (repeatType.value === 2 && !songs.value[index + 1]) {
+        return;
+      }
+      song.value = songs.value[index + 1] || songs.value[0];
     }
-    song.value = songs.value[index + 1] || songs.value[0];
+
     await actionUpToView(song.value);
+  }
+
+  function actionPushFavoriteSong (song: ISong) {
+    favorites.value.push(song);
+  }
+
+  function actionRemoveFavoriteSong(song: ISong) {
+    const index = favorites.value.indexOf(song);
+    if (index >= 0) {
+      favorites.value.splice(index, 1);
+    }
   }
 
   return {
     song,
+    favorites,
     repeatType,
+    playFavorite,
     initSongStore,
     actionUpToView,
     removeFileImage,
@@ -93,6 +128,8 @@ export const MediaStore = defineStore('mediaStore', () => {
     actionNextSong,
     actionPrevSong,
     actionRepeatSong,
-    actionNextSongByRepeat
+    actionNextSongByRepeat,
+    actionPushFavoriteSong,
+    actionRemoveFavoriteSong
   };
 });
