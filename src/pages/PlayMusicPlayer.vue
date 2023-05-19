@@ -19,6 +19,7 @@
   const showModal = ref(false);
   const mutePlay = ref(false);
   const shuffle = ref(false);
+  const hasFavorite = ref(false);
   const currentTime = ref();
   const percentTime = ref();
   const volumeValue = ref<Number>(50);
@@ -37,6 +38,7 @@
     if (song.file_mp3) {
       audio = new Audio(env.backendServer + song.file_mp3);
       audio.play();
+      hasFavorite.value = false;
 
       audio.addEventListener('timeupdate', () => {
         let mins = Math.floor(audio.currentTime / 60) as String | Number;
@@ -111,7 +113,7 @@
     }
   }
 
-  const hasFavorite = ref(false);
+
   function actionHandleFavoriteSong (song: ISong) {
     hasFavorite.value = !hasFavorite.value;
     if (hasFavorite.value) {

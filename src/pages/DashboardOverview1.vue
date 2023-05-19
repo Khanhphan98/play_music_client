@@ -32,7 +32,6 @@
   const SongPlay = computed(() => mediaStore.song);
 
   // value scope
-  // http://server.music.kdeveloper.net/api/media/banners/vietnam.jpeg
   const countriesMusic = ref([
     { name: 'Việt Nam', class: 'bg-vn' },
     { name: 'US-UK', class: 'bg-us' },
