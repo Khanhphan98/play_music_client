@@ -6,7 +6,6 @@
   import { env } from "@/utils/my-variables";
   import FileIcon from "@/base-components/FileIcon/FileIcon.vue";
   import { toHHMMSS } from "@/utils/my-function";
-  import Progress from "@/base-components/Progress";
   import SliderProgressbar from "@/base-components/SliderProgressbar";
   import SliderPlayMusic from "@/base-components/SliderProgressbar/SliderPlayMusic.vue";
   import FavoriteSong from "@/pages/Client/Songs/FavoriteSong.vue";
@@ -122,7 +121,10 @@
   function actionDragMusic(count: number) {
     audio.volume = 0;
     audio.currentTime = (count / 100) * audio.duration;
-    // audio.volume = Number((Number(volumeValue.value) / 100).toFixed(2));
+  }
+
+  function actionUpdateVolumnMusic() {
+    audio.volume = Number((Number(volumeValue.value) / 100).toFixed(2));
   }
 </script>
 
@@ -216,7 +218,7 @@
               <SliderPlayMusic
                 :percent="percentTime"
                 @dragmusic="actionDragMusic"
-                @mouseupmusic="audio.volume = Number((Number(volumeValue) / 100).toFixed(2))" />
+                @mouseupmusic="actionUpdateVolumnMusic" />
             </div>
             <div class="-mt-2 ml-2">{{ toHHMMSS(String(SongPlay.time)) }}</div>
           </div>
