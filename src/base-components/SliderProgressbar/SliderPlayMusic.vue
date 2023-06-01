@@ -15,7 +15,7 @@
 
   const percent = computed({
     get() {
-      return props.percent;
+      return Number(props.percent);
     },
     set(value) {
       emit("dragmusic", value);
@@ -42,7 +42,6 @@
 
   input[type="range"].win10-thumb {
     color: #2b2d42;
-
     --thumb-height: 1.375em;
     --thumb-width: 0.5em;
     --clip-edges: 0.0125em;

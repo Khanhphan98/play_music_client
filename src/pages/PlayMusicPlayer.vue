@@ -20,7 +20,7 @@
   const shuffle = ref(false);
   const hasFavorite = ref(false);
   const currentTime = ref();
-  const percentTime = ref();
+  const percentTime = ref("0");
   const volumeValue = ref<Number>(50);
   const volumeValueRepeat = ref<Number>(50);
   const repeatSong: any = ref([{ icon: "Repeat" }, { icon: "Repeat" }, { icon: "Repeat1" }]);
@@ -119,8 +119,10 @@
   }
 
   function actionDragMusic(count: number) {
-    audio.volume = 0;
-    audio.currentTime = (count / 100) * audio.duration;
+    if (audio && audio.duration > 0) {
+      audio.volume = 0;
+      audio.currentTime = (count / 100) * audio.duration;
+    }
   }
 
   function actionUpdateVolumnMusic() {
