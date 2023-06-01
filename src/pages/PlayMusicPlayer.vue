@@ -8,6 +8,7 @@
   import { toHHMMSS } from "@/utils/my-function";
   import Progress from "@/base-components/Progress";
   import SliderProgressbar from "@/base-components/SliderProgressbar";
+  import SliderPlayMusic from "@/base-components/SliderProgressbar/SliderPlayMusic.vue";
   import FavoriteSong from "@/pages/Client/Songs/FavoriteSong.vue";
 
   const mediaStore = MediaStore();
@@ -47,7 +48,7 @@
             secs = "0" + String(secs);
           }
 
-          percentTime.value = ((audio.currentTime / audio.duration) * 100).toFixed(2) + "%";
+          percentTime.value = ((audio.currentTime / audio.duration) * 100).toFixed(2);
           currentTime.value = mins + ":" + secs;
 
           if (Number(parseInt(percentTime.value).toFixed(0)) === 100) {
@@ -116,6 +117,12 @@
     } else {
       mediaStore.actionRemoveFavoriteSong(song);
     }
+  }
+
+  function actionDragMusic(count: number) {
+    audio.volume = 0;
+    audio.currentTime = (count / 100) * audio.duration;
+    // audio.volume = Number((Number(volumeValue.value) / 100).toFixed(2));
   }
 </script>
 
@@ -205,16 +212,11 @@
           </div>
           <div class="grid grid-cols-12 mt-4">
             <div class="-mt-2 mr-2">{{ currentTime }}</div>
-            <div class="h-1 col-span-10 btn-progressbar-music rounded bg-teal-50/20 relative">
-              <Progress class="h-1 absolute">
-                <Progress.Bar
-                  :style="{ width: percentTime }"
-                  role="progressbar"
-                  aria-valuenow="50"
-                  aria-valuemin="0"
-                  aria-valuemax="100">
-                </Progress.Bar>
-              </Progress>
+            <div class="col-span-10 -mt-2">
+              <SliderPlayMusic
+                :percent="percentTime"
+                @dragmusic="actionDragMusic"
+                @mouseupmusic="audio.volume = Number((Number(volumeValue) / 100).toFixed(2))" />
             </div>
             <div class="-mt-2 ml-2">{{ toHHMMSS(String(SongPlay.time)) }}</div>
           </div>
@@ -257,8 +259,5 @@
     svg {
       color: #dc1ddc !important;
     }
-  }
-
-  .btn-progressbar-music {
   }
 </style>
