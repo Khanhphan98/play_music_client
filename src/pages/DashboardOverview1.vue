@@ -3,6 +3,7 @@
   import { SongStore } from "@/stores/song-store";
   import { ISong } from "@/model/interface/ISong";
   import { env } from "@/utils/my-variables";
+  import { t } from "@/config/i18n";
   import FileIcon from "@/base-components/FileIcon/FileIcon.vue";
   import { toHHMMSS } from "@/utils/my-function";
   import { SingerStore } from "@/stores/singer-store";
@@ -15,7 +16,11 @@
   import router from "@/router";
 
   const songStore = SongStore();
-  const songs = computed(() => songStore.songs.slice(0, 5) as ISong[]);
+  const songsRecent = computed(() => {
+    return [...songStore.songs]
+      .sort((a, b) => Date.parse(b.created_at) - Date.parse(a.created_at))
+      .slice(0, 5) as ISong[]; // Sắp xếp bản sao
+  });
   const songsBanner = computed(() => songStore.songs.slice(0, 4) as ISong[]);
   const songsTopView = computed(() => {
     return songStore.songs
@@ -42,10 +47,6 @@
 
   const showRecent = ref();
 
-  function showBackgroundImage(url: string) {
-    return `background-image: url(${url});`;
-  }
-
   function renderView(statistik: IStatistik) {
     return statistik.song_play_count;
   }
@@ -62,7 +63,7 @@
     <div class="grid grid-cols-12 gap-6 mt-2 intro-y">
       <div class="col-span-12">
         <div class="flex items-center intro-x">
-          <h2 class="text-lg font-medium truncate">Gần đây</h2>
+          <h2 class="text-lg font-medium truncate">{{ t("release") }}</h2>
         </div>
       </div>
       <div
@@ -92,13 +93,12 @@
       </div>
     </div>
     <div class="col-span-12 2xl:col-span-12 my-10">
-      <div class="grid grid-cols-3 gap-2 mt-2 intro-y sm:gap-4">
+      <div class="grid grid-cols-3 gap-2 mt-2 intro-y sm:gap-4" @click="router.push('/song')">
         <div
           v-for="music_c in countriesMusic"
           :key="music_c.name"
-          @click="router.push('/song')"
           class="before:block before:absolute before:w-full before:top-0 before:left-0 before:z-10 before:bg-gradient-to-t before:from-black/90 before:to-black/10 image-fit">
-          <div class="relative bg-cover rounded" :class="music_c.class" @click="router.push('/song')">
+          <div class="relative bg-cover rounded" :class="music_c.class">
             <div class="z-10 h-[150px] w-full px-10 py-6 bg-black/70 rounded">
               <a href="#" class="grid text-center font-medium">
                 <span class="rounded px-5 py-2 grid">
@@ -156,7 +156,7 @@
               href="#"
               @click="router.push('/song')"
               class="block w-full py-3 text-center border border-dotted rounded-md intro-x border-slate-400 dark:border-darkmode-300 text-slate-500">
-              View More
+              {{ t("view_more") }}
             </a>
           </div>
         </div>
@@ -164,11 +164,11 @@
         <!-- BEGIN: Song -->
         <div class="col-span-12 intro-y sm:col-span-4 md:col-span-4 2xl:col-span-4">
           <div class="flex items-center h-10 intro-x">
-            <h2 class="mr-5 text-lg font-medium truncate">Bài hát</h2>
+            <h2 class="mr-5 text-lg font-medium truncate">{{ t("newly_released") }}</h2>
           </div>
           <div class="mt-5">
             <div
-              v-for="(song, idx) in songs"
+              v-for="(song, idx) in songsRecent"
               @mouseover="showRecent = idx"
               @mouseleave="showRecent = ''"
               :key="song.id"
@@ -204,7 +204,7 @@
               href="#"
               @click="router.push('/song')"
               class="block w-full py-3 text-center border border-dotted rounded-md intro-x border-slate-400 dark:border-darkmode-300 text-slate-500">
-              View More
+              {{ t("view_more") }}
             </a>
           </div>
         </div>
@@ -212,8 +212,8 @@
         <!-- BEGIN: Singer -->
         <div class="col-span-12 intro-y sm:col-span-4 md:col-span-4 2xl:col-span-4">
           <div class="flex items-center h-10 intro-x">
-            <h2 class="mr-5 text-lg font-medium truncate">Nghệ sĩ</h2>
-            <a href="/singer" class="ml-auto truncate opacity-40 text-violet-500"> Show More </a>
+            <h2 class="mr-5 text-lg font-medium truncate">{{ t("singer") }}</h2>
+            <a href="/singer" class="ml-auto truncate opacity-40 text-violet-500"> {{ t("view_more") }} </a>
           </div>
           <div
             class="mt-5 relative before:block before:absolute before:w-px before:h-[85%] before:bg-slate-200 before:dark:bg-darkmode-400 before:ml-5 before:mt-5">
@@ -249,7 +249,7 @@
     </div>
     <div class="col-span-12 2xl:col-span-12">
       <div class="flex items-center h-10 intro-x">
-        <h2 class="text-lg font-medium truncate mr-2">Nghệ sĩ thịnh hành</h2>
+        <h2 class="text-lg font-medium truncate mr-2">{{ t("trending_artist") }}</h2>
         <Lucide icon="Heart" class="w-4 h-4 text-white" />
       </div>
       <div class="grid grid-cols-5 gap-2 mt-2 intro-y sm:gap-6">
