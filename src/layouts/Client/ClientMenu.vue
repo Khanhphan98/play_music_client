@@ -1,20 +1,20 @@
 <script setup lang="ts">
-  import { useRoute } from 'vue-router';
-  import TopBar from '@/components/TopBar/TopBar.vue';
-  import MobileMenu from '../../components/MobileMenu/AdminMobileMenu.vue';
-  import { computed, onMounted, reactive, ref, watch } from 'vue';
-  import NotificationToastify from '@/base-components/iCustom/NotificationCustom/Main.vue';
-  import { enter, FormattedMenu, leave, nestedMenu } from '@/layouts/Admin/admin-menu';
-  import Divider from '@/layouts/Admin/Divider.vue';
-  import Button from '@/base-components/Button/Button.vue';
-  import Lucide from '@/base-components/Lucide/Lucide.vue';
-  import Menu from '@/layouts/Admin/Menu.vue';
-  import { useClientMenuStore } from '@/stores/client-menu';
-  import PlayMusicPlayer from '@/pages/PlayMusicPlayer.vue';
+  import { useRoute } from "vue-router";
+  import TopBar from "@/components/TopBar/TopBar.vue";
+  import MobileMenu from "../../components/MobileMenu/AdminMobileMenu.vue";
+  import { computed, onMounted, reactive, ref, watch } from "vue";
+  import NotificationToastify from "@/base-components/iCustom/NotificationCustom/Main.vue";
+  import { enter, FormattedMenu, leave, nestedMenu } from "@/layouts/Admin/admin-menu";
+  import Divider from "@/layouts/Admin/Divider.vue";
+  import Button from "@/base-components/Button/Button.vue";
+  import Lucide from "@/base-components/Lucide/Lucide.vue";
+  import Menu from "@/layouts/Admin/Menu.vue";
+  import { useClientMenuStore } from "@/stores/client-menu";
+  import PlayMusicPlayer from "@/pages/PlayMusicPlayer.vue";
 
   const route = useRoute();
-  const formattedMenu = reactive<Array<FormattedMenu | 'divider'>>([]);
-  const setFormattedMenu = (computedFormattedMenu: Array<FormattedMenu | 'divider'>) => {
+  const formattedMenu = reactive<Array<FormattedMenu | "divider">>([]);
+  const setFormattedMenu = (computedFormattedMenu: Array<FormattedMenu | "divider">) => {
     Object.assign(formattedMenu, computedFormattedMenu);
   };
   const clientMenuStore = useClientMenuStore();
@@ -45,8 +45,8 @@
           <Lucide icon="ChevronsLeft" v-else class="h-5 w-5" />
         </Button>
         <nav class="overflow-x-hidden">
-          <RouterLink :to="{ name: 'side-menu-dashboard-overview-1' }" class="flex items-center mt-3 intro-x">
-            <img src='/favicon/android-chrome-192x192.png' width='30' height='30'>
+          <RouterLink :to="{ name: 'discovery' }" class="flex items-center mt-3 intro-x">
+            <img src="/favicon/android-chrome-192x192.png" width="30" height="30" />
             <span class="text-xl text-white/80 ml-2">Play music</span>
           </RouterLink>
           <Divider type="div" class="my-3"></Divider>
@@ -161,6 +161,7 @@
             display: flex;
           }
         }
+
         .load-averages {
           > .hidden {
             display: inline-block;
