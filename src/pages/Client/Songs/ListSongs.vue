@@ -170,7 +170,8 @@
                         </span>
                       </div>
                     </div>
-                    <div class="text-slate-500 mr-5">
+                    <div class="text-slate-500 mr-5 flex">
+                      <Lucide icon="Music" class="w-3.5 h-3.5 mr-1 mt-0.5 text-violet-600" />
                       {{ song.lyric.slice(0, 50) }}
                     </div>
                     <div class="text-slate-500">

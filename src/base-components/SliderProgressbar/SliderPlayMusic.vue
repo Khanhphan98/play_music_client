@@ -10,6 +10,7 @@
   const props = defineProps({
     percent: {
       type: String,
+      default: "0",
     },
   });
 
