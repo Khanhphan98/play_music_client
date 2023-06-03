@@ -45,10 +45,10 @@
           <Lucide icon="ChevronsLeft" v-else class="h-5 w-5" />
         </Button>
         <nav class="overflow-x-hidden">
-          <RouterLink :to="{ name: 'discovery' }" class="flex items-center mt-3 intro-x">
+          <a href="/" class="flex items-center mt-3 intro-x">
             <img src="/favicon/android-chrome-192x192.png" width="30" height="30" />
             <span class="text-xl text-white/80 ml-2">Play music</span>
-          </RouterLink>
+          </a>
           <Divider type="div" class="my-3"></Divider>
           <ul>
             <!-- BEGIN: First Child -->
