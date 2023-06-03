@@ -8,6 +8,9 @@
   import { MediaStore } from "@/stores/media-store";
   import LoadingIcon from "@/base-components/LoadingIcon/LoadingIcon.vue";
   import { IStatistik } from "@/model/interface/IStatistik";
+  import FormInput from "@/base-components/Form/FormInput.vue";
+  import { t } from "@/config/i18n";
+  import Button from "@/base-components/Button";
 
   const songStore = SongStore();
   const songs = computed(() => {
@@ -22,8 +25,9 @@
   const SongPlay = computed(() => mediaStore.song);
 
   // value scope
+  const searchModel = ref("");
   const showAction = ref();
-  const isActiveCountry = ref(false);
+  const isActiveCountry = ref();
   // value scope
   const countriesMusic = ref([
     { ids: ["1"], name: "Việt Nam", image: "./src/assets/images/banners/vietnam.jpeg" },
@@ -72,11 +76,11 @@
                       </span>
                     </div>
                     <h3 class="text-center text-slate-500 mt-1">
-                      Ra mắt: {{ formatDate(songs[0].release, "DD/MM/YYYY") }}
+                      {{ t("release") }}: {{ formatDate(songs[0].release, "DD/MM/YYYY") }}
                     </h3>
                     <div class="text-center">
                       <button class="p-2 border-teal-50 border-solid">
-                        <Lucide icon="Heart" class="w-5 h-5 z-50 text-white ml-0.5 mt-0.5" />
+                        <Lucide icon="Heart" class="w-5 h-5 z-50 ml-0.5 mt-0.5" />
                       </button>
                       <button class="">
                         <Lucide icon="Music" class="w-5 h-5 z-50 ml-0.5 mt-0.5" />
@@ -86,27 +90,48 @@
                 </div>
               </div>
               <div class="col-span-10 md:col-span-8 lg:col-span-9">
-                <div class="flex mb-5">
-                  <span
-                    v-for="(music_c, idx) in countriesMusic"
-                    :key="music_c.name"
-                    @click="filterCountry(music_c.ids)"
-                    class="cursor-pointer border-solid font-serif border-cyan-700 border-2 px-8 py-2 rounded-3xl mr-3"
-                    :class="{ 'bg-violet-800': isActiveCountry === idx }">
+                <div class="grid grid-cols-12 mb-4">
+                  <div class="flex col-span-8">
                     <span
-                      class="text-base"
-                      :class="{
-                        'text-blue-500': idx === 0,
-                        'text-red-500': idx === 1,
-                        'text-yellow-500': idx === 2,
-                        'text-white': isActiveCountry === idx,
-                      }"
-                      >{{ music_c.name }}</span
-                    >
-                  </span>
+                      v-for="(music_c, idx) in countriesMusic"
+                      :key="music_c.name"
+                      @click="
+                        filterCountry(music_c.ids);
+                        isActiveCountry = idx;
+                      "
+                      class="cursor-pointer border-solid font-serif dark:border-violet-600/20 border-2 px-8 py-2 rounded-3xl mr-3"
+                      :class="{ 'bg-violet-800/80': isActiveCountry === idx }">
+                      <span
+                        class="text-base"
+                        :class="{
+                          'text-blue-500': idx === 0,
+                          'text-red-500': idx === 1,
+                          'text-yellow-500': idx === 2,
+                          'text-white': isActiveCountry === idx,
+                        }"
+                        >{{ music_c.name }}</span
+                      >
+                    </span>
+                  </div>
+                  <div class="col-span-4 justify-end">
+                    <div class="relative w-full md:w-64 md:ml-auto">
+                      <FormInput
+                        type="search"
+                        :placeholder="t('find', { name: t('song').toLowerCase() }) + '...'"
+                        class="pr-10 dark:border-slate-600"
+                        v-model="searchModel"
+                        name="find-song" />
+                      <Button
+                        class="border-none shadow-none absolute inset-y-0 right-0 text-gray-400 hover:text-gray-600">
+                        <Lucide icon="Search" class="w-5 h-5" />
+                      </Button>
+                    </div>
+                  </div>
                 </div>
                 <div
-                  v-for="(song, idx) in songs"
+                  v-for="(song, idx) in songs.filter((s) =>
+                    searchModel ? s.name.toLowerCase().includes(searchModel.toLowerCase()) : s,
+                  )"
                   :key="song.id"
                   class="intro-x"
                   @mouseover="showAction = idx"
