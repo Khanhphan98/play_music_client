@@ -9,6 +9,7 @@
   import SliderProgressbar from "@/base-components/SliderProgressbar";
   import SliderPlayMusic from "@/base-components/SliderProgressbar/SliderPlayMusic.vue";
   import FavoriteSong from "@/pages/Client/Songs/FavoriteSong.vue";
+  import LyricsSong from "@/pages/Client/Songs/LyricsSong.vue";
 
   const mediaStore = MediaStore();
   const SongPlay = computed(() => mediaStore.song as ISong);
@@ -231,6 +232,9 @@
               <SliderProgressbar :progress-bar-value="volumeValue" @progressbar="actionVolumeMusic" />
             </div>
             <div class="mt-3 ml-8">
+              <LyricsSong :song="SongPlay" />
+            </div>
+            <div class="mt-3 ml-5">
               <button class="btn p-2" @click="actionMuteMusic">
                 <Lucide v-if="mutePlay" icon="VolumeX" class="w-5 h-5 z-50 text-white ml-0.5 mt-0.5" />
                 <Lucide v-else icon="Volume2" class="w-5 h-5 z-50 text-white ml-0.5 mt-0.5" />

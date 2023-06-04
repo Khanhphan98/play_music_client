@@ -102,5 +102,6 @@
   "delete_file": "Delete file",
   "newly_released": "Newly Released",
   "view_more": "View more",
-  "trending_artist": "Trending Artist"
+  "trending_artist": "Trending Artist",
+  "list_favorite_song": "Favorite song list"
 }
