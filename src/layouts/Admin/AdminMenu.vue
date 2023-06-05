@@ -1,20 +1,20 @@
 <script setup lang="ts">
-  import { useRoute } from 'vue-router';
-  import Divider from './Divider.vue';
-  import Menu from './Menu.vue';
-  import TopBarAdmin from '@/components/TopBar/TopBarAdmin.vue';
-  import MobileMenu from '../../components/MobileMenu/AdminMobileMenu.vue';
-  import { useAdminMenuStore } from '@/stores/admin-menu';
-  import { FormattedMenu, nestedMenu, enter, leave } from './admin-menu';
-  import { watch, reactive, computed, onMounted, ref } from 'vue';
-  import Lucide from '@/base-components/Lucide/Lucide.vue';
-  import Button from '@/base-components/Button/Button.vue';
-  import NotificationToastify from '@/base-components/iCustom/NotificationCustom/Main.vue';
-  import PlayMusicPlayer from '@/pages/PlayMusicPlayer.vue';
+  import { useRoute } from "vue-router";
+  import Divider from "./Divider.vue";
+  import Menu from "./Menu.vue";
+  import TopBarAdmin from "@/components/TopBar/TopBarAdmin.vue";
+  import MobileMenu from "../../components/MobileMenu/AdminMobileMenu.vue";
+  import { useAdminMenuStore } from "@/stores/admin-menu";
+  import { FormattedMenu, nestedMenu, enter, leave } from "./admin-menu";
+  import { watch, reactive, computed, onMounted, ref } from "vue";
+  import Lucide from "@/base-components/Lucide/Lucide.vue";
+  import Button from "@/base-components/Button/Button.vue";
+  import NotificationToastify from "@/base-components/iCustom/NotificationCustom/Main.vue";
+  import PlayMusicPlayer from "@/pages/PlayMusicPlayer.vue";
 
   const route = useRoute();
-  const formattedMenu = reactive<Array<FormattedMenu | 'divider'>>([]);
-  const setFormattedMenu = (computedFormattedMenu: Array<FormattedMenu | 'divider'>) => {
+  const formattedMenu = reactive<Array<FormattedMenu | "divider">>([]);
+  const setFormattedMenu = (computedFormattedMenu: Array<FormattedMenu | "divider">) => {
     Object.assign(formattedMenu, computedFormattedMenu);
   };
   const adminMenuStore = useAdminMenuStore();
@@ -38,10 +38,10 @@
     }
     const _params = $router.params.tplId;
     if (_params) {
-      _title += '_' + _params;
+      _title += "_" + _params;
     }
     if (!_title) {
-      _title = '';
+      _title = "";
     }
     return _title;
   }
@@ -62,8 +62,8 @@
           <Lucide icon="ChevronsLeft" v-else class="h-5 w-5" />
         </Button>
         <nav class="overflow-x-hidden">
-          <RouterLink :to="{ name: 'side-menu-dashboard-overview-1' }" class="flex items-center mt-3 intro-x">
-            <img src='/favicon/android-chrome-192x192.png' width='30' height='30'>
+          <RouterLink :to="{ name: 'discovery' }" class="flex items-center mt-3 intro-x">
+            <img src="/favicon/android-chrome-192x192.png" width="30" height="30" />
             <span class="text-xl text-white/80 ml-2">Play music</span>
           </RouterLink>
           <Divider type="div" class="my-3"></Divider>
@@ -181,6 +181,7 @@
             display: flex;
           }
         }
+
         .load-averages {
           > .hidden {
             display: inline-block;
