@@ -62,8 +62,6 @@
               if (shuffle) {
                 audio.currentTime = 0;
                 audio.play();
-                // Up view
-                mediaStore.actionUpToView(SongPlay.value);
               } else {
                 mediaStore.actionNextSongByRepeat();
               }
@@ -71,6 +69,8 @@
               audio.currentTime = 0;
               showPlay.value = true;
             }
+            // Up view
+            mediaStore.actionUpToView(SongPlay.value);
           }
         });
 
