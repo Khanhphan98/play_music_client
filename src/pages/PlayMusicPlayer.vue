@@ -174,22 +174,24 @@
               <Lucide icon="SkipBack" class="w-5 h-5 z-50 text-white ml-0.5 mt-0.5" />
             </button>
             <button
-              class="border-solid btn rounded-full p-1.5 btn-music"
+              class="btn"
               v-show="showPlay"
               @click="
                 actionPlayMusic();
                 showPlay = false;
               ">
-              <Lucide icon="Play" class="w-5 h-5 z-50 text-white ml-0.5 mt-0.5" />
+              <Lucide
+                icon="PlayCircle"
+                class="w-9 h-9 z-50 text-white ml-0.5 mt-0.5 hover:text-violet-700 duration-500" />
             </button>
             <button
-              class="border-solid btn rounded-full btn-music p-1.5"
+              class="btn"
               v-show="!showPlay"
               @click="
                 actionStopMusic();
                 showPlay = true;
               ">
-              <Lucide icon="Equal" class="w-5 h-5 z-50 ml-0.5 mt-0.5" />
+              <Lucide icon="PauseCircle" class="w-9 h-9 z-50 ml-0.5 mt-0.5 hover:text-violet-700 duration-500" />
             </button>
             <button
               class="btn p-2 ml-7 hover:bg-teal-50/20 hover:rounded-full hover:duration-500"
