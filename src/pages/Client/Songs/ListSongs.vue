@@ -39,6 +39,10 @@
     await songStore.searchByCountry(ids);
   }
 
+  function renderView(statistik: IStatistik) {
+    return statistik.song_play_count;
+  }
+
   onMounted(() => {
     songStore.recent();
   });
@@ -58,7 +62,7 @@
           <!-- END: Recent Activities -->
           <div class="col-span-12 mt-3 md:col-span-12 xl:col-span-12 2xl:col-span-12 2xl:mt-12">
             <div class="flex items-center h-10 mt-6">
-              <h2 class="mr-5 text-3xl font-medium">Bảng xếp hạng #PM</h2>
+              <h2 class="mr-5 text-3xl font-medium">{{ t("the_leader_board") }} #PM</h2>
             </div>
             <div class="mt-5 grid grid-cols-12 gap-6">
               <div class="col-span-2 md:col-span-4 lg:col-span-3 relative">
@@ -174,8 +178,13 @@
                       <Lucide icon="Music" class="w-3.5 h-3.5 mr-1 mt-0.5 text-violet-600" />
                       {{ song.lyric.slice(0, 50) }}
                     </div>
-                    <div class="text-slate-500">
+                    <div class="text-slate-500 mr-5 flex">
+                      <Lucide icon="Timer" class="w-3.5 h-3.5 mr-1 mt-0.5 text-sky-500" />
                       {{ toHHMMSS(String(song.time)) }}
+                    </div>
+                    <div class="text-slate-500 flex">
+                      <Lucide icon="PlayCircle" class="w-3.5 h-3.5 mr-1 mt-0.5 text-red-500" />
+                      {{ renderView(song.statistik as IStatistik) }} {{ t("listens") }}
                     </div>
                   </div>
                 </div>

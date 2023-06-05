@@ -149,7 +149,7 @@
                     </span>
                   </div>
                 </div>
-                <div class="text-slate-500 flex">{{ renderView(song.statistik as IStatistik) }} lượt nghe</div>
+                <div class="text-slate-500 flex">{{ renderView(song.statistik as IStatistik) }} {{ t("listens") }}</div>
               </div>
             </div>
             <a
