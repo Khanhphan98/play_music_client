@@ -11,21 +11,33 @@
   import { ISong } from "@/model/interface/ISong";
   import { IStatistik } from "@/model/interface/IStatistik";
   import LoadingIcon from "@/base-components/LoadingIcon/LoadingIcon.vue";
+  import Button from "@/base-components/Button";
+  import Tippy from "@/base-components/Tippy/Tippy.vue";
+  import { MediaStore } from "@/stores/media-store";
+  import { SongStore } from "@/stores/song-store";
 
   const route = useRoute();
   const singerStore = SingerStore();
+  const mediaStore = MediaStore();
+  const songStore = SongStore();
   const singers = computed(() => singerStore.singers as ISinger[]);
   const songsBySinger = computed(() => singerStore.songsBySinger);
+  const SongPlay = computed(() => mediaStore.song as ISong);
 
   // value scope
   const singerInfo = computed(() => songsBySinger.value.singer as ISinger);
   const songs = computed(() => songsBySinger.value.songs as ISong[]);
+  const showRecent = ref();
 
-  onMounted(() => {
-    singerStore.recent();
+  function actionListenAll() {
+    mediaStore.initSongStore(songs.value[0]);
+    songStore.actionUpdateSongs(songs.value);
+  }
 
+  onMounted(async () => {
     if (route.params && route.params.name) {
-      singerStore.getSongsBySinger(String(route.params.name));
+      await singerStore.getSongsBySinger(String(route.params.name));
+      await songStore.actionUpdateSongs(songs.value);
     }
   });
 </script>
@@ -63,14 +75,33 @@
     </div>
   </div>
   <div class="grid grid-cols-12 mt-4 ml-2">
-    <div class="col-span-12 mb-2">
-      <h2 class="mr-5 text-xl font-medium">Bài hát nổi bật</h2>
+    <div class="col-span-12 my-3 flex">
+      <h2 class="mr-2 text-xl font-medium">{{ t("featured_song") }}</h2>
+      <Tippy :content="t('listen_all')">
+        <Lucide icon="PlayCircle" class="w-7 h-7 text-purple-600" @click="actionListenAll" />
+      </Tippy>
     </div>
-    <div v-for="(song, idx) in songs" :key="song.id" class="intro-x col-span-4 mr-2">
+    <div
+      v-for="(song, idx) in songs"
+      @mouseover="showRecent = idx"
+      @mouseleave="showRecent = ''"
+      :key="song.id"
+      @click="mediaStore.initSongStore(song)"
+      class="intro-x col-span-4 mr-2">
       <div class="flex items-center px-5 py-3 mb-3 box zoom-in">
         <Lucide icon="Music" class="w-5 h-5 mr-4 text-slate-500" />
         <div class="flex-none w-10 h-10 overflow-hidden rounded-md image-fit">
           <img :alt="song.name" :src="env.backendServer + song.picture" />
+          <div
+            v-show="showRecent === idx || song.id === SongPlay.id"
+            class="absolute flex inset-x-0 bg-black/80 w-full h-full justify-center align-center">
+            <button class="btn btn-primary" v-show="song.id !== SongPlay.id">
+              <Lucide icon="Play" class="w-4 h-4 text-white" />
+            </button>
+            <button class="btn btn-primary opacity-40 p-1.5" v-show="song.id === SongPlay.id">
+              <LoadingIcon icon="audio" />
+            </button>
+          </div>
         </div>
         <div class="ml-4 mr-auto">
           <div class="font-medium">{{ song.name }}</div>

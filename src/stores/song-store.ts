@@ -1,15 +1,15 @@
-import { defineStore } from 'pinia';
-import { handleExceptionError } from '@/utils/my-function';
-import { ref } from 'vue';
-import { ISong } from '@/model/interface/ISong';
-import SongService from '@/model/service/song-service';
-import { MyStore } from '@/stores/my-store';
-import { IStatistik } from '@/model/interface/IStatistik';
-import { StatistikStore } from '@/stores/statistik-store';
+import { defineStore } from "pinia";
+import { handleExceptionError } from "@/utils/my-function";
+import { ref } from "vue";
+import { ISong } from "@/model/interface/ISong";
+import SongService from "@/model/service/song-service";
+import { MyStore } from "@/stores/my-store";
+import { IStatistik } from "@/model/interface/IStatistik";
+import { StatistikStore } from "@/stores/statistik-store";
 
-export const SongStore = defineStore('songStore', () => {
+export const SongStore = defineStore("songStore", () => {
   const songs = ref<ISong[]>([]);
-  const myStore = MyStore()
+  const myStore = MyStore();
   const statistikStore = StatistikStore();
 
   async function list() {
@@ -26,7 +26,7 @@ export const SongStore = defineStore('songStore', () => {
 
   async function save(song: ISong) {
     // init statistik before when create singer
-    const statistik = await statistikStore.actionSaveStatistikSong() as IStatistik;
+    const statistik = (await statistikStore.actionSaveStatistikSong()) as IStatistik;
     // init value
     const request = {
       name: song.name,
@@ -39,7 +39,7 @@ export const SongStore = defineStore('songStore', () => {
       categories: song.categories,
       countries: song.countries,
       singers: song.singers,
-      statistik: Number(statistik.id)
+      statistik: Number(statistik.id),
     } as ISong;
     // call request
     await SongService.save(request);
@@ -49,8 +49,18 @@ export const SongStore = defineStore('songStore', () => {
 
   async function update(song: ISong) {
     // init value
-    const request = { id: song.id, name: song.name, release: song.release, time: song.time, lyric: song.lyric, description: song.description,
-      file_mp3: song.file_mp3, picture: song.picture, categories: song.categories, countries: song.countries, singers: song.singers,
+    const request = {
+      id: song.id,
+      name: song.name,
+      release: song.release,
+      time: song.time,
+      lyric: song.lyric,
+      description: song.description,
+      file_mp3: song.file_mp3,
+      picture: song.picture,
+      categories: song.categories,
+      countries: song.countries,
+      singers: song.singers,
     } as ISong;
     // call request
     await SongService.update(request);
@@ -111,6 +121,10 @@ export const SongStore = defineStore('songStore', () => {
     }
   }
 
+  function actionUpdateSongs(new_songs: ISong[]) {
+    songs.value = new_songs;
+  }
+
   return {
     songs,
     list,
@@ -119,6 +133,7 @@ export const SongStore = defineStore('songStore', () => {
     remove,
     search,
     recent,
-    searchByCountry
+    searchByCountry,
+    actionUpdateSongs,
   };
 });

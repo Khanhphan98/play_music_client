@@ -105,5 +105,8 @@
   "trending_artist": "Trending Artist",
   "list_favorite_song": "Favorite song list",
   "the_leader_board": "The Leaderboard",
-  "listens": "listens"
+  "listens": "listens",
+  "the_singers": "The Singers",
+  "listen_all": "Listen to all",
+  "featured_song": "Featured Song"
 }

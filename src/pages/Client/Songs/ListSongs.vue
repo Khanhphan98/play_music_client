@@ -153,15 +153,15 @@
                       {{ idx + 1 }}
                     </div>
                     <div class="text-3xl opacity-30 mx-4">-</div>
-                    <div class="flex-none w-10 h-10 overflow-hidden rounded-md image-fit p-0">
+                    <div class="flex-none w-10 h-10 overflow-hidden image-fit rounded-md">
                       <img :alt="song.name" :src="env.backendServer + song.picture" class="z-0" />
                       <div
                         v-show="showAction === idx || song.id === SongPlay.id"
                         class="absolute flex inset-x-0 bg-black/80 w-full h-full justify-center align-center">
-                        <button class="btn btn-primary" v-show="song.id !== SongPlay.id">
+                        <button class="btn" v-show="song.id !== SongPlay.id">
                           <Lucide icon="Play" class="w-4 h-4 text-white" />
                         </button>
-                        <button class="btn btn-primary opacity-40 p-1.5" v-show="song.id === SongPlay.id">
+                        <button class="btn opacity-40 p-1.5" v-show="song.id === SongPlay.id">
                           <LoadingIcon icon="audio" />
                         </button>
                       </div>

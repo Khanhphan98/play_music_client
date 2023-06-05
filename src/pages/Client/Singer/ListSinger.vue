@@ -33,7 +33,9 @@
           <!-- END: Recent Activities -->
           <div class="col-span-12 mt-3 md:col-span-12 xl:col-span-12 2xl:col-span-12 2xl:mt-12">
             <div class="grid grid-cols-12 h-10 mt-6">
-              <div class="col-span-8"><h2 class="mr-5 text-3xl font-medium">Danh sách Nghệ sĩ #PM</h2></div>
+              <div class="col-span-8">
+                <h2 class="mr-5 text-3xl font-medium">{{ t("the_singers") }} #PM</h2>
+              </div>
               <div class="col-span-4 justify-end">
                 <div class="relative w-full md:w-64 md:ml-auto">
                   <FormInput
