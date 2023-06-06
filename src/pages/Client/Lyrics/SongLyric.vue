@@ -29,12 +29,12 @@
         lyricsShow.push({ time: timeMatch[1].substring(0, 5), word: wordsMatch[1].trim() } as ILyric);
       }
 
-      return lyricsShow;
+      return lyricsShow.length > 0 ? lyricsShow : [];
     }, []);
   }
 
   onMounted(() => {
-    if (trackTime.value < lyricsSong.value[0].time) {
+    if (lyricsSong.value.length > 0 && trackTime.value < lyricsSong.value[0].time) {
       const lyric_div = document.getElementById("lyric-div") as HTMLDivElement;
       lyric_div.scrollTop = 0;
     }
@@ -57,7 +57,7 @@
     () => trackTime.value,
     () => {
       setTimeout(() => {
-        if (trackTime.value < lyricsSong.value[0].time) {
+        if (lyricsSong.value.length > 0 && trackTime.value < lyricsSong.value[0].time) {
           const lyric_div = document.getElementById("lyric-div") as HTMLDivElement;
           lyric_div.scrollTop = 0;
         }
@@ -68,7 +68,15 @@
 
 <template>
   <div id="lyric-div" class="w-1/2 max-w-[600px] mx-auto relative h-[calc(100%-1px)] overflow-auto scrollbar-hide" />
-  <div class="text-center opacity-100" :class="snapToPosition(lyric)" v-for="lyric in lyricsSong" :key="lyric">
+  <div
+    v-if="lyricsSong && lyricsSong.length > 0"
+    class="text-center opacity-100"
+    :class="snapToPosition(lyric)"
+    v-for="lyric in lyricsSong"
+    :key="lyric">
     <LyricsRow :time="lyric.time" :words="lyric.word" :lyrics="lyricsSong" />
+  </div>
+  <div v-else>
+    {{ props.lyricsSong }}
   </div>
 </template>
