@@ -1,7 +1,6 @@
 <script setup lang="ts">
   import { SongStore } from "@/stores/song-store";
   import LyricsRow from "@/pages/Client/Lyrics/LyricsRow.vue";
-  import lyrics from "../../../lyrics.json";
   import { storeToRefs } from "pinia";
   import { computed, onMounted, watch } from "vue";
   import { ILyric } from "@/model/interface/ILyric";
@@ -58,7 +57,7 @@
     () => trackTime.value,
     () => {
       setTimeout(() => {
-        if (trackTime.value < lyrics[2][0].time) {
+        if (trackTime.value < lyricsSong.value[0].time) {
           const lyric_div = document.getElementById("lyric-div") as HTMLDivElement;
           lyric_div.scrollTop = 0;
         }
