@@ -85,14 +85,18 @@
                                 variant="image"
                                 :src="env.backendServer + song.picture" />
                               <div class="mt-4 flex items-center justify-center space-x-3 text-base">
-                                <div class="font-serif text-gray-900 text-2xl">{{ song.name }}</div>
+                                <div class="font-serif text-white text-2xl flex">
+                                  <Lucide icon="Heart" class="w-4 h-4 mt-2 mr-2" />
+                                  {{ song.name }}
+                                </div>
                                 <svg viewBox="0 0 2 2" width="3" height="3" aria-hidden="true" class="fill-gray-900">
                                   <circle cx="1" cy="1" r="1" />
                                 </svg>
-                                <div class="text-gray-800">
+                                <div class="text-white flex">
                                   <span class="text-xl" v-for="(name_singer, idx) in song.singers" :key="name_singer">
                                     {{ name_singer }}<span v-if="idx !== song.singers.length - 1">, </span>
                                   </span>
+                                  <Lucide icon="Heart" class="w-4 h-4 mt-2 ml-2" />
                                 </div>
                               </div>
                             </figcaption>
