@@ -242,6 +242,30 @@
 <template>
   <div class="grid grid-cols-12 gap-6 mt-5 -intro-y">
     <div class="col-span-10 md:col-span-8 lg:col-span-9">
+      <div class="p-5 bg-white dark:bg-darkmode-900 shadow-md rounded" v-show="showConvert">
+        <FormInline class="items-start mt-4">
+          <FormLabel htmlFor="lyric" class="sm:w-28"> {{ t("convert") }}:</FormLabel>
+          <div class="w-full flex-1">
+            <InputGroup class="w-full">
+              <InputGroup.Text id="icon-lyric">
+                <Lucide icon="Clipboard" class="w-4 h-4" />
+              </InputGroup.Text>
+              <FormTextarea
+                v-model="dataConvert"
+                :rows="5"
+                name="convert"
+                class="rounded"
+                id="convert"
+                type="text"
+                :placeholder="t('enter', { name: t('convert') })"
+                aria-describedby="icon-convert" />
+            </InputGroup>
+            <div class="text-right mt-3">
+              <Button variant="outline-primary" type="button" @click="convertJSONToString">{{ t("convert") }}</Button>
+            </div>
+          </div>
+        </FormInline>
+      </div>
       <form class="p-5 bg-white dark:bg-darkmode-900 shadow-md rounded" @submit="submitForm">
         <FormInline class="items-start">
           <FormLabel htmlFor="name" class="sm:w-28"> {{ t("name") }}:</FormLabel>
@@ -301,28 +325,6 @@
                 :placeholder="t('enter', { name: t('lyric') })"
                 aria-describedby="icon-lyric" />
             </InputGroup>
-          </div>
-        </FormInline>
-        <FormInline class="items-start mt-4" v-show="showConvert">
-          <FormLabel htmlFor="lyric" class="sm:w-28"> {{ t("convert") }}:</FormLabel>
-          <div class="w-full flex-1">
-            <InputGroup class="w-full">
-              <InputGroup.Text id="icon-lyric">
-                <Lucide icon="Clipboard" class="w-4 h-4" />
-              </InputGroup.Text>
-              <FormTextarea
-                v-model="dataConvert"
-                :rows="5"
-                name="convert"
-                class="rounded"
-                id="convert"
-                type="text"
-                :placeholder="t('enter', { name: t('convert') })"
-                aria-describedby="icon-convert" />
-            </InputGroup>
-            <div class="ml-10 mt-3">
-              <Button variant="outline-primary" type="button" @click="convertJSONToString">{{ t("convert") }}</Button>
-            </div>
           </div>
         </FormInline>
         <FormInline class="items-start mt-4">
