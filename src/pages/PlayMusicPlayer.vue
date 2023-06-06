@@ -196,7 +196,9 @@
                 actionStopMusic();
                 showPlay = true;
               ">
-              <Lucide icon="PauseCircle" class="w-9 h-9 z-50 ml-0.5 mt-0.5 hover:text-violet-700 duration-500" />
+              <Lucide
+                icon="PauseCircle"
+                class="w-9 h-9 z-50 ml-0.5 mt-0.5 text-white hover:text-violet-700 duration-500" />
             </button>
             <button
               class="btn p-2 ml-7 hover:bg-teal-50/20 hover:rounded-full hover:duration-500"
@@ -223,14 +225,14 @@
             </div>
           </div>
           <div class="grid grid-cols-12 mt-4">
-            <div class="-mt-2 mr-2">{{ currentTime }}</div>
+            <div class="-mt-2 mr-2 text-white">{{ currentTime }}</div>
             <div class="col-span-10 -mt-2">
               <SliderPlayMusic
                 :percent="percentTime"
                 @dragmusic="actionDragMusic"
                 @mouseupmusic="actionUpdateVolumnMusic" />
             </div>
-            <div class="-mt-2 ml-2">{{ toHHMMSS(String(SongPlay.time)) }}</div>
+            <div class="-mt-2 ml-2 text-white">{{ toHHMMSS(String(SongPlay.time)) }}</div>
           </div>
         </div>
         <div class="col-span-4 text-right">
