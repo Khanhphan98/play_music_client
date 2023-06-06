@@ -52,6 +52,7 @@
     countries: [],
     singers: [],
   });
+  const dataConvert = ref();
   //Schema validate
   const schema = toFieldValidator(
     z.object({
@@ -207,6 +208,23 @@
     });
   }
 
+  function convertJSONToString() {
+    const data = JSON.parse(dataConvert.value);
+    let result = "";
+    for (let i = 0; i < data.length; i++) {
+      const item = data[i];
+      const startTimeMs = parseInt(item.startTimeMs);
+      const minutes = String(Math.floor(startTimeMs / 60000)).padStart(2, "0");
+      const seconds = String(Math.floor((startTimeMs % 60000) / 1000)).padStart(2, "0");
+      const time = `${minutes}:${seconds}.00`;
+      const words = item.words;
+      result += `[${time}] ${words}\n`;
+    }
+    formData.lyric = result.trim();
+  }
+
+  const showConvert = ref(false);
+
   onMounted(async () => {
     await categoryStore.list();
     await countryStore.list();
@@ -261,6 +279,13 @@
             <InputGroup class="w-full">
               <InputGroup.Text id="icon-lyric">
                 <Lucide icon="Music" class="w-4 h-4" />
+                <Tippy :content="t('convert')">
+                  <Lucide
+                    icon="Rotate3d"
+                    class="w-4 h-4 mt-2"
+                    :class="{ 'text-violet-500': showConvert }"
+                    @click="showConvert = !showConvert" />
+                </Tippy>
               </InputGroup.Text>
               <FormTextarea
                 v-model="formData.lyric"
@@ -272,6 +297,28 @@
                 :placeholder="t('enter', { name: t('lyric') })"
                 aria-describedby="icon-lyric" />
             </InputGroup>
+          </div>
+        </FormInline>
+        <FormInline class="items-start mt-4" v-show="showConvert">
+          <FormLabel htmlFor="lyric" class="sm:w-28"> {{ t("convert") }}:</FormLabel>
+          <div class="w-full flex-1">
+            <InputGroup class="w-full">
+              <InputGroup.Text id="icon-lyric">
+                <Lucide icon="Clipboard" class="w-4 h-4" />
+              </InputGroup.Text>
+              <FormTextarea
+                v-model="dataConvert"
+                :rows="5"
+                name="convert"
+                class="rounded"
+                id="convert"
+                type="text"
+                :placeholder="t('enter', { name: t('convert') })"
+                aria-describedby="icon-convert" />
+            </InputGroup>
+            <div class="ml-10 mt-3">
+              <Button variant="outline-primary" @click="convertJSONToString">{{ t("convert") }}</Button>
+            </div>
           </div>
         </FormInline>
         <FormInline class="items-start mt-4">
