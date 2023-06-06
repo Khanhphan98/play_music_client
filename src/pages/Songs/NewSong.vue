@@ -209,18 +209,22 @@
   }
 
   function convertJSONToString() {
-    const data = JSON.parse(dataConvert.value);
-    let result = "";
-    for (let i = 0; i < data.length; i++) {
-      const item = data[i];
-      const startTimeMs = parseInt(item.startTimeMs);
-      const minutes = String(Math.floor(startTimeMs / 60000)).padStart(2, "0");
-      const seconds = String(Math.floor((startTimeMs % 60000) / 1000)).padStart(2, "0");
-      const time = `${minutes}:${seconds}.00`;
-      const words = item.words;
-      result += `[${time}] ${words}\n`;
+    try {
+      const data = JSON.parse(dataConvert.value);
+      let result = "";
+      for (let i = 0; i < data.length; i++) {
+        const item = data[i];
+        const startTimeMs = parseInt(item.startTimeMs);
+        const minutes = String(Math.floor(startTimeMs / 60000)).padStart(2, "0");
+        const seconds = String(Math.floor((startTimeMs % 60000) / 1000)).padStart(2, "0");
+        const time = `${minutes}:${seconds}.00`;
+        const words = item.words;
+        result += `[${time}] ${words}\n`;
+      }
+      formData.lyric = result.trim();
+    } catch (e) {
+      formData.lyric = "";
     }
-    formData.lyric = result.trim();
   }
 
   const showConvert = ref(false);
