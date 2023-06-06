@@ -11,6 +11,9 @@ export const SongStore = defineStore("songStore", () => {
   const songs = ref<ISong[]>([]);
   const myStore = MyStore();
   const statistikStore = StatistikStore();
+  const currentTrack = null;
+  const trackTime = ref<string>("0:00");
+  const lyricsPosition = ref<string>("0:00");
 
   async function list() {
     try {
@@ -127,6 +130,9 @@ export const SongStore = defineStore("songStore", () => {
 
   return {
     songs,
+    trackTime,
+    currentTrack,
+    lyricsPosition,
     list,
     save,
     update,

@@ -10,6 +10,8 @@
   import SliderPlayMusic from "@/base-components/SliderProgressbar/SliderPlayMusic.vue";
   import FavoriteSong from "@/pages/Client/Songs/FavoriteSong.vue";
   import LyricsSong from "@/pages/Client/Songs/LyricsSong.vue";
+  import { storeToRefs } from "pinia";
+  import { SongStore } from "@/stores/song-store";
 
   const mediaStore = MediaStore();
   const SongPlay = computed(() => mediaStore.song as ISong);
@@ -26,6 +28,9 @@
   const volumeValueRepeat = ref<Number>(50);
   const repeatSong: any = ref([{ icon: "Repeat" }, { icon: "Repeat" }, { icon: "Repeat1" }]);
   const repeatType = computed(() => mediaStore.repeatType);
+
+  const songStore = SongStore();
+  const { trackTime } = storeToRefs(songStore);
 
   watch(
     () => SongPlay.value,
@@ -49,7 +54,7 @@
           }
 
           percentTime.value = ((audio.currentTime / audio.duration) * 100).toFixed(2);
-          currentTime.value = mins + ":" + secs;
+          trackTime.value = currentTime.value = mins + ":" + secs;
 
           if (Number(parseInt(percentTime.value).toFixed(0)) === 100) {
             // Lặp vô hạn

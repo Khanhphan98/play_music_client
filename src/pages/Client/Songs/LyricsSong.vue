@@ -1,11 +1,12 @@
 <script setup lang="ts">
   import { computed, PropType, ref } from "vue";
-  import { Dialog, DialogPanel, DialogTitle, TransitionChild, TransitionRoot } from "@headlessui/vue";
+  import { Dialog, DialogPanel, TransitionChild, TransitionRoot } from "@headlessui/vue";
   import { XMarkIcon } from "@heroicons/vue/24/outline";
-  import Lucide from "@/base-components/Lucide/Lucide.vue";
   import { ISong } from "@/model/interface/ISong";
   import { env } from "@/utils/my-variables";
+  import Lucide from "@/base-components/Lucide/Lucide.vue";
   import FileIcon from "@/base-components/FileIcon/FileIcon.vue";
+  import SongLyric from "@/pages/Client/Lyrics/SongLyric.vue";
 
   const open = ref(false);
   const preview = (show: boolean) => {
@@ -73,9 +74,6 @@
                         </button>
                       </div>
                     </TransitionChild>
-                    <div class="px-4 sm:px-6 mt-6">
-                      <DialogTitle class="text-lg font-bold leading-6 text-violet-900">Sing Song</DialogTitle>
-                    </div>
                     <div class="relative flex-1 px-4 sm:px-6">
                       <!-- Your content -->
                       <section class="relative isolate overflow-hidden sm:py-12 lg:px-8">
@@ -83,25 +81,23 @@
                           <figure class="mt-10">
                             <figcaption class="mb-5">
                               <FileIcon
-                                class="w-32 h-32 rounded-full mx-auto"
+                                class="w-60 h-60 rounded-full mx-auto"
                                 variant="image"
                                 :src="env.backendServer + song.picture" />
                               <div class="mt-4 flex items-center justify-center space-x-3 text-base">
-                                <div class="font-semibold text-gray-900">{{ song.name }}</div>
+                                <div class="font-serif text-gray-900 text-2xl">{{ song.name }}</div>
                                 <svg viewBox="0 0 2 2" width="3" height="3" aria-hidden="true" class="fill-gray-900">
                                   <circle cx="1" cy="1" r="1" />
                                 </svg>
                                 <div class="text-gray-800">
-                                  <span class="text-sm" v-for="(name_singer, idx) in song.singers" :key="name_singer">
+                                  <span class="text-xl" v-for="(name_singer, idx) in song.singers" :key="name_singer">
                                     {{ name_singer }}<span v-if="idx !== song.singers.length - 1">, </span>
                                   </span>
                                 </div>
                               </div>
                             </figcaption>
-                            <blockquote class="text-center text-lg leading-8 text-gray-900 sm:text-lg sm:leading-9">
-                              <p>
-                                {{ song.lyric }}
-                              </p>
+                            <blockquote class="leading-8 sm:text-lg sm:leading-9">
+                              <SongLyric :lyrics-song="song.lyric" />
                             </blockquote>
                           </figure>
                         </div>
