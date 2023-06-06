@@ -26,7 +26,7 @@
       const wordsMatch = line.match(/^\[\d{2}:\d{2}(?:\.\d{2})?\](.*)/); // Lấy phần từ sau thời gian
 
       if (timeMatch && wordsMatch) {
-        lyricsShow.push({ time: timeMatch[1], word: wordsMatch[1].trim() } as ILyric);
+        lyricsShow.push({ time: timeMatch[1].substring(0, 5), word: wordsMatch[1].trim() } as ILyric);
       }
 
       return lyricsShow.length > 0 ? lyricsShow : [];
