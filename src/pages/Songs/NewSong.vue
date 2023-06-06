@@ -317,7 +317,7 @@
                 aria-describedby="icon-convert" />
             </InputGroup>
             <div class="ml-10 mt-3">
-              <Button variant="outline-primary" @click="convertJSONToString">{{ t("convert") }}</Button>
+              <Button variant="outline-primary" type="button" @click="convertJSONToString">{{ t("convert") }}</Button>
             </div>
           </div>
         </FormInline>
