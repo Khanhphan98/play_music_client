@@ -18,7 +18,7 @@
     return convertStringToJson(props.lyricsSong);
   });
 
-  function convertStringToJson(lyrics: String): ILyric[] {
+  function convertStringToJson(lyrics: string): ILyric[] {
     const lines = lyrics.split("\n"); // Tách chuỗi thành từng dòng
 
     return lines.reduce((lyricsShow: ILyric[], line) => {
@@ -42,7 +42,7 @@
 
   const snapToPosition = (res: any) => {
     if (res && res.time < trackTime.value) {
-      let position = document.getElementById(res.time);
+      const position = document.getElementById(res.time) as HTMLElement;
       if (position) {
         position.scrollIntoView({
           behavior: "smooth",
@@ -68,13 +68,14 @@
 
 <template>
   <div id="lyric-div" class="w-1/2 max-w-[600px] mx-auto relative h-[calc(100%-1px)] overflow-auto scrollbar-hide" />
-  <div
-    v-if="lyricsSong && lyricsSong.length > 0"
-    class="text-center opacity-100"
-    :class="snapToPosition(lyric)"
-    v-for="lyric in lyricsSong"
-    :key="lyric">
-    <LyricsRow :time="lyric.time" :words="lyric.word" :lyrics="lyricsSong" />
+  <div v-if="lyricsSong && lyricsSong.length > 0">
+    <div
+        class="text-center opacity-100"
+        :class="snapToPosition(lyric)"
+        v-for="lyric in lyricsSong"
+        :key="lyric">
+      <LyricsRow :time="lyric.time" :words="lyric.word" :lyrics="lyricsSong" />
+    </div>
   </div>
   <div v-else>
     {{ props.lyricsSong }}

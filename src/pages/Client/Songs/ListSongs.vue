@@ -11,6 +11,7 @@
   import FormInput from "@/base-components/Form/FormInput.vue";
   import { t } from "@/config/i18n";
   import Button from "@/base-components/Button";
+  import {ILyric} from '@/model/interface/ILyric';
 
   const songStore = SongStore();
   const songs = computed(() => {
@@ -41,6 +42,21 @@
 
   function renderView(statistik: IStatistik) {
     return statistik.song_play_count;
+  }
+
+  function convertStringToJson(lyrics: string): ILyric[] {
+    const lines = lyrics.split("\n"); // Tách chuỗi thành từng dòng
+
+    return lines.reduce((lyricsShow: ILyric[], line) => {
+      const timeMatch = line.match(/^\[(\d{2}:\d{2}(?:\.\d{2})?)\]/); // Lấy thời gian trong dấu ngoặc vuông
+      const wordsMatch = line.match(/^\[\d{2}:\d{2}(?:\.\d{2})?\](.*)/); // Lấy phần từ sau thời gian
+
+      if (timeMatch && wordsMatch) {
+        lyricsShow.push({ time: timeMatch[1].substring(0, 5), word: wordsMatch[1].trim() } as ILyric);
+      }
+
+      return lyricsShow.length > 0 ? lyricsShow : [];
+    }, []);
   }
 
   onMounted(() => {
@@ -176,7 +192,12 @@
                     </div>
                     <div class="text-slate-500 mr-5 flex">
                       <Lucide icon="Music" class="w-3.5 h-3.5 mr-1 mt-0.5 text-violet-600" />
-                      {{ song.lyric.slice(0, 50) }}
+                      <div v-if='convertStringToJson(song.lyric).length > 0'>
+                        <span v-for='lyric in convertStringToJson(song.lyric).slice(0, 1)' :key='lyric'>{{ lyric.word }}</span>
+                      </div>
+                      <div v-else>
+                        {{ song.lyric.slice(0, 50) }}
+                      </div>
                     </div>
                     <div class="text-slate-500 mr-5 flex">
                       <Lucide icon="Timer" class="w-3.5 h-3.5 mr-1 mt-0.5 text-sky-500" />
