@@ -8,7 +8,7 @@
   import router from "@/router";
 
   const localeStore = LocaleStore();
-  const languageMode = ref(localStorage.getItem("locale"));
+  const languageMode = ref(localStorage.getItem("locale") || 'en');
 </script>
 
 <template>

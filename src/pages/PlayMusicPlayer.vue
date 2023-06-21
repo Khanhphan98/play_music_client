@@ -24,8 +24,8 @@
   const hasFavorite = ref(false);
   const currentTime = ref();
   const percentTime = ref("0");
-  const volumeValue = ref<Number>(50);
-  const volumeValueRepeat = ref<Number>(50);
+  const volumeValue = ref<number>(50);
+  const volumeValueRepeat = ref<number>(50);
   const repeatSong: any = ref([{ icon: "Repeat" }, { icon: "Repeat" }, { icon: "Repeat1" }]);
   const repeatType = computed(() => mediaStore.repeatType);
 
@@ -44,11 +44,11 @@
         hasFavorite.value = false;
 
         audio.addEventListener("timeupdate", () => {
-          let mins = Math.floor(audio.currentTime / 60) as String | Number;
+          let mins = Math.floor(audio.currentTime / 60) as string | number;
           if (mins < 10) {
             mins = "0" + String(mins);
           }
-          let secs = Math.floor(audio.currentTime % 60) as String | Number;
+          let secs = Math.floor(audio.currentTime % 60) as string | number;
           if (secs < 10) {
             secs = "0" + String(secs);
           }
@@ -64,7 +64,7 @@
             // Lặp một lần
             else if (repeatType.value === 2) {
               // back lại bài hát
-              if (shuffle) {
+              if (shuffle.value) {
                 audio.currentTime = 0;
                 audio.play();
               } else {
@@ -139,29 +139,29 @@
 <template>
   <div class="fixed bottom-0 bg-black/80 w-full py-3 px-5 z-50" v-if="showModal">
     <div class="relative">
-      <div class="grid grid-cols-12 gap-6 intro-y mt-2">
-        <div class="col-span-4">
-          <div class="flex items-center intro-x">
-            <FileIcon class="w-16 h-16 rounded-lg" variant="image" :src="env.backendServer + SongPlay.picture" />
-            <div class="grid mx-2">
+      <div class="grid grid-cols-12 gap-2 intro-y mt-2">
+        <div class="col-span-4 sm:col-span-6 md:col-span-4">
+          <div class="inline md:flex sm:flex items-center intro-x">
+            <FileIcon class="w-16 h-16 rounded-lg mb-2" variant="image" :src="env.backendServer + SongPlay.picture" />
+            <div class="grid sm:mx-2">
               <span class="font-semibold text-base text-slate-100">{{ SongPlay.name }}</span>
               <div>
-                <span class="text-sm text-slate-400" v-for="(name_singer, idx) in SongPlay.singers" :key="name_singer">
+                <span class="text-sm text-slate-400 truncate" v-for="(name_singer, idx) in SongPlay.singers" :key="name_singer">
                   {{ name_singer }}<span v-if="idx !== SongPlay.singers.length - 1">, </span>
                 </span>
               </div>
             </div>
-            <div class="mx-5">
+            <div class="sm:mx-5 mt-1 sm:mt-0">
               <button @click="actionHandleFavoriteSong(SongPlay)">
                 <Lucide icon="Heart" class="w-4 h-4 z-50" :class="hasFavorite ? 'text-violet-600' : 'text-white'" />
               </button>
             </div>
           </div>
         </div>
-        <div class="col-span-4 mt-1">
-          <div class="flex text-center justify-center">
+        <div class="col-span-8 sm:col-span-4 mt-1">
+          <div class="flex sm:text-center sm:justify-center">
             <button
-              class="btn p-2 mr-7 hover:bg-teal-50/20 hover:rounded-full hover:duration-500"
+              class="btn p-2 sm:mr-7 mr-5 hover:bg-teal-50/20 hover:rounded-full hover:duration-500"
               @click="shuffle = !shuffle">
               <Lucide
                 icon="Shuffle"
@@ -171,7 +171,7 @@
                 }" />
             </button>
             <button
-              class="btn p-2 mr-7 hover:bg-teal-50/20 hover:rounded-full hover:duration-500"
+              class="btn p-2 sm:mr-7 mr-5 hover:bg-teal-50/20 hover:rounded-full hover:duration-500"
               @click="
                 mediaStore.actionPrevSong();
                 hasFavorite = false;
@@ -201,7 +201,7 @@
                 class="w-9 h-9 z-50 ml-0.5 mt-0.5 text-white hover:text-violet-700 duration-500" />
             </button>
             <button
-              class="btn p-2 ml-7 hover:bg-teal-50/20 hover:rounded-full hover:duration-500"
+              class="btn p-2 sm:ml-7 ml-5 hover:bg-teal-50/20 hover:rounded-full hover:duration-500"
               @click="
                 mediaStore.actionNextSong();
                 hasFavorite = false;
@@ -212,7 +212,7 @@
               <button
                 v-for="(song_c, ids) in repeatSong"
                 :key="song_c.id"
-                class="absolute btn p-2 ml-6 hover:bg-teal-50/20 hover:rounded-full hover:duration-500"
+                class="absolute btn p-2 sm:ml-7 ml-5 hover:bg-teal-50/20 hover:rounded-full hover:duration-500"
                 @click="mediaStore.actionRepeatSong()">
                 <Lucide
                   :icon="song_c.icon"
@@ -224,18 +224,18 @@
               </button>
             </div>
           </div>
-          <div class="grid grid-cols-12 mt-4">
-            <div class="-mt-2 mr-2 text-white">{{ currentTime }}</div>
-            <div class="col-span-10 -mt-2">
+          <div class="grid grid-cols-12 mt-8 sm:mt-4">
+            <div class="col-span-2 sm:col-span-1 -mt-2 mr-2 text-white text-left">{{ currentTime }}</div>
+            <div class="col-span-8 sm:col-span-10 -mt-2">
               <SliderPlayMusic
                 :percent="percentTime"
                 @dragmusic="actionDragMusic"
                 @mouseupmusic="actionUpdateVolumnMusic" />
             </div>
-            <div class="-mt-2 ml-2 text-white">{{ toHHMMSS(String(SongPlay.time)) }}</div>
+            <div class="col-span-2 sm:col-span-1 -mt-2 ml-2 text-white text-right">{{ toHHMMSS(String(SongPlay.time)) }}</div>
           </div>
         </div>
-        <div class="col-span-4 text-right">
+        <div class="col-span-6 sm:text-right sm:col-span-4">
           <div class="flex justify-end text-center">
             <div class="mt-5">
               <SliderProgressbar :progress-bar-value="volumeValue" @progressbar="actionVolumeMusic" />

@@ -24,10 +24,8 @@
   const songsBanner = computed(() => songStore.songs.slice(0, 4) as ISong[]);
   const songsTopView = computed(() => {
     return songStore.songs
-      .sort((a, b) => {
-        let x = a.statistik as IStatistik;
-        let y = b.statistik as IStatistik;
-        return y.song_play_count - x.song_play_count;
+      .sort((a: any, b: any) => {
+        return b.statistik.song_play_count - a.statistik.song_play_count;
       })
       .slice(0, 5);
   });
@@ -71,7 +69,7 @@
         :key="song.id"
         @mouseover="showRecent = idx"
         @mouseleave="showRecent = ''"
-        class="col-span-12 intro-y sm:col-span-4 md:col-span-3 2xl:col-span-3">
+        class="col-span-6 intro-y sm:col-span-3 md:col-span-3 2xl:col-span-3">
         <div class="relative rounded">
           <div class="relative">
             <FileIcon class="w-full mx-auto rounded" variant="image" :src="env.backendServer + song.picture" />
@@ -86,14 +84,14 @@
               </button>
             </div>
           </div>
-          <div class="text-xs text-slate-500 text-center mt-0.5">
+          <div class="text-xl text-slate-500 text-center mt-0.5 sm:text-lg">
             {{ song.name }}
           </div>
         </div>
       </div>
     </div>
     <div class="col-span-12 2xl:col-span-12 my-10">
-      <div class="grid grid-cols-3 gap-2 mt-2 intro-y sm:gap-4" @click="router.push('/song')">
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-2 mt-2 intro-y sm:gap-4" @click="router.push('/song')">
         <div
           v-for="music_c in countriesMusic"
           :key="music_c.name"
@@ -153,7 +151,6 @@
               </div>
             </div>
             <a
-              href="#"
               @click="router.push('/song')"
               class="block w-full py-3 text-center border border-dotted rounded-md intro-x border-slate-400 dark:border-darkmode-300 text-slate-500">
               {{ t("view_more") }}
@@ -252,7 +249,7 @@
         <h2 class="text-lg font-medium truncate mr-2">{{ t("trending_artist") }}</h2>
         <Lucide icon="Heart" class="w-4 h-4 text-white" />
       </div>
-      <div class="grid grid-cols-5 gap-2 mt-2 intro-y sm:gap-6">
+      <div class="grid grid-cols-1 sm:grid-cols-4 md:grid-cols-5 gap-2 mt-2 intro-y sm:gap-6">
         <div
           v-for="singer in singers"
           :key="singer.id"
@@ -263,13 +260,13 @@
           </div>
           <div class="absolute bottom-0 z-10 px-5 pb-6 text-white">
             <div class="text-white">
-              <a href="" class="font-medium">
+              <a @click="singerStore.searchInfoSinger(singer.id)" class="font-medium text-3xl sm:text-sm">
                 <span class="px-2 py-1 rounded bg-white/20 flex"
                   >{{ singer.name }} <Lucide icon="Star" class="w-3 h-3 ml-1 mt-0.5"
                 /></span>
               </a>
             </div>
-            <a href="" class="block mt-3 text-sm font-medium">{{ singer.description.slice(0, 50) }}</a>
+            <a @click="singerStore.searchInfoSinger(singer.id)" class="block mt-3 sm:text-sm font-medium text-xl">{{ singer.description.slice(0, 50) }}...</a>
           </div>
         </div>
       </div>
