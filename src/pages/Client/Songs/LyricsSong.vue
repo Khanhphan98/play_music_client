@@ -77,32 +77,36 @@
                     <div class="relative flex-1 px-4 sm:px-6">
                       <!-- Your content -->
                       <section class="relative isolate overflow-hidden sm:py-12 lg:px-8">
-                        <div class="mx-auto max-w-2xl lg:max-w-4xl">
-                          <figure class="mt-10">
-                            <figcaption class="mb-5">
-                              <FileIcon
-                                class="w-60 h-60 rounded-full mx-auto"
-                                variant="image"
-                                :src="env.backendServer + song.picture" />
-                              <div class="mt-4 flex items-center justify-center space-x-3 text-base">
-                                <div class="font-serif text-white text-2xl flex">
-                                  <Lucide icon="Heart" class="w-4 h-4 mt-2 mr-2" />
-                                  {{ song.name }}
-                                </div>
-                                <svg viewBox="0 0 2 2" width="3" height="3" aria-hidden="true" class="fill-gray-900">
-                                  <circle cx="1" cy="1" r="1" />
-                                </svg>
-                                <div class="text-white flex">
+                        <div class="mx-auto w-4/6">
+                          <figure class="mt-10 grid grid-cols-2 h-screen">
+                            <figcaption class="col-span-1 h-full flex mt-20">
+                              <div class='fixed'>
+                                <FileIcon
+                                    class="w-96 h-96 rounded-full mx-auto"
+                                    variant="image"
+                                    :src="env.backendServer + song.picture" />
+                                <div class="mt-4 flex items-center justify-center space-x-3 text-base">
+                                  <div class="font-serif text-white text-2xl flex">
+                                    <Lucide icon="Heart" class="w-4 h-4 mt-2 mr-2" />
+                                    {{ song.name }}
+                                  </div>
+                                  <svg viewBox="0 0 2 2" width="3" height="3" aria-hidden="true" class="fill-gray-900">
+                                    <circle cx="1" cy="1" r="1" />
+                                  </svg>
+                                  <div class="text-white flex">
                                   <span class="text-xl" v-for="(name_singer, idx) in song.singers" :key="name_singer">
                                     {{ name_singer }}<span v-if="idx !== song.singers.length - 1">, </span>
                                   </span>
-                                  <Lucide icon="Heart" class="w-4 h-4 mt-2 ml-2" />
+                                    <Lucide icon="Heart" class="w-4 h-4 mt-2 ml-2" />
+                                  </div>
                                 </div>
                               </div>
                             </figcaption>
-                            <blockquote class="leading-8 sm:text-lg sm:leading-9">
-                              <SongLyric :lyrics-song="song.lyric" />
-                            </blockquote>
+                            <div class='col-span-1 h-4/5 keep-scrolling'>
+                              <blockquote class="leading-8 sm:text-lg sm:leading-9">
+                                <SongLyric :lyrics-song="song.lyric" />
+                              </blockquote>
+                            </div>
                           </figure>
                         </div>
                       </section>
@@ -118,3 +122,21 @@
     <!-- END: Overlapping Slide Over -->
   </div>
 </template>
+
+<style lang='scss'>
+.keep-scrolling {
+  width: 100%;
+  height: 80%;
+  border: 1px dotted black;
+  overflow-y: scroll; /* Add the ability to scroll the y axis */
+
+  /* Hide the scrollbar for Internet Explorer, Edge and Firefox */
+  -ms-overflow-style: none;  /* Internet Explorer and Edge */
+  scrollbar-width: none;  /* Firefox */
+
+  /* Hide the scrollbar for Chrome, Safari and Opera */
+  &::-webkit-scrollbar {
+    display: none;
+  }
+}
+</style>
