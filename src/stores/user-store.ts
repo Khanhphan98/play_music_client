@@ -26,7 +26,7 @@ export const UserStore = defineStore('userStore', () => {
         localStorage.setItem('access_token', access_token);
         localStorage.setItem('refresh_token', refresh_token);
         //redirect to dashboard
-        await router.push('/');
+        await router.push('/admin');
       }
     } catch (e) {
       handleExceptionError(e);

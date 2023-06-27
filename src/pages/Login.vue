@@ -19,7 +19,6 @@
   const userStore = UserStore();
   //Variables
   const passView = ref(false);
-  const rememberMe = ref(false);
   //form data
   const formData = reactive({
     username: '',
