@@ -137,7 +137,7 @@
 </script>
 
 <template>
-  <div class="fixed bottom-0 bg-black/80 w-full py-3 px-5 z-50" v-if="showModal">
+  <div class="fixed bottom-0 bg-black/80 w-full py-3 px-5" v-if="showModal" style='z-index: 99'>
     <div class="relative">
       <div class="grid grid-cols-12 gap-2 intro-y mt-2">
         <div class="col-span-4 sm:col-span-6 md:col-span-4">

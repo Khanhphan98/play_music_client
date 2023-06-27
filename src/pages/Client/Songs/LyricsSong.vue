@@ -29,7 +29,7 @@
     <button class="border-none mt-2" @click="(event: MouseEvent) => { event.preventDefault(); preview(true) }">
       <Lucide icon="Mic2" class="w-5 h-5 z-50 text-white ml-0.5 mt-0.5" />
     </button>
-    <TransitionRoot as="template" :show="open" class="h-screen w-screen fixed top-0 left-0" style="z-index: 999">
+    <TransitionRoot as="template" :show="open" class="h-screen w-screen fixed top-0 left-0" style="z-index: 98">
       <Dialog as="div" class="relative z-50" @close="open = false">
         <TransitionChild
           as="template"
@@ -82,7 +82,7 @@
                             <figcaption class="col-span-1 h-full flex mt-20">
                               <div class='fixed'>
                                 <FileIcon
-                                    class="w-96 h-96 rounded-full mx-auto"
+                                    class="w-96 h-96 mx-auto bg-indigo-500 shadow-lg shadow-pink-600/40"
                                     variant="image"
                                     :src="env.backendServer + song.picture" />
                                 <div class="mt-4 flex items-center justify-center space-x-3 text-base">
