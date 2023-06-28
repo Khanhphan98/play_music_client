@@ -9,9 +9,9 @@
   import SliderProgressbar from "@/base-components/SliderProgressbar";
   import SliderPlayMusic from "@/base-components/SliderProgressbar/SliderPlayMusic.vue";
   import FavoriteSong from "@/pages/Client/Songs/FavoriteSong.vue";
-  import LyricsSong from "@/pages/Client/Songs/LyricsSong.vue";
   import { storeToRefs } from "pinia";
   import { SongStore } from "@/stores/song-store";
+  import {TransitionRoot} from '@headlessui/vue';
 
   const mediaStore = MediaStore();
   const SongPlay = computed(() => mediaStore.song as ISong);
@@ -137,144 +137,128 @@
 </script>
 
 <template>
-  <div class="fixed bottom-0 bg-black/80 w-full py-3 px-5" v-if="showModal" style='z-index: 99'>
-    <div class="relative">
-      <div class="grid grid-cols-12 gap-2 intro-y mt-2">
-        <div class="col-span-4 sm:col-span-6 md:col-span-4">
-          <div class="inline md:flex sm:flex items-center intro-x">
-            <FileIcon class="w-16 h-16 rounded-lg mb-2" variant="image" :src="env.backendServer + SongPlay.picture" />
-            <div class="grid sm:mx-2">
-              <span class="font-semibold text-base text-slate-100">{{ SongPlay.name }}</span>
-              <div>
+  <TransitionRoot as="template" :show="showModal" >
+    <div class="fixed bottom-0 bg-black/80 w-full py-3 px-5" style='z-index: 99'>
+      <div class="relative">
+        <div class="grid grid-cols-12 gap-2 intro-y mt-2">
+          <div class="col-span-4 sm:col-span-6 md:col-span-4">
+            <div class="inline md:flex sm:flex items-center intro-x">
+              <FileIcon class="w-16 h-16 rounded-lg mb-2" variant="image" :src="env.backendServer + SongPlay.picture" />
+              <div class="grid sm:mx-2">
+                <span class="font-semibold text-base text-slate-100">{{ SongPlay.name }}</span>
+                <div>
                 <span class="text-sm text-slate-400 truncate" v-for="(name_singer, idx) in SongPlay.singers" :key="name_singer">
                   {{ name_singer }}<span v-if="idx !== SongPlay.singers.length - 1">, </span>
                 </span>
+                </div>
+              </div>
+              <div class="sm:mx-5 mt-1 sm:mt-0">
+                <button @click="actionHandleFavoriteSong(SongPlay)">
+                  <Lucide icon="Heart" class="w-4 h-4 z-50" :class="hasFavorite ? 'text-violet-600' : 'text-white'" />
+                </button>
               </div>
             </div>
-            <div class="sm:mx-5 mt-1 sm:mt-0">
-              <button @click="actionHandleFavoriteSong(SongPlay)">
-                <Lucide icon="Heart" class="w-4 h-4 z-50" :class="hasFavorite ? 'text-violet-600' : 'text-white'" />
-              </button>
-            </div>
           </div>
-        </div>
-        <div class="col-span-8 sm:col-span-4 mt-1">
-          <div class="flex sm:text-center sm:justify-center">
-            <button
-              class="btn p-2 sm:mr-7 mr-5 hover:bg-teal-50/20 hover:rounded-full hover:duration-500"
-              @click="shuffle = !shuffle">
-              <Lucide
-                icon="Shuffle"
-                class="w-5 h-5 z-50 text-white ml-0.5 mt-0.5"
-                :style="{
+          <div class="col-span-8 sm:col-span-4 mt-1">
+            <div class="flex sm:text-center sm:justify-center">
+              <button
+                  class="btn p-2 sm:mr-7 mr-5 hover:bg-teal-50/20 hover:rounded-full hover:duration-500"
+                  @click="shuffle = !shuffle">
+                <Lucide
+                    icon="Shuffle"
+                    class="w-5 h-5 z-50 text-white ml-0.5 mt-0.5"
+                    :style="{
                   color: shuffle ? '#7e03b2' : '#fff',
                 }" />
-            </button>
-            <button
-              class="btn p-2 sm:mr-7 mr-5 hover:bg-teal-50/20 hover:rounded-full hover:duration-500"
-              @click="
+              </button>
+              <button
+                  class="btn p-2 sm:mr-7 mr-5 hover:bg-teal-50/20 hover:rounded-full hover:duration-500"
+                  @click="
                 mediaStore.actionPrevSong();
                 hasFavorite = false;
               ">
-              <Lucide icon="SkipBack" class="w-5 h-5 z-50 text-white ml-0.5 mt-0.5" />
-            </button>
-            <button
-              class="btn"
-              v-show="showPlay"
-              @click="
+                <Lucide icon="SkipBack" class="w-5 h-5 z-50 text-white ml-0.5 mt-0.5" />
+              </button>
+              <button
+                  class="btn"
+                  v-show="showPlay"
+                  @click="
                 actionPlayMusic();
                 showPlay = false;
               ">
-              <Lucide
-                icon="PlayCircle"
-                class="w-9 h-9 z-50 text-white ml-0.5 mt-0.5 hover:text-violet-700 duration-500" />
-            </button>
-            <button
-              class="btn"
-              v-show="!showPlay"
-              @click="
+                <Lucide
+                    icon="PlayCircle"
+                    class="w-9 h-9 z-50 text-white ml-0.5 mt-0.5 hover:text-violet-700 duration-500" />
+              </button>
+              <button
+                  class="btn"
+                  v-show="!showPlay"
+                  @click="
                 actionStopMusic();
                 showPlay = true;
               ">
-              <Lucide
-                icon="PauseCircle"
-                class="w-9 h-9 z-50 ml-0.5 mt-0.5 text-white hover:text-violet-700 duration-500" />
-            </button>
-            <button
-              class="btn p-2 sm:ml-7 ml-5 hover:bg-teal-50/20 hover:rounded-full hover:duration-500"
-              @click="
+                <Lucide
+                    icon="PauseCircle"
+                    class="w-9 h-9 z-50 ml-0.5 mt-0.5 text-white hover:text-violet-700 duration-500" />
+              </button>
+              <button
+                  class="btn p-2 sm:ml-7 ml-5 hover:bg-teal-50/20 hover:rounded-full hover:duration-500"
+                  @click="
                 mediaStore.actionNextSong();
                 hasFavorite = false;
               ">
-              <Lucide icon="SkipForward" class="w-5 h-5 z-50 text-white ml-0.5 mt-0.5" />
-            </button>
-            <div class="relative">
-              <button
-                v-for="(song_c, ids) in repeatSong"
-                :key="song_c.id"
-                class="absolute btn p-2 sm:ml-7 ml-5 hover:bg-teal-50/20 hover:rounded-full hover:duration-500"
-                @click="mediaStore.actionRepeatSong()">
-                <Lucide
-                  :icon="song_c.icon"
-                  class="w-5 h-5 z-50 text-white ml-0.5 mt-0.5"
-                  v-show="ids === repeatType"
-                  :style="{
+                <Lucide icon="SkipForward" class="w-5 h-5 z-50 text-white ml-0.5 mt-0.5" />
+              </button>
+              <div class="relative">
+                <button
+                    v-for="(song_c, ids) in repeatSong"
+                    :key="song_c.id"
+                    class="absolute btn p-2 sm:ml-7 ml-5 hover:bg-teal-50/20 hover:rounded-full hover:duration-500"
+                    @click="mediaStore.actionRepeatSong()">
+                  <Lucide
+                      :icon="song_c.icon"
+                      class="w-5 h-5 z-50 text-white ml-0.5 mt-0.5"
+                      v-show="ids === repeatType"
+                      :style="{
                     color: ids === 1 || ids === 2 ? '#7e03b2' : '#fff',
                   }" />
-              </button>
+                </button>
+              </div>
+            </div>
+            <div class="grid grid-cols-12 mt-8 sm:mt-4">
+              <div class="col-span-2 sm:col-span-1 -mt-2 mr-2 text-white text-left">{{ currentTime }}</div>
+              <div class="col-span-8 sm:col-span-10 -mt-2">
+                <SliderPlayMusic
+                    :percent="percentTime"
+                    @dragmusic="actionDragMusic"
+                    @mouseupmusic="actionUpdateVolumnMusic" />
+              </div>
+              <div class="col-span-2 sm:col-span-1 -mt-2 ml-2 text-white text-right">{{ toHHMMSS(String(SongPlay.time)) }}</div>
             </div>
           </div>
-          <div class="grid grid-cols-12 mt-8 sm:mt-4">
-            <div class="col-span-2 sm:col-span-1 -mt-2 mr-2 text-white text-left">{{ currentTime }}</div>
-            <div class="col-span-8 sm:col-span-10 -mt-2">
-              <SliderPlayMusic
-                :percent="percentTime"
-                @dragmusic="actionDragMusic"
-                @mouseupmusic="actionUpdateVolumnMusic" />
-            </div>
-            <div class="col-span-2 sm:col-span-1 -mt-2 ml-2 text-white text-right">{{ toHHMMSS(String(SongPlay.time)) }}</div>
-          </div>
-        </div>
-        <div class="col-span-6 sm:text-right sm:col-span-4">
-          <div class="flex justify-end text-center">
-            <div class="mt-5">
-              <SliderProgressbar :progress-bar-value="volumeValue" @progressbar="actionVolumeMusic" />
-            </div>
-            <div class="mt-3 ml-8">
-              <LyricsSong :song="SongPlay" />
-            </div>
-            <div class="mt-3 ml-5">
-              <button class="btn p-2" @click="actionMuteMusic">
-                <Lucide v-if="mutePlay" icon="VolumeX" class="w-5 h-5 z-50 text-white ml-0.5 mt-0.5" />
-                <Lucide v-else icon="Volume2" class="w-5 h-5 z-50 text-white ml-0.5 mt-0.5" />
-              </button>
-            </div>
-            <div class="mt-3">
-              <FavoriteSong />
+          <div class="col-span-6 sm:text-right sm:col-span-4">
+            <div class="flex justify-end text-center">
+              <div class="mt-5">
+                <SliderProgressbar :progress-bar-value="volumeValue" @progressbar="actionVolumeMusic" />
+              </div>
+              <div class="mt-3 ml-8">
+                <button class="border-none mt-2" @click="(event: MouseEvent) => { event.preventDefault(); mediaStore.showHideLyrics() }">
+                  <Lucide icon="Mic2" class="w-5 h-5 z-50 text-white ml-0.5 mt-0.5" />
+                </button>
+              </div>
+              <div class="mt-3 ml-5">
+                <button class="btn p-2" @click="actionMuteMusic">
+                  <Lucide v-if="mutePlay" icon="VolumeX" class="w-5 h-5 z-50 text-white ml-0.5 mt-0.5" />
+                  <Lucide v-else icon="Volume2" class="w-5 h-5 z-50 text-white ml-0.5 mt-0.5" />
+                </button>
+              </div>
+              <div class="mt-3">
+                <FavoriteSong />
+              </div>
             </div>
           </div>
         </div>
       </div>
     </div>
-  </div>
+  </TransitionRoot>
 </template>
-
-<style scoped>
-  .btn-music {
-    border: 2px solid #fff !important;
-    transition: 0.4s;
-
-    svg {
-      color: #fff;
-      transition: 0.4s;
-    }
-  }
-
-  .btn-music:hover {
-    border-color: #dc1ddc !important;
-
-    svg {
-      color: #dc1ddc !important;
-    }
-  }
-</style>

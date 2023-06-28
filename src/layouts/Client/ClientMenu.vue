@@ -11,6 +11,7 @@
   import Menu from "@/layouts/Admin/Menu.vue";
   import { useClientMenuStore } from "@/stores/client-menu";
   import PlayMusicPlayer from "@/pages/PlayMusicPlayer.vue";
+  import LyricsSong from '@/pages/Client/Songs/LyricsSong.vue';
 
   const route = useRoute();
   const formattedMenu = reactive<Array<FormattedMenu | "divider">>([]);
@@ -146,6 +147,7 @@
   </div>
   <!-- Template Music -->
   <PlayMusicPlayer />
+  <LyricsSong />
   <!-- Template Music -->
   <!-- MESSSAGE TOAST -->
   <NotificationToastify />

@@ -108,12 +108,26 @@ export const MediaStore = defineStore("mediaStore", () => {
     }
   }
 
+  function showHideLyrics () {
+    const lyric = document.getElementById("lyrics");
+    if (lyric) {
+      if (!lyric.style.height) {
+        lyric.style.height = '100%';
+        lyric.style.display = 'block';
+      } else if (lyric.style.height === '100%') {
+        lyric.style.height = '';
+        lyric.style.display = 'none';
+      }
+    }
+  }
+
   return {
     song,
     favorites,
     repeatType,
     playFavorite,
     initSongStore,
+    showHideLyrics,
     actionUpToView,
     removeFileImage,
     removeFileMp3,
