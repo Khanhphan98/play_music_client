@@ -56,6 +56,8 @@
           percentTime.value = ((audio.currentTime / audio.duration) * 100).toFixed(2);
           trackTime.value = currentTime.value = mins + ":" + secs;
 
+          audio.paused ? showPlay.value = true : showPlay.value = false;
+
           if (Number(parseInt(percentTime.value).toFixed(0)) === 100) {
             // Lặp vô hạn
             if (repeatType.value === 1) {
