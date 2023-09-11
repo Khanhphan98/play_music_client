@@ -61,7 +61,11 @@
           if (Number(parseInt(percentTime.value).toFixed(0)) === 100) {
             // Lặp vô hạn
             if (repeatType.value === 1) {
-              mediaStore.actionNextSongByRepeat();
+              if (shuffle.value) {
+                mediaStore.actionNextSongByRepeat(shuffle.value);
+              } else {
+                mediaStore.actionNextSongByRepeat();
+              }
             }
             // Lặp một lần
             else if (repeatType.value === 2) {

@@ -79,7 +79,15 @@ export const MediaStore = defineStore("mediaStore", () => {
     repeatType.value = (repeatType.value + 1) % 3;
   }
 
-  async function actionNextSongByRepeat() {
+  const sRandom = (_inow: number): number => {
+    let iRandom;
+    do {
+      iRandom = Math.floor(Math.random() * 100) + 1;
+    } while (_inow === iRandom);
+    return iRandom;
+  }
+
+  async function actionNextSongByRepeat(_shuffle?: boolean) {
     if (playFavorite.value) {
       const index = favorites.value.findIndex((s) => s.id === song.value.id);
       // Nếu lặp lại một lần và chạy hết bai hát cuoi cung thì sẽ tạm dừng
@@ -93,7 +101,12 @@ export const MediaStore = defineStore("mediaStore", () => {
       if (repeatType.value === 2 && !songs.value[index + 1]) {
         return;
       }
-      song.value = songs.value[index + 1] || songs.value[0];
+      // Nếu _shuffle = true thì sẽ random bài hát
+      if (_shuffle) {
+        song.value = songs.value[sRandom(index)];
+      } else {
+        song.value = songs.value[index + 1] || songs.value[0];
+      }
     }
   }
 
