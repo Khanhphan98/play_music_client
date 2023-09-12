@@ -82,7 +82,7 @@ export const MediaStore = defineStore("mediaStore", () => {
   const sRandom = (_inow: number): number => {
     let iRandom;
     do {
-      iRandom = Math.floor(Math.random() * 100) + 1;
+      iRandom = Math.floor(Math.random() * songs.value.length || 100) + 1;
     } while (_inow === iRandom);
     return iRandom;
   }
