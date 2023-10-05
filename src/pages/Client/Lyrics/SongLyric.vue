@@ -77,7 +77,7 @@
       <LyricsRow :time="lyric.time" :words="lyric.word" :lyrics="lyricsSong" />
     </div>
   </div>
-  <div v-else>
+  <div class='whitespace-break-spaces' v-else>
     {{ props.lyricsSong }}
   </div>
 </template>
