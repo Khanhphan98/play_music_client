@@ -149,6 +149,11 @@ const routes = [
     ],
   },
   {
+    path: '/calculator',
+    name: 'calculator',
+    component: () => import('@/pages/Calculator.vue')
+  },
+  {
     path: '/song',
     name: 'song',
     component: ClientMenu,
