@@ -1,7 +1,11 @@
 <script setup lang="ts">
 
 import {ref} from 'vue';
+import {t} from '@/config/i18n';
+import {FormInline, FormLabel, FormTextarea, InputGroup} from '@/base-components/Form';
+import Lucide from '@/base-components/Lucide';
 
+const name = ref<{ [key: string]: string }>({} as { [key: string]: string });
 const calculators = ref([{ name: '', gianhap: 0, lai: 0, giabanle: 0, lairong: 0 }]);
 
 function actionCalculatorPercent(gianhap: number, giabanle: number) {
@@ -23,10 +27,10 @@ function actionCalculatorLairong(gianhap: number, lai: number) {
         <p>Giá bán lẻ = [(Giá vốn) / (100 - % lợi nhuận)] x 100</p>
 
         <div class="bg-white rounded shadow-lg p-4 px-4 md:p-8 mb-6">
-          <div class="grid grid-cols-5 gap-4 gap-y-2 text-sm mt-2" v-for='cal in calculators' :key='cal.name'>
+          <div class="grid grid-cols-5 gap-4 gap-y-2 text-sm mt-2" v-for='(cal, idx) in calculators' :key='cal.name'>
             <div class="col-span-1">
               <label for="name">Tên sản phẩm</label>
-              <input type="text" v-model='cal.name' id="name" class="h-10 border mt-1 rounded px-4 w-full" />
+              <input type="text" v-model='name[idx]' id="name" class="h-10 border mt-1 rounded px-4 w-full" />
             </div>
             <div class="col-span-1">
               <label for="gianhap">Giá nhập</label>
