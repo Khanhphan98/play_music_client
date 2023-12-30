@@ -5,7 +5,7 @@ import {ref} from 'vue';
 const calculators = ref([{ name: '', gianhap: 0, lai: 0, giabanle: 0, lairong: 0 }]);
 
 function actionCalculatorPercent(gianhap: number, giabanle: number) {
-  return 100 * (1 - gianhap / giabanle);
+  return ((giabanle - gianhap) / gianhap) * 100;
 }
 function actionCalculatorGiabanle(gianhap: number, lai: number) {
   const giabanle = ((gianhap / (100 - lai)) * 100)
